@@ -476,6 +476,11 @@ namespace LInjector.Classes
                     .OrderByDescending(r => r.PublishedAt)
                     .FirstOrDefault();
 
+                if (latestRelease == null)
+                {
+                    return false;
+                }
+
                 if (latestRelease != null)
                 {
                     var latestVersion = latestRelease.TagName.TrimStart('v');
