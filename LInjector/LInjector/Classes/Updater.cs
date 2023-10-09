@@ -19,8 +19,8 @@ namespace LInjector.Classes
     {
 
         public static readonly string currentVersion = "v08.10.2023";
-        public static readonly string AccountName    = "NeverExcel";
-        public const string           AccountNamee   = "NeverExcel";
+        public static readonly string AccountName    = "LExteamz";
+        public const string           AccountNamee   = "LExteamz";
 
         public static readonly string localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         public static readonly string RobloxACFolder = Path.Combine(localAppDataFolder, "Packages", "ROBLOXCORPORATION.ROBLOX_55nm5eh3cm0pr", "AC");
