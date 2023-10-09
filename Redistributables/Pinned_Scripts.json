@@ -1,0 +1,44 @@
+[
+    {
+        "title": "Infinite Yield",
+        "mastahubdata": {
+            "link": "https://pastebin.com/raw/fzQgv20F",
+            "creator": "EdgeIY"
+        }
+    },
+    {
+        "title": "LAimbot",
+        "mastahubdata": {
+            "link": "https://raw.githubusercontent.com/ItzzExcel/LExploits/main/LAimbot/loader.lua",
+            "creator": "ItzzExcel"
+        }
+    },
+    {
+        "title": "LESP",
+        "mastahubdata": {
+            "link": "https://raw.githubusercontent.com/ItzzExcel/LExploits/main/LESP/loader.lua",
+            "creator": "ItzzExcel"
+        }
+    },
+    {
+        "title": "Anti Chat Logger",
+        "mastahubdata": {
+            "link": "https://raw.githubusercontent.com/AnthonyIsntHere/anthonysrepository/main/scripts/AntiChatLogger.lua",
+            "creator": "AnthonyIsntHere"
+        }
+    },
+    {
+        "title": "UNC Enviroment Check",
+        "mastahubdata": {
+            "link": "https://raw.githubusercontent.com/unified-naming-convention/NamingStandard/main/UNCCheckEnv.lua",
+            "creator": "Unified Naming Convention"
+        }
+    },
+    {
+        "title": "------------------------------------",
+        "mastahubdata": {
+            "link": "",
+            "creator": ""
+        }
+    }
+]

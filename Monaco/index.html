@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<style type="text/css">
+		:root {
+			/* replace 'img_url' with your animated image or regular image link */
+			--url: url("");
+		}
+
+		html,
+		body {
+			background-color: rgb(20, 20, 20) !important;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			font-family: Consolas, 'Courier New', monospace;
+			color: white;
+		}
+
+		.margin:first-child {
+			background-image: var(--url);
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+		}
+
+		.lines-content:nth-of-type(1),
+		.monaco-editor-background:nth-of-type(1) {
+			background-image: var(--url);
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+		}
+	</style>
+	<meta charset="utf-8" />
+	<title></title>
+</head>
+
+<body>
+	<div id="container" style="width:100%;height:100%;"></div>
+	<script src="vs/loader.js"></script>
+	<script type="text/javascript">
+		require.config({
+			paths: {
+				'vs': 'vs',
+			}
+		});
+
+		// API
+		var GetText;
+		var SetText;
+		var SetTheme;
+		var SetScroll;
+		var ShowErr;
+		var Refresh;
+
+		// Enablers
+		var SwitchMinimap;
+		var SwitchReadonly;
+		var SwitchRenderWhitespace;
+		var SwitchLinks;
+		var SwitchLineHeight;
+		var SwitchFontSize;
+		var SwitchFolding;
+		var SwitchAutoIndent;
+		var SwitchFontFamily;
+		var SwitchFontLigatures;
+		var AddIntellisense;
+
+		// Variables
+		var editor;
+		var Proposals = [];
+
+		require(['vs/editor/editor.main'], function () {
+			function getDependencyProposals() {
+				let newProposals = [];
+				for (let index = 0; index < Proposals.length; index++) {
+					const element = Proposals[index];
+					let newElement = {}
+					for (const key in element) {
+						if (key == "__children__") {
+							continue;
+						};
+						newElement[key] = element[key];
+					}
+					newProposals.push(newElement)
+				}
+				return newProposals;
+			}
+
+			monaco.editor.defineTheme('net-theme-light', {
+				base: 'vs',
+				inherit: true,
+				rules: [
+					{ token: 'global', foreground: '000000' },
+					{ token: 'keyword', foreground: 'ff6a00' },
+					{ token: 'comment', foreground: '666666' },
+					{ token: 'number', foreground: 'ffc600' },
+					{ token: 'string', foreground: 'ff8c3a' },
+				]
+			});
+
+			monaco.editor.defineTheme('net-theme-dark', {
+				base: 'vs-dark',
+				inherit: true,
+				rules: [
+					{ token: 'global', foreground: 'FFFFFF', fontStyle: "bold" },
+					{ token: 'keyword', foreground: 'ff6a00', fontStyle: "bold" },
+					{ token: 'comment', foreground: '666666' },
+					{ token: 'number', foreground: 'ffc600' },
+					{ token: 'string', foreground: 'ff8c3a' },
+				]
+			});
+
+			monaco.editor.defineTheme('LIDark', {
+				base: 'vs-dark',
+				inherit: true,
+				rules: [
+					{ token: '', foreground: '#ffffff' },
+					{ token: 'variable.language.self', foreground: '#F7768E' },
+					{ token: 'variable.parameter.variadic', foreground: '#F7768E' },
+					{ token: 'variable.parameter.function', foreground: '#E0AF68' },
+					{ token: 'variable.other.constant', foreground: '#aeafad' },
+					{ token: 'variable.property', foreground: '#c6c6c6' },
+					{ token: 'variable.object.property', foreground: '#73DACA' },
+
+					{ token: 'keyword', foreground: '#cc99cc' },
+					{ token: 'keyword.local', foreground: '#CC99CC', fontStyle: 'bold' },
+					{ token: 'keyword.operator', foreground: '#89DDFF' },
+					{ token: 'keyword.operator.type.annotation', foreground: '#9ABDF5' },
+					{ token: 'keyword.operator.typedef.annotation', foreground: '#89DDFF' },
+					{ token: 'keyword.control.export', foreground: '#997BD6', fontStyle: 'italic' },
+
+					{ token: 'operator', foreground: '#d4d4d4' },
+					{ token: 'operator.type', foreground: '#cc99cc' },
+					{ token: 'operator.special', foreground: '#dcdcdc' },
+
+					{ token: 'entity.name.type.alias', foreground: '#5ab6d6' },
+					{ token: 'entity.name.function', foreground: '#6699CC', fontStyle: 'bold' },
+
+					{ token: 'global', foreground: '#6699CC' },
+
+					{ token: 'storage.type', foreground: '#cc99cc' },
+
+					{ token: 'comment', foreground: '#999999' },
+					{ token: 'comment.highlight.title', foreground: '#89DDFF', fontStyle: 'italic' },
+					{ token: 'comment.highlight.name', foreground: '#89DDFF', fontStyle: 'italic' },
+					{ token: 'comment.delimiter.modifier', foreground: '#9ABDF5', fontStyle: 'italic' },
+					{ token: 'comment.highlight.modifier', foreground: '#c6c6c6', fontStyle: 'italic' },
+					{ token: 'comment.highlight.descriptor', foreground: '#F7768E', fontStyle: 'italic' },
+
+					{ token: 'delimiter.longstring', foreground: '#89DDFF' },
+					{ token: 'delimiter.bracket', foreground: '#a6afbd' },
+					{ token: 'delimiter.array', foreground: '#a6afbd' },
+					{ token: 'delimiter.parenthesis', foreground: '#a6afbd' },
+					{ token: 'delimiter', foreground: '#a6afbd' },
+
+					{ token: 'string', foreground: '#99cc99' },
+					{ token: 'longstring', foreground: '#99cc99' },
+					{ token: 'string.delimeter', foreground: '#99cc99' },
+					{ token: 'string.escape', foreground: '#99cc99' },
+
+					{ token: 'punctuation.separator.arguments', foreground: '#9ABDF5' },
+					{ token: 'punctuation.separator.parameter', foreground: '#89DDFF' },
+					{ token: 'punctuation.separator.table', foreground: '#89DDFF' },
+					{ token: 'punctuation.definition.block', foreground: '#9ABDF5' },
+					{ token: 'punctuation.definition.parameters', foreground: '#9ABDF5' },
+					{ token: 'punctuation.definition.typeparameters', foreground: '#89DDFF' },
+
+					{ token: 'constant.language', foreground: '#d4d4d4' },
+					{ token: 'number', foreground: '#f99157' },
+					{ token: 'constants', foreground: '#cc99cc', fontStyle: 'bold' },
+
+					// { token: 'support.function', foreground: '#0DB9D7' },
+					// { token: 'support.function.library', foreground: '#0DB9D7' },
+					// { token: 'support.type', foreground: '#0DB9D7' },
+					{ token: 'support.function', foreground: '#6699CC', fontStyle: 'bold' },
+					{ token: 'support.function.library', foreground: '#6699CC' },
+					{ token: 'support.type', foreground: '#5ab6d6' },
+				],
+				colors: {
+					'editor.background': '#141414',
+					'editorLineNumber.foreground': '#7A7A7A',
+					'editorLineNumber.activeForeground': '#BBBBBB',
+					'editorIndentGuide.background': '#282828',
+					'editorSuggestWidget.background': "#181818",
+					'editorSuggestWidget.border': "#000000",
+					'editorSuggestWidget.foreground': "#D5D5D5",
+					'editorSuggestWidget.selectedBackground': "#363636",
+					'editorSuggestWidget.highlightForeground': "#18A0FB",
+					'textCodeBlock.background': '#181818',
+				}
+			});
+
+
+			require(['vs/basic-languages/monaco.contribution'], function () {
+				monaco.languages.registerCompletionItemProvider('lua', {
+					provideCompletionItems: function (model, position) {
+						return {
+							suggestions: getDependencyProposals(),
+						};
+					},
+					triggerCharacters: ['.', ':', '"'],
+				});
+
+				editor = monaco.editor.create(document.getElementById('container'), {
+					value: '',
+					language: 'lua',
+					theme: "LIDark",
+					fontSize: "14px",
+					fontFamily: "'JetBrains Mono', Consolas, 'Courier New', monospace",
+					folding: true,
+					dragAndDrop: true,
+					links: false,
+					minimap: {
+						enabled: false,
+					},
+					showFoldingControls: "always",
+					smoothScrolling: true,
+					stopRenderingLineAfter: 6500,
+					cursorBlinking: "smooth",
+					cursorSmoothCaretAnimation: true,
+					foldingHighlight: false,
+					fontLigatures: true,
+					formatOnPaste: true,
+					showDeprecated: true,
+					suggest: {
+						snippetsPreventQuickSuggestions: false,
+					},
+					padding: {
+						top: 24,
+					}
+				});
+
+				try {
+					if (CefSharp) {
+					editor.getModel().onDidChangeContent(function(e) {
+						if (!e.isFlush) {
+							CefSharp.PostMessage('keydown')
+						}
+					})
+					
+					CefSharp.PostMessage('init')
+					
+					setInterval(() => {
+						console.log("Save");
+						CefSharp.PostMessage('save_tabs')
+					}, 5000)
+				} } catch { }
+
+				editor.getModel().updateOptions({ insertSpaces: false })
+			});
+
+			window.onresize = function () {
+				editor.layout();
+			}
+
+			Cut = function() {
+				editor.focus();
+				document.execCommand('cut');
+			}
+
+			Copy = function() {
+				editor.focus();
+				document.execCommand('copy');
+			}
+
+			Paste = function() {
+				editor.focus();
+				document.execCommand('paste');
+			}
+
+			Undo = function() {
+				editor.focus();
+				document.execCommand('undo');
+			}
+
+			Redo = function() {
+				editor.focus();
+				document.execCommand('redo');
+			}
+
+			Delete = function() {
+				editor.focus();
+				document.execCommand('delete');
+			}
+
+			SelectAll = function() {
+				editor.focus();
+				document.execCommand('selectAll');
+			}
+
+			GetText = function () {
+				return String(editor.getValue());
+			}
+
+			SetText = function (x) {
+				try {
+					editor.setValue(JSON.parse(`${String(x)}`));
+				} catch (e) {
+					editor.setValue(String(x))
+				}
+			}
+
+			GetProposals = function () {
+				return Proposals;
+			}
+
+
+			OnDidChangeContent = function (callback) {
+				return editor.onDidChangeModelContent((event) => {
+					callback(editor.getValue());
+				});
+			}
+
+			OnDidChangeCursorPosition = function (callback) {
+				return editor.onDidChangeCursorPosition((event) => {
+					callback(event.position);
+				});
+			}
+
+			SetTheme = function (themeName) {
+				if (themeName == 'LIDark') {
+					monaco.editor.setTheme('LIDark')
+				}
+				if (themeName == "Dark") {
+					monaco.editor.setTheme("net-theme-dark");
+				}
+				if (themeName == "Light") {
+					monaco.editor.setTheme("net-theme-light");
+				}
+			}
+
+			SwitchMinimap = function (flag) {
+				editor.updateOptions({
+					minimap: {
+						enabled: flag,
+					}
+				});
+			}
+
+			SwitchReadonly = function (flag) {
+				editor.updateOptions({
+					readOnly: flag,
+				});
+			}
+
+			SwitchRenderWhitespace = function (op) {
+				editor.updateOptions({
+					renderWhitespace: op,
+				});
+			}
+
+			SwitchLinks = function (flag) {
+				editor.updateOptions({
+					links: flag,
+				});
+			}
+
+			SwitchLineHeight = function (num) {
+				editor.updateOptions({
+					lineHeight: num,
+				});
+			}
+
+			SwitchFontSize = function (num) {
+				editor.updateOptions({
+					fontSize: num,
+				});
+			}
+
+			SwitchFolding = function (flag) {
+				editor.updateOptions({
+					folding: flag,
+				});
+			}
+
+			SwitchAutoIndent = function (flag) {
+				editor.updateOptions({
+					autoIndent: flag,
+				});
+			}
+
+			SwitchFontFamily = function (name) {
+				editor.updateOptions({
+					fontFamily: name,
+				});
+			}
+
+			SwitchFontLigatures = function (flag) {
+				editor.updateOptions({
+					fontLigatures: flag,
+				});
+			}
+			
+
+
+			ShowErr = function (line, column, endline, endcolumn, errMessage) {
+				editor.revealPositionInCenter({ lineNumber: line, column: column });
+				editor.deltaDecorations([], [
+					{
+						range: new monaco.Range(line, column, endline, endcolumn),
+						options: {
+							inlineClassName: 'squiggly-error',
+							hoverMessage: {
+								value: errMessage,
+							}
+						},
+					},
+				]);
+			}
+
+			AddSnippet = function (kindName, snippetName, data) {
+				let snippet = {
+					insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+					kind: monaco.languages.CompletionItemKind[kindName],
+				};
+				for (const key in data) {
+					let value = data[key];
+					if (key == "insertText" && typeof value == "object") {
+						value = value.join("\n");
+					};
+					snippet[key] = value;
+				}
+				if (!snippet.label) {
+					snippet.label = snippetName
+				}
+				if (!snippet.insertText) {
+					snippet.insertText = snippetName
+				}
+				Proposals.push(snippet);
+			}
+
+			AddRawSnippet = function (data) {
+				Proposals.push(data);
+			}
+
+			SetScroll = function (line) {
+				editor.revealLineInCenter({ lineNumber: line });
+			}
+
+			Refresh = function () {
+				var text = getText();
+				setText("");
+				console.log("Refresh");
+				editor.trigger('keyboard', 'type', { text: text });
+			}
+			
+			window.onload = function() {
+				if (!localStorage.lastscript) {
+				  localStorage.lastscript = "";
+				}
+				editor.setValue(localStorage.lastscript);
+				
+				setInterval(() => {
+					console.log("Save script");
+					localStorage.lastscript = String(editor.getValue());
+				}, 5000)
+			}
+
+		});
+	</script>
+</body>
+
+</html>
