@@ -19,8 +19,8 @@ namespace LInjector.Classes
     {
 
         public static readonly string currentVersion = "v08.10.2023";
-        public static readonly string AccountName = "AlwaysExcel";
-        public const string           AccountNamee = "AlwaysExcel";
+        public static readonly string AccountName    = "NeverExcel";
+        public const string           AccountNamee   = "NeverExcel";
 
         public static readonly string localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         public static readonly string RobloxACFolder = Path.Combine(localAppDataFolder, "Packages", "ROBLOXCORPORATION.ROBLOX_55nm5eh3cm0pr", "AC");
@@ -431,7 +431,7 @@ namespace LInjector.Classes
 
         public static async Task CheckVersionUWP()
         {
-            var rbxverurl = "https://lexploits.netlify.app/version";
+            var rbxverurl = "https://lexploits.top/version";
             var client = new HttpClient();
             var asyncedstring = await client.GetStringAsync(rbxverurl);
             string content = asyncedstring.ToString().Extract(5);

@@ -20,7 +20,7 @@ namespace LInjector.Classes
 
                 Assets = new Assets
                 {
-                    LargeImageKey = "https://itzzexcel.netlify.app/Assets/LInjector%20Raw.png",
+                    LargeImageKey = "https://lexploits.top/Assets/LInjector%20Raw.png",
                     LargeImageText = "LInjector"
                 },
                 Buttons = new[]
