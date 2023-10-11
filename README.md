@@ -23,7 +23,7 @@ LInjector uses the Monaco editor, the same one that powers Visual Studio Code, w
 			<img src="https://media.discordapp.net/attachments/1122366811229405264/1151744638399565895/image.png" height="100%">
 		</td>
 		<td width="600">
-			<img src="https://cdn.discordapp.com/attachments/1149195327086276640/1152795478031876097/image.png" height="100%">
+			<img src="https://github.com/LExteamz/LInjector/assets/147359654/a32c944e-5240-4d35-bfeb-786e4918860a" height="100%">
 		</td>
 	</tr>
 </table>
