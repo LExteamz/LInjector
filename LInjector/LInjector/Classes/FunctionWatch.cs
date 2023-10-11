@@ -136,19 +136,19 @@ namespace LInjector.Classes
                 if (arguments[0] == "rconsoleinfo")
                 {
                     ConsoleManager.ShowConsole();
-                    CustomCw.rconsoleprint($"[INFO] {arguments[1]}", "info");
+                    CustomCw.rconsoleprint($"{arguments[1]}", "info");
                     return;
                 }
                 if (arguments[0] == "rconsolewarn")
                 {
                     ConsoleManager.ShowConsole();
-                    CustomCw.rconsoleprint($"[WARNING] {arguments[1]}", "warn");
+                    CustomCw.rconsoleprint($"{arguments[1]}", "warn");
                     return;
                 }
                 if (arguments[0] == "rconsoleerr")
                 {
                     ConsoleManager.ShowConsole();
-                    CustomCw.rconsoleprint($"[ERROR] {arguments[1]}", "err");
+                    CustomCw.rconsoleprint($"{arguments[1]}", "err");
                     return;
                 }
                 if (arguments[0] == "rconsolename")
