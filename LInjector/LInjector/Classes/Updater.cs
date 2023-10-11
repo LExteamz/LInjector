@@ -35,7 +35,7 @@ namespace LInjector.Classes
         public static readonly string autoexecFolder = Path.Combine(RobloxACFolder, "autoexec");
         public static readonly string exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
         public static readonly string exeDirectory = Path.GetDirectoryName(exeLocation);
-        public static readonly string desiredDirectoryName = "LInjector";
+        public static readonly string desiredDirectory = Path.GetFullPath(exeDirectory);
         public static readonly string savedtabspath = "Resources\\savedtabs";
         public static readonly string DLLSURl = $"https://raw.githubusercontent.com/{AccountName}/LInjector/master/Redistributables/DLLs";
         public static readonly string FluxusAPI = $"{DLLSURl}/FluxteamAPI.dll";
@@ -257,16 +257,18 @@ namespace LInjector.Classes
 
         public static void Create()
         {
-            if (Files.exeDirectory != (Files.desiredDirectoryName))
+            if (!string.Equals(Directory.GetCurrentDirectory(), Files.desiredDirectory, StringComparison.OrdinalIgnoreCase))
             {
                 try
                 {
-                    string newDirectory = Path.GetDirectoryName(Files.exeDirectory);
-                    Directory.SetCurrentDirectory(newDirectory);
+                    Directory.SetCurrentDirectory(Files.desiredDirectory);
 
                     MessageBox.Show("Friendly reminder to run LInjector from the root folder.", "LInjector", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch { MessageBox.Show($"Looks like you ran LInjector from another location that is not the LInjector folder. Try opening it from {Files.desiredDirectoryName}", "LInjector | ERROR", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error); }
+                catch 
+                {
+                    MessageBox.Show($"Looks like you ran LInjector from another location that is not the LInjector folder. Try opening it from {Files.desiredDirectory}", "LInjector | ERROR", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error); 
+                }
             }
 
             if (!Directory.Exists(".\\scripts"))
