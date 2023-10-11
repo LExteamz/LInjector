@@ -78,8 +78,8 @@ namespace LInjector.Classes
                     {
                         CreateFiles.RedownloadModules();
 
-                        RegistryHandler.SetValue("FluxChecksum", newFluxChecksum);
-                        RegistryHandler.SetValue("ModuleChecksum", newModuleChecksum);
+                        RegistryHandler.SetValue("FluxVersion", newFluxChecksum);
+                        RegistryHandler.SetValue("ModuleVersion", newModuleChecksum);
                     }
 
                     /*
