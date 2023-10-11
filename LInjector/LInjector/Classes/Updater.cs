@@ -1,6 +1,5 @@
 ﻿using IWshRuntimeLibrary;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Octokit;
 using System;
@@ -9,18 +8,26 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using File = System.IO.File;
+using FileMode = System.IO.FileMode;
+
+/*
+ * Hi, I'm sorry for the messy code.
+ */
 
 namespace LInjector.Classes
 {
+
+    #region Collection of Files and Paths used in LInjector
     public static class Files
     {
 
         public static readonly string currentVersion = "v08.10.2023";
-        public static readonly string AccountName    = "LExteamz";
-        public const string           AccountNamee   = "LExteamz";
+        public static readonly string AccountName = "LExteamz";
+        public const string AccountNamee = "LExteamz";
 
         public static readonly string localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         public static readonly string RobloxACFolder = Path.Combine(localAppDataFolder, "Packages", "ROBLOXCORPORATION.ROBLOX_55nm5eh3cm0pr", "AC");
@@ -39,65 +46,107 @@ namespace LInjector.Classes
         public static readonly string InitLuaPath = Path.Combine(autoexecFolder, "LInjector.lua");
         public static readonly string DLLsJSON = $"{DLLSURl}/Modules.json";
     }
+    #endregion
+
+    #region Auto Module Updater
 
     public static class Updater
     {
-        public static async Task CheckForUpdates()
+        static WebClient webClient = new WebClient();
+
+        internal static async Task CheckForUpdates()
         {
             try
             {
-                string Local_Flux = RegistryHandler.GetValue("FluxVersion", "0");
-                string Local_Module = RegistryHandler.GetValue("ModuleVersion", "0");
+                string jsonContent = await webClient.DownloadStringTaskAsync(Files.DLLsJSON);
 
-                string GitHub_Module = await GetHash("Redistributables/DLLs/Module.dll");
-                string GitHub_Flux = await GetHash("Redistributables/DLLs/FluxteamAPI.dll");
-
-                if (!File.Exists(Files.ModulePath) || Local_Flux != GitHub_Flux || Local_Module != GitHub_Module)
+                if (!string.IsNullOrEmpty(jsonContent))
                 {
-                    CreateFiles.RedownloadModules();
+                    JObject jsonObject = JObject.Parse(jsonContent);
 
-                    RegistryHandler.SetValue("FluxVersion", GitHub_Flux);
-                    RegistryHandler.SetValue("ModuleVersion", GitHub_Module);
+                    string fluxUrl = jsonObject["FluxteamAPI"].ToString();
+                    string moduleUrl = jsonObject["Module"].ToString();
+
+                    string localFluxChecksum = DoChecksum(Files.FluxusAPI);
+                    string localModuleChecksum = DoChecksum(Files.ModuleAPI);
+
+                    string newFluxChecksum = await GetChecksum(fluxUrl);
+                    string newModuleChecksum = await GetChecksum(moduleUrl);
+
+                    if (string.IsNullOrEmpty(localFluxChecksum) || localFluxChecksum != newFluxChecksum ||
+                        string.IsNullOrEmpty(localModuleChecksum) || localModuleChecksum != newModuleChecksum)
+                    {
+                        CreateFiles.RedownloadModules();
+
+                        RegistryHandler.SetValue("FluxChecksum", newFluxChecksum);
+                        RegistryHandler.SetValue("ModuleChecksum", newModuleChecksum);
+                    }
+
+                    /*
+                        MessageBox.Show(
+                            $"Local FluxteamAPI.dll SHA1: {localFluxChecksum}\n" +
+                            $"Extrn FluxteamAPI.dll SHA1: {newFluxChecksum}\n" +
+                            $"Local Module.dll      SHA1: {localModuleChecksum}\n" +
+                            $"Extrn Module.dll      SHA1: {newModuleChecksum}", FluxFiles.Executor);
+                    */
                 }
-
-                return;
+                else
+                {
+                    Console.WriteLine("Could not fetch JSON");
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in CheckForUpdates: " + ex.InnerException.Message);
+                Console.WriteLine("Error in CheckForUpdates: " + ex.InnerException?.Message);
             }
         }
 
-        private static async Task<string> GetHash(string path)
+        private static async Task<string> GetChecksum(string url)
         {
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
-                    string url = string.Format(Files.GithubAPI, path);
                     HttpResponseMessage response = await client.GetAsync(url);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        string json = await response.Content.ReadAsStringAsync();
-                        dynamic data = JsonConvert.DeserializeObject(json);
-
-                        if (data != null && data.Count > 0)
+                        Stream stream = await response.Content.ReadAsStreamAsync();
+                        using (SHA1 sha1 = SHA1.Create())
                         {
-                            return data[0].sha;
+                            byte[] hashBytes = sha1.ComputeHash(stream);
+                            return BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLower();
                         }
                     }
                     return null;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine("Error in GetHash: " + ex.Message);
-                return null;
+                return "Couldn't calculate.";
+            }
+        }
+
+        private static string DoChecksum(string path)
+        {
+            try
+            {
+                using (FileStream fileStream = new FileStream(path, FileMode.Open))
+                using (SHA1 sha1 = SHA1.Create())
+                {
+                    byte[] hashBytes = sha1.ComputeHash(fileStream);
+                    return BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLower();
+                }
+            }
+            catch
+            {
+                return "Couldn't calculate.";
             }
         }
     }
+    #endregion
+
+    #region RegistryHandler, create values and read it from registry.
 
     public static class RegistryHandler
     {
@@ -197,6 +246,10 @@ namespace LInjector.Classes
 
     }
 
+    #endregion
+
+
+    #region Create files for Initial Ran of LInjector
 
     public static class CreateFiles
     {
@@ -215,7 +268,7 @@ namespace LInjector.Classes
 
                     Console.WriteLine($"Set current directory to: {newDirectory}");
                 }
-                catch { ThreadBox.MsgThread($"Looks like you ran LInjector from another location that is not the LInjector folder. Try opening it from {Files.desiredDirectoryName}", "LInjector | ERROR", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error); }
+                catch { MessageBox.Show($"Looks like you ran LInjector from another location that is not the LInjector folder. Try opening it from {Files.desiredDirectoryName}", "LInjector | ERROR", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error); }
             }
 
             if (!File.Exists(".\\workspace.lnk"))
@@ -268,15 +321,17 @@ namespace LInjector.Classes
             }
         }
 
-        public static void RedownloadModules()
-        {
-            string jsonUrl = Files.DLLsJSON;
+        #endregion
 
+        #region Module/DLL Redownloader
+
+        internal static void RedownloadModules()
+        {
             try
             {
                 using (var webClient = new WebClient())
                 {
-                    string jsonData = webClient.DownloadString(jsonUrl);
+                    string jsonData = webClient.DownloadString(Files.DLLsJSON);
                     JObject jsonObject = JObject.Parse(jsonData);
 
                     string fluxteamAPI = jsonObject["FluxteamAPI"].ToString();
@@ -292,35 +347,23 @@ namespace LInjector.Classes
                             DeleteFilesAndFoldersRecursively("Resources\\libs");
                             Directory.CreateDirectory("Resources\\libs");
                         }
+                        else
+                        {
+                            Directory.CreateDirectory("Resources\\libs");
+                        }
 
-                        webClient.DownloadFile(interfacer, "Resources\\libs\\FluxteamAPI.dll");
-                        webClient.DownloadFile(moduleUri, "Resources\\libs\\Module.dll");
-
-                        Console.WriteLine("Módulos descargados exitosamente.");
+                        webClient.DownloadFile(interfacer, Path.Combine("Resources", "libs", "FluxteamAPI.dll"));
+                        webClient.DownloadFile(moduleUri, Path.Combine("Resources", "libs", "Module.dll"));
                     }
                     else
                     {
-                        Console.WriteLine("URLs de módulos no válidas en el JSON descargado.");
+                        return;
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Ocurrió un error al descargar y procesar el JSON: " + ex.Message);
-            }
+            catch { }
         }
 
-        public static void DownloadInterfacer()
-        {
-            var Interfacer = new Uri($"https://raw.githubusercontent.com/{Files.AccountName}/LInjector/master/Redistributables/DLLs/FluxteamAPI.dll");
-            webClient.DownloadFile(Interfacer, "Resources\\libs\\FluxteamAPI.dll");
-        }
-
-        public static void DownloadModule()
-        {
-            var Module = new Uri($"https://raw.githubusercontent.com/{Files.AccountName}/LInjector/master/Redistributables/DLLs/Module.dll");
-            webClient.DownloadFile(Module, "Resources\\libs\\Module.dll");
-        }
 
         public static void DeleteFilesAndFoldersRecursively(string target_dir)
         {
@@ -337,7 +380,11 @@ namespace LInjector.Classes
             Task.Delay(1000);
             try { Directory.Delete(target_dir, true); } catch { }
         }
+
+        #endregion
     }
+
+    #region Log Creator that saves files in user %temp%
 
     public static class TempLog
     {
@@ -359,6 +406,9 @@ namespace LInjector.Classes
         }
     }
 
+    #endregion
+
+    #region VERSION CHECKER MADE WITH POWERSHELL SCRIPTING
     public static class VersionChecker
     {
         public static string Version { get; set; }
@@ -379,8 +429,10 @@ namespace LInjector.Classes
             $appVersion | Out-File -FilePath '" + versionFilePath + @"'
         ";
 
+        #endregion
 
-        // This is for Hyperion (x64 Client)
+
+        #region WEB VERSION CHECKER
 
         public static async Task DlRbxVersion()
         {
@@ -429,6 +481,10 @@ namespace LInjector.Classes
             }
         }
 
+        #endregion
+
+        #region UWP VERSION CHECKER
+
         public static async Task CheckVersionUWP()
         {
             var rbxverurl = "https://lexploits.top/version";
@@ -452,11 +508,15 @@ namespace LInjector.Classes
             {
                 if (!Version.Contains(content))
                 {
-                    ThreadBox.MsgThread($"Your version of UWP version mismatched. LInjector is only working for version {asyncedstring}, you have {Version}. Update or downgrade Roblox.", "LInjector | Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"Your version of UWP version mismatched. LInjector is only working for version {asyncedstring}, you have {Version}. Update or downgrade Roblox.", "LInjector | Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
+
+        #endregion
     }
+
+    #region GITHUB RELEASE VERSION CHECKER
 
     public class CheckLatest
     {
@@ -504,4 +564,5 @@ namespace LInjector.Classes
             return false;
         }
     }
+    #endregion
 }

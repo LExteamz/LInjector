@@ -19,37 +19,37 @@ namespace LInjector.Classes
                 {
                     case "error":
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{ts()} [ERROR] {content}");
+                        Console.WriteLine($"{ts()} {content}");
                         rscolor();
                         break;
                     case "warning":
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"{ts()} [WARNING] {content}");
+                        Console.WriteLine($"{ts()} {content}");
                         rscolor();
                         break;
                     case "debug":
                         Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"{ts()} [DEBUG] {content}");
+                        Console.WriteLine($"{ts()} {content}");
                         rscolor();
                         break;
                     case "info":
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"{ts()} [INFO] {content}");
+                        Console.WriteLine($"{ts()} {content}");
                         rscolor();
                         break;
                     case "msgbox":
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"{ts()} [Message Box] {content}");
+                        Console.WriteLine($"{ts()} {content}");
                         rscolor();
                         break;
                     case "roblox":
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{ts()} [ROBLOX] {content}");
+                        Console.WriteLine($"{ts()} {content}");
                         rscolor();
                         break;
                     default:
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine($"{ts()}{content}");
+                        Console.WriteLine($"{ts()} {content}");
                         rscolor();
                         break;
                 }
@@ -60,32 +60,27 @@ namespace LInjector.Classes
                 {
                     case "error":
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"[ERROR] {content}");
+                        Console.WriteLine($"{content}");
                         rscolor();
                         break;
                     case "warning":
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"[WARNING] {content}");
+                        Console.WriteLine($"{content}");
                         rscolor();
                         break;
                     case "info":
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"[INFO] {content}");
-                        rscolor();
-                        break;
-                    case "msgbox":
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"[Message Box] {content}");
+                        Console.WriteLine($"{content}");
                         rscolor();
                         break;
                     case "debug":
                         Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"[DEBUG] {content}");
+                        Console.WriteLine($"{content}");
                         rscolor();
                         break;
                     case "roblox":
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"[ROBLOX] {content}");
+                        Console.WriteLine($"{content}");
                         rscolor();
                         break;
                     default:
@@ -103,6 +98,7 @@ namespace LInjector.Classes
             var writer = new StreamWriter(Console.OpenStandardOutput());
             writer.AutoFlush = true;
             Console.SetOut(writer);
+            ConsoleManager.ToFront();
 
             switch (color)
             {

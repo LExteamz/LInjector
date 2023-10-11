@@ -56,6 +56,7 @@ namespace LInjector.Classes
         {
             CustomCw.Cw($"{String}", false, "roblox");
         }
+
         protected static void clipboardSetText(string inTextToCopy)
         {
             var clipboardThread = new Thread(() => clipBoardThreadWorker(inTextToCopy));
@@ -63,12 +64,13 @@ namespace LInjector.Classes
             clipboardThread.IsBackground = false;
             clipboardThread.Start();
         }
+
         private static void clipBoardThreadWorker(string inTextToCopy)
         {
             System.Windows.Clipboard.SetText(inTextToCopy);
         }
 
-
+        #region Text Parser for the Internal Functions
         private static void OnChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType != WatcherChangeTypes.Changed || watcher.EnableRaisingEvents == false)
@@ -175,5 +177,6 @@ namespace LInjector.Classes
                 watcher.EnableRaisingEvents = true;
             }
         }
+        #endregion
     }
 }

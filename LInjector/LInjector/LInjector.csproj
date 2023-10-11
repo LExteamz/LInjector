@@ -341,7 +341,6 @@
     <Compile Include="Classes\MonacoInterfacer.cs" />
     <Compile Include="Classes\Notifications.cs" />
     <Compile Include="Classes\RPCManager.cs" />
-    <Compile Include="Classes\ThreadBox.cs" />
     <Compile Include="Pages\TabSystem.xaml.cs">
       <DependentUpon>TabSystem.xaml</DependentUpon>
     </Compile>

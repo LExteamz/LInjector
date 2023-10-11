@@ -23,6 +23,10 @@ namespace LInjector.Classes
         [DllImport("kernel32.dll")]
         private static extern bool SetConsoleCtrlHandler(ConsoleCtrlHandlerDelegate handlerRoutine, bool add);
 
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
         private static bool ConsoleCtrlHandler(int eventType)
         {
             if (eventType == 2)
@@ -39,7 +43,7 @@ namespace LInjector.Classes
             if (!isConsoleVisible)
             {
                 AllocConsole();
-                Console.Title = "LInjector";
+                Console.Title = "";
                 isConsoleVisible = true;
                 var writer = new StreamWriter(Console.OpenStandardOutput());
                 Console.SetOut(writer);
@@ -60,6 +64,11 @@ namespace LInjector.Classes
         {
             SetConsoleCtrlHandler(ConsoleCtrlHandler, true);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_CLOSE, MF_BYCOMMAND);
+        }
+
+        public static void ToFront()
+        {
+            SetForegroundWindow(GetConsoleWindow());
         }
 
         [DllImport("kernel32.dll")]

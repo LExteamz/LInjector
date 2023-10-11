@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace LInjector.Windows
 {
@@ -191,7 +192,7 @@ namespace LInjector.Windows
                         }
                         catch (Exception ex)
                         {
-                            CustomCw.Cw($"Fluxus couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                            CustomCw.Cw($"LInjector couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
                         }
                     }
                     else
@@ -203,7 +204,7 @@ namespace LInjector.Windows
                 }
                 catch (Exception ex)
                 {
-                    ThreadBox.MsgThread("Fluxus couldn't run the script.", "LInjector | Fluxus API",
+                    MessageBox.Show("LInjector couldn't run the script.", "LInjector",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     CustomCw.Cw($"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
                 }
@@ -223,7 +224,7 @@ namespace LInjector.Windows
             }
             catch (Exception ex)
             {
-                ThreadBox.MsgThread("Couldn't initialize Fluxus Interface\nException:\n"
+                MessageBox.Show("Couldn't initialize Fluxus Interface\nException:\n"
                                                    + ex.Message
                                                    + "\nPlease, share it on Discord.",
                     "[ERROR] LInjector", MessageBoxButtons.OK,
@@ -292,13 +293,13 @@ namespace LInjector.Windows
                     catch (Exception ex)
                     {
                         _ = Notifications.Fire(StatusListBox, "Something went wrong...", NotificationLabel);
-                        ThreadBox.MsgThread($"Exception Message: {ex.InnerException}\nStack Trace: {ex.StackTrace}");
+                        MessageBox.Show($"Exception Message: {ex.InnerException}\nStack Trace: {ex.StackTrace}");
                         throw ex;
                     }
                 }
                 catch (Exception ex)
                 {
-                    ThreadBox.MsgThread("Error on inject:\n" + ex.Message
+                    MessageBox.Show("Error on inject:\n" + ex.Message
                                                                             + "\nStack Trace:\n" + ex.StackTrace,
                         "LInjector | Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

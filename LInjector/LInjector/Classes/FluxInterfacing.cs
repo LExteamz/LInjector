@@ -236,7 +236,7 @@ namespace LInjector.Classes
             var flag = !File.Exists(dll_path_);
             if (flag)
             {
-                ThreadBox.MsgThread("Failure when initializing Fluxus API\nDLL path was invalid\n",
+                MessageBox.Show("Failure when initializing Fluxteam API\nDLL path was invalid\n",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             dll_path = dll_path_;
