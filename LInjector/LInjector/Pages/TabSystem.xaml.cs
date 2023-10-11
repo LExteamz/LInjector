@@ -9,7 +9,6 @@ namespace LInjector.Pages
     public partial class TabSystem : UserControl
     {
 
-        public string latestTabName { get; set; }
         public TabSystem()
         {
             InitializeComponent();

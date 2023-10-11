@@ -36,9 +36,7 @@ namespace LInjector.Classes
         public static readonly string exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
         public static readonly string exeDirectory = Path.GetDirectoryName(exeLocation);
         public static readonly string desiredDirectoryName = "LInjector";
-        public static readonly string ModulePath = "Resources\\libs\\Module.dll";
         public static readonly string savedtabspath = "Resources\\savedtabs";
-        public static readonly string GithubAPI = $"https://api.github.com/repos/{AccountName}/LInjector/commits?path={0}&page=1&per_page=1";
         public static readonly string DLLSURl = $"https://raw.githubusercontent.com/{AccountName}/LInjector/master/Redistributables/DLLs";
         public static readonly string FluxusAPI = $"{DLLSURl}/FluxteamAPI.dll";
         public static readonly string ModuleAPI = $"{DLLSURl}/Module.dll";
@@ -259,16 +257,21 @@ namespace LInjector.Classes
 
         public static void Create()
         {
-            if (!Files.exeDirectory.Contains(Files.desiredDirectoryName))
+            if (Files.exeDirectory != (Files.desiredDirectoryName))
             {
                 try
                 {
                     string newDirectory = Path.GetDirectoryName(Files.exeDirectory);
                     Directory.SetCurrentDirectory(newDirectory);
 
-                    Console.WriteLine($"Set current directory to: {newDirectory}");
+                    MessageBox.Show("Friendly reminder to run LInjector from the root folder.", "LInjector", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch { MessageBox.Show($"Looks like you ran LInjector from another location that is not the LInjector folder. Try opening it from {Files.desiredDirectoryName}", "LInjector | ERROR", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error); }
+            }
+
+            if (!Directory.Exists(".\\scripts"))
+            {
+                Directory.CreateDirectory(".\\scripts");
             }
 
             if (!File.Exists(".\\workspace.lnk"))
@@ -288,11 +291,6 @@ namespace LInjector.Classes
             if (!Directory.Exists(".\\Resources\\libs"))
             {
                 Directory.CreateDirectory(".\\Resources\\libs");
-            }
-
-            if (!Directory.Exists(".\\scripts"))
-            {
-                Directory.CreateDirectory(".\\scripts");
             }
 
             if (!Directory.Exists(Files.workspaceFolder))
