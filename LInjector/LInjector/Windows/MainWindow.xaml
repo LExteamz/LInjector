@@ -28,31 +28,6 @@
             <Grid.ColumnDefinitions>
             </Grid.ColumnDefinitions>
 
-            <!-- SCRIPTS PAGE GRID -->
-
-            <Grid x:Name="ScriptsGrid" Background="#111111" Panel.ZIndex="1" Visibility="Visible" Grid.RowSpan="2" Margin="-5000, 0, 5000, 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="19*"/>
-                    <RowDefinition Height="0*"/>
-                    <RowDefinition Height="81*"/>
-                </Grid.RowDefinitions>
-                <Grid Background="#111111" Margin="15,40,15,7" Panel.ZIndex="2" MouseDown="DragWindow">
-                    <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
-                        <Image Source="\Resources\Icons\Script.png" VerticalAlignment="Center" Width="30" Height="30"/>
-                        <Label Foreground="White" Content="MastersMZ Scripts" VerticalAlignment="Center" FontSize="15" Margin="0 0 0 0" Width="157"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="52" Height="Auto" Margin="0,0,0,-7">
-                        <materialDesign:ButtonAssist.CornerRadius>8</materialDesign:ButtonAssist.CornerRadius>
-                        <Button Background="Transparent" BorderBrush="Transparent" Content="&#xE76B;" Foreground="White" FontSize="15" FontFamily="Segoe MDL2 Assets" Click="ScriptPage_Click" Height="36" Width="52"/>
-                    </StackPanel>
-                </Grid>
-                <Border Background="#141414" Margin="15,0,15,15" CornerRadius="5" Grid.Row="1" Grid.RowSpan="2">
-                    <Grid>
-
-                    </Grid>
-                </Border>
-            </Grid>
-
             <!-- TITLE BAR -->
             <Border CornerRadius="0" Background="#161616" Visibility="Visible" Panel.ZIndex="10">
                 <Grid MouseDown="DragWindow" Background="Transparent">
@@ -113,6 +88,24 @@
                 </Grid>
             </Border>
 
+            <!-- SCRIPTS PAGE GRID -->
+            <Grid Name="ScriptPageGrid" Grid.Row="1" Background="#111111" Panel.ZIndex="1" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.RowSpan="1" Background="#121212" Panel.ZIndex="3">
+                    <TextBox TextAlignment="Left" Padding="4" x:Name="SearchScriptHub" TextChanged="SearchScriptHub_TextChanged" Foreground="White" Style="{StaticResource MaterialDesignTextBox}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" MinWidth="300px">
+                        <materialDesign:TextFieldAssist.DecorationVisibility>Hidden</materialDesign:TextFieldAssist.DecorationVisibility>
+                    </TextBox>
+                    <Button x:Name="HideScriptHub" Background="Transparent" BorderBrush="Transparent" Content="&#xE70D;" Click="HideScriptHub_Click" Foreground="White" FontSize="10" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
+                </Grid>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="2">
+                    <ItemsControl Name="PostsItemsControl" Grid.Row="2">
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+
             <!-- WINDOW CONTENT BEGANS -->
 
             <!-- LEFT SIDE THINGS -->
@@ -151,7 +144,7 @@
                                 <Image Source="/Resources/Icons/Attach.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="ScriptPage_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Collapsed">
+                        <Button Background="#141414" Click="ScriptPage_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Visible">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Script.png" Height="25" Width="25" HorizontalAlignment="Center"/>

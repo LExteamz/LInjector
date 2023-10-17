@@ -265,9 +265,9 @@ namespace LInjector.Classes
 
                     MessageBox.Show("Friendly reminder to run LInjector from the root folder.", "LInjector", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch 
+                catch
                 {
-                    MessageBox.Show($"Looks like you ran LInjector from another location that is not the LInjector folder. Try opening it from {Files.desiredDirectory}", "LInjector | ERROR", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error); 
+                    MessageBox.Show($"Looks like you ran LInjector from another location that is not the LInjector folder. Try opening it from {Files.desiredDirectory}", "LInjector | ERROR", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 }
             }
 

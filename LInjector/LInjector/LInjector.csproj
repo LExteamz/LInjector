@@ -99,7 +99,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Linjector.ico</ApplicationIcon>
+    <ApplicationIcon>LInjector.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -399,7 +399,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Linjector.ico" />
+    <Resource Include="LInjector.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">

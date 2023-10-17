@@ -57,7 +57,7 @@ namespace LInjector.Classes
             CustomCw.Cw($"{String}", false, "roblox");
         }
 
-        protected static void clipboardSetText(string inTextToCopy)
+        public static void clipboardSetText(string inTextToCopy)
         {
             var clipboardThread = new Thread(() => clipBoardThreadWorker(inTextToCopy));
             clipboardThread.SetApartmentState(ApartmentState.STA);
