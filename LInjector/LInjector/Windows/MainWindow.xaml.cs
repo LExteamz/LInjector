@@ -64,8 +64,7 @@ namespace LInjector.Windows
                 this.Topmost = true;
             }
 
-            TabSystemz.Visibility = Visibility.Hidden;
-            //await VersionChecker.CheckVersionUWP();
+            TabSystemz.Visibility = Visibility.Visible;
             if (RegistryHandler.GetValue("ScriptListPath", "0").Length != 0) { ScriptListPath = RegistryHandler.GetValue("ScriptListPath", "0"); }
             RefreshScriptList();
             LoadSavedTabs();
@@ -413,9 +412,11 @@ namespace LInjector.Windows
             if (ScriptPageGrid.Visibility == Visibility.Visible)
             {
                 ScriptPageGrid.Visibility = Visibility.Collapsed;
+                TabSystemz.Visibility = Visibility.Visible;
             } else
             {
                 ScriptPageGrid.Visibility = Visibility.Visible;
+                TabSystemz.Visibility = Visibility.Collapsed;
             }
         }
 
