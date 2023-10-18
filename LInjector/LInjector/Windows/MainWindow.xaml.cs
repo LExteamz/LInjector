@@ -278,9 +278,20 @@ namespace LInjector.Windows
                     {
                         using (HttpClient client = new HttpClient())
                         {
-                            string asyncedscript = await client.GetStringAsync(new Uri(posts[index].Script));
-                            TabSystemz.add_tab_with_text(asyncedscript, posts[index].Title);
+                            HttpResponseMessage response = await client.GetAsync(new Uri(posts[index].Script));
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                string asyncedscript = await response.Content.ReadAsStringAsync();
+                                TabSystemz.add_tab_with_text(asyncedscript, posts[index].Title);
+                                ToggleScriptHub();
+                            }
+                            else
+                            {
+                                _ = Notifications.Fire(StatusListBox, response.ReasonPhrase, NotificationLabel);
+                            }
                         }
+
                     }
                     else
                     {
@@ -308,41 +319,50 @@ namespace LInjector.Windows
                     {
                         using (HttpClient client = new HttpClient())
                         {
-                            string asyncedscript = await client.GetStringAsync(new Uri(posts[index].Script));
-                            MessageBox.Show(asyncedscript);
-                            try
+                            HttpResponseMessage response = await client.GetAsync(new Uri(posts[index].Script));
+
+                            if (response.IsSuccessStatusCode)
                             {
+                                string asyncedscript = await response.Content.ReadAsStringAsync();
                                 try
                                 {
-                                    var flag = !FluxInterfacing.is_injected(FluxInterfacing.pid);
-                                    if (!flag)
+                                    try
                                     {
-                                        try
+                                        var flag = !FluxInterfacing.is_injected(FluxInterfacing.pid);
+                                        if (!flag)
                                         {
-                                            FluxInterfacing.run_script(FluxInterfacing.pid, asyncedscript);
+                                            try
+                                            {
+                                                FluxInterfacing.run_script(FluxInterfacing.pid, asyncedscript);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                CustomCw.Cw($"LInjector couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                                            }
                                         }
-                                        catch (Exception ex)
+                                        else
                                         {
-                                            CustomCw.Cw($"LInjector couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                                            Inject();
+                                            await Task.Delay(1500);
+                                            FluxInterfacing.run_script(FluxInterfacing.pid, asyncedscript);
+                                            ToggleScriptHub();
                                         }
                                     }
-                                    else
+                                    catch (Exception ex)
                                     {
-                                        Inject();
-                                        await Task.Delay(1500);
-                                        FluxInterfacing.run_script(FluxInterfacing.pid, asyncedscript);
+                                        MessageBox.Show("LInjector couldn't run the script.", "LInjector",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        CustomCw.Cw($"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
                                     }
                                 }
-                                catch (Exception ex)
+                                catch
                                 {
-                                    MessageBox.Show("LInjector couldn't run the script.", "LInjector",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    CustomCw.Cw($"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                                    _ = Notifications.Fire(StatusListBox, "Unknown error.", NotificationLabel);
                                 }
                             }
-                            catch
+                            else
                             {
-                                _ = Notifications.Fire(StatusListBox, "Unknown error.", NotificationLabel);
+                                _ = Notifications.Fire(StatusListBox, response.ReasonPhrase, NotificationLabel);
                             }
                         }
                     }

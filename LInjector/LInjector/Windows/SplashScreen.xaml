@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LInjector.Windows"
         mc:Ignorable="d"
-        Height="450" Width="800" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen"
+        Height="450" Width="800" ShowInTaskbar="False" Topmost="False" WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         Loaded="Window_Loaded"
         Icon="\LInjector.ico"
