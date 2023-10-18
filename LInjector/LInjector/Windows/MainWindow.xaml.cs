@@ -87,7 +87,7 @@ namespace LInjector.Windows
         }
         #endregion
 
-        #region MastersMZ Scripts
+        #region Script Hub
 
         private const string PostsURL = "https://api.mastersmzscripts.com/posts.json";
         public static List<Post> posts = new List<Post>();
@@ -112,8 +112,6 @@ namespace LInjector.Windows
 
                         foreach (var post in posts)
                         {
-                            if (post.Script.Contains("discord.gg")) { return; }
-
                             int rowIndex = 0;
                             int columnIndex = 0;
                             postIndex++;
@@ -187,7 +185,7 @@ namespace LInjector.Windows
             {
                 Text = description,
                 Foreground = Brushes.Gray,
-                FontSize = 8,
+                FontSize = 11,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
                 TextWrapping = TextWrapping.WrapWithOverflow,
@@ -236,6 +234,7 @@ namespace LInjector.Windows
                 Padding = new Thickness(5),
                 VerticalAlignment = VerticalAlignment.Bottom,
                 Tag = postIndex,
+                ToolTip = "Load Into Editor",
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Left
             };
             buttonStackPanel.Children.Add(loadIntoEditorButton);
@@ -276,6 +275,24 @@ namespace LInjector.Windows
                 {
                     if (index >= 0 && index < posts.Count)
                     {
+                        if (posts[index].Script.Contains("discord"))
+                        {
+                            var result = MessageBox.Show("LInjector detected this script contains a Discord invite link, would you like to open it?", "LInjector", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (result == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                Process.Start(posts[index].Script);
+                                return;
+                            }
+                            else { return; }
+                        }
+
+                        if (posts[index].Script.StartsWith("loadstring"))
+                        {
+                            TabSystemz.add_tab_with_text(posts[index].Script, posts[index].Title);
+                            ToggleScriptHub();
+                            return;
+                        }
+
                         using (HttpClient client = new HttpClient())
                         {
                             HttpResponseMessage response = await client.GetAsync(new Uri(posts[index].Script));
@@ -317,9 +334,54 @@ namespace LInjector.Windows
                 {
                     if (index >= 0 && index < posts.Count)
                     {
+                        if (posts[index].Script.Contains("discord"))
+                        {
+                            var result = MessageBox.Show("LInjector detected this script contains a Discord invite link, would you like to open it?", "LInjector", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (result == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                Process.Start(posts[index].Script);
+                                return;
+                            }
+                            else { return; }
+                        }
+
+                        if (posts[index].Script.StartsWith("loadstring"))
+                        {
+                            try
+                            {
+                                var flag = !FluxInterfacing.is_injected(FluxInterfacing.pid);
+                                if (!flag)
+                                {
+                                    try
+                                    {
+                                        FluxInterfacing.run_script(FluxInterfacing.pid, posts[index].Script);
+                                        await Notifications.Fire(StatusListBox, "Executed", NotificationLabel);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        CustomCw.Cw($"LInjector couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                                    }
+                                }
+                                else
+                                {
+                                    Inject();
+                                    await Task.Delay(500);
+                                    FluxInterfacing.run_script(FluxInterfacing.pid, posts[index].Script);
+                                    await Notifications.Fire(StatusListBox, "Executed", NotificationLabel);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("LInjector couldn't run the script.", "LInjector",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CustomCw.Cw($"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                            }
+                        }
+
                         using (HttpClient client = new HttpClient())
                         {
                             HttpResponseMessage response = await client.GetAsync(new Uri(posts[index].Script));
+
 
                             if (response.IsSuccessStatusCode)
                             {
@@ -343,7 +405,7 @@ namespace LInjector.Windows
                                         else
                                         {
                                             Inject();
-                                            await Task.Delay(1500);
+                                            await Task.Delay(500);
                                             FluxInterfacing.run_script(FluxInterfacing.pid, asyncedscript);
                                             ToggleScriptHub();
                                         }
@@ -382,45 +444,37 @@ namespace LInjector.Windows
             }
         }
 
-
-        private List<Post> filteredPosts = new List<Post>();
-
         private void SearchScriptHub_TextChanged(object sender, TextChangedEventArgs e)
         {
             string searchText = SearchScriptHub.Text;
-
-            
-            filteredPosts = posts
-                .Where(post => post.Title.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0)
-                .ToList();
-
+            CustomCw.Cw("Search text changed: " + searchText);
             UpdatePostsDisplay();
         }
 
         private void UpdatePostsDisplay()
         {
-            PostsItemsControl.Items.Clear();
+            string searchText = SearchScriptHub.Text.ToLower();
 
-            if (filteredPosts.Count > 0)
+            foreach (UIElement item in PostsItemsControl.Items)
             {
-                UniformGrid uniformGrid = new UniformGrid();
-                uniformGrid.Columns = 3;
-
-                int postIndex = -1;
-
-                foreach (var post in filteredPosts)
+                if (item is Border border)
                 {
-                    if (post.Script.Contains("discord.gg")) { return; }
+                    int postIndex = border.Tag as int? ?? -1;
 
-                    int rowIndex = 0;
-                    int columnIndex = 0;
-                    postIndex++;
-                    CreateGrid(post.Title, post.Description, post.Script, post.Creator, rowIndex, columnIndex, uniformGrid, postIndex);
+                    if (postIndex >= 0 && postIndex < posts.Count)
+                    {
+                        string postTitle = posts[postIndex].Title.ToLower();
+                        bool isVisible = postTitle.Contains(searchText);
+                        border.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        border.Visibility = Visibility.Collapsed;
+                    }
                 }
-
-                PostsItemsControl.Items.Add(uniformGrid);
             }
         }
+
 
         private void HideScriptHub_Click(object sender, RoutedEventArgs e)
         {
@@ -448,7 +502,7 @@ namespace LInjector.Windows
         {
             SaveTabs();
 
-            TabSystemz.Visibility = Visibility.Visible;
+            TabSystemz.Visibility = Visibility.Hidden;
             Storyboard fadeOutStoryboard = new Storyboard();
             DoubleAnimation fadeOutAnimation = new DoubleAnimation
             {
@@ -539,7 +593,7 @@ namespace LInjector.Windows
                     else
                     {
                         Inject();
-                        await Task.Delay(1500);
+                        await Task.Delay(500);
                         FluxInterfacing.run_script(FluxInterfacing.pid, scriptString);
                     }
                 }
@@ -555,8 +609,6 @@ namespace LInjector.Windows
                 _ = Notifications.Fire(StatusListBox, "Unknown error.", NotificationLabel);
             }
         }
-
-
 
         private void GitHubButton_Click(object sender, RoutedEventArgs e)
         {
@@ -759,9 +811,6 @@ namespace LInjector.Windows
                         {
                             TabSystemz.ChangeCurrentTabTitle(selectedItem.ToString());
                             TabSystemz.current_monaco().SetText(File.ReadAllText(scriptfolder + "\\" + (selectedItem != null ? selectedItem.ToString() : (string)null)));
-                        }
-                        else
-                        {
                         }
                     }
                 }
