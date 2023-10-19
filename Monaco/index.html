@@ -450,17 +450,17 @@
 				editor.trigger('keyboard', 'type', { text: text });
 			}
 			
-			window.onload = function() {
-				if (!localStorage.lastscript) {
-				  localStorage.lastscript = "";
-				}
-				editor.setValue(localStorage.lastscript);
+			// window.onload = function() {
+			// 	if (!localStorage.lastscript) {
+			// 	  localStorage.lastscript = "";
+			// 	}
+			// 	editor.setValue(localStorage.lastscript);
 				
-				setInterval(() => {
-					console.log("Save script");
-					localStorage.lastscript = String(editor.getValue());
-				}, 5000)
-			}
+			// 	setInterval(() => {
+			// 		console.log("Save script");
+			// 		localStorage.lastscript = String(editor.getValue());
+			// 	}, 5000)
+			// }
 
 		});
 	</script>
