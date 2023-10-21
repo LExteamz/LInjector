@@ -144,22 +144,7 @@ define(["require", "exports"], function (require, exports) {
             'math.exp',
 
             // string
-            'string',
-            'string.sub',
-            'string.split',
-            'string.upper',
-            'string.len',
-            'string.find',
-            'string.match',
-            'string.char',
-            'string.rep',
-            'string.gmatch',
-            'string.reverse',
-            'string.byte',
-            'string.format',
-            'string.gsub',
-            'string.lower',
-
+            //'string',
         ],
         operators: [
             '+', '-', '*', '/', '%', '^', '#', '=',
