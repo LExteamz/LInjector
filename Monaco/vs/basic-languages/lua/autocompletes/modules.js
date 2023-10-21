@@ -4,7 +4,10 @@ define(["require", "exports"], function (require, exports) {
 	exports.autocompletes = {
 		"Module": {
 			"bit32": {},
-			"coroutine": {},
+			"coroutine": {
+				__children__: {},
+				__using__: ['libraries/coroutine'],
+			},
 			"debug": {
 				__children__: {},
 				__using__: ['libraries/debug'],
@@ -14,7 +17,10 @@ define(["require", "exports"], function (require, exports) {
 				__using__: ['libraries/math'],
 			},
 			"os": {},
-			"string": {},
+			"string": {
+				__children__: {},
+				__using__: ['libraries/string'],
+			},
 			"table": {
 				__children__: {},
 				__using__: ['libraries/table'],
