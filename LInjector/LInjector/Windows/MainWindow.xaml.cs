@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,9 +15,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Media3D;
 using System.Windows.Threading;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using MessageBox = System.Windows.Forms.MessageBox;
 using Window = System.Windows.Window;
 
@@ -120,7 +117,7 @@ namespace LInjector.Windows
                             postIndex++;
                             CreateGrid(post.Title, post.Description, post.Script, post.Creator, rowIndex, columnIndex, uniformGrid, postIndex);
                         }
-                        
+
                         PostsItemsControl.Items.Clear();
                         PostsItemsControl.Items.Add(uniformGrid);
                     }
@@ -311,10 +308,11 @@ namespace LInjector.Windows
                         }
 
                     }
-                    else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.", NotificationLabel); } 
+                    else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.", NotificationLabel); }
                 }
-                else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.", NotificationLabel); } 
-            } else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.", NotificationLabel); }
+                else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.", NotificationLabel); }
+            }
+            else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.", NotificationLabel); }
         }
 
         public async void ExecuteScript_ClickAsync(object sender, RoutedEventArgs e)
@@ -466,7 +464,8 @@ namespace LInjector.Windows
                 IsScriptsShown = false;
                 ScriptPageGrid.Visibility = Visibility.Collapsed;
                 TabSystemz.Visibility = Visibility.Visible;
-            } else
+            }
+            else
             {
                 IsScriptsShown = true;
                 ScriptPageGrid.Visibility = Visibility.Visible;

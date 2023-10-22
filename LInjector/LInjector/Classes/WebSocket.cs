@@ -10,6 +10,23 @@ namespace LInjector.Classes
 {
     public class WSComm
     {
+        private static WSComm instance;
+        private WebSocket webSocket;
+
+        public WSComm()
+        {
+
+        }
+
+        public static WSComm GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new WSComm();
+            }
+            return instance;
+        }
+
         public async Task Start()
         {
             var listener = new HttpListener();
@@ -28,12 +45,27 @@ namespace LInjector.Classes
             }
         }
 
-        static async Task ProcessWebSocketRequest(HttpListenerContext context)
+        public async Task SendMessage(string message)
+        {
+            if (webSocket != null && webSocket.State == WebSocketState.Open)
+            {
+                byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
+                await webSocket.SendAsync(new ArraySegment<byte>(messageBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+            else
+            {
+                MessageBox.Show("WebSocket Error : WebSocket not initialized.", "LInjector | Error", MessageBoxButton.OK);
+            }
+        }
+
+        private async Task ProcessWebSocketRequest(HttpListenerContext context)
         {
             var wsContext = await context.AcceptWebSocketAsync(null);
 
             using (WebSocket webSocket = wsContext.WebSocket)
             {
+                this.webSocket = webSocket;
+
                 try
                 {
                     byte[] buffer = new byte[1024];
@@ -47,20 +79,18 @@ namespace LInjector.Classes
                         {
                             string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
 
-                            // CustomCw.rconsoleprint(message, "lgray");
-                            // Do thingies with the received message
+                            CustomCw.rconsoleprint(message, "lgray");
+                            // Realizar acciones con el mensaje recibido
 
                             string responseMessage = "Received: " + message;
-                            byte[] responseBuffer = Encoding.UTF8.GetBytes(responseMessage);
-
-                            await webSocket.SendAsync(new ArraySegment<byte>(responseBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                            await SendMessage(responseMessage);
                         }
                     }
                     while (!result.EndOfMessage);
                 }
                 catch (WebSocketException ex)
                 {
-                    MessageBox.Show("WebSocket error: " + ex.Message);
+                    MessageBox.Show("WebSocket Error : " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
                 }
             }
         }
