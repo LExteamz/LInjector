@@ -80,7 +80,7 @@ namespace LInjector.Classes
                             string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
 
                             CustomCw.rconsoleprint(message, "lgray");
-                            // Realizar acciones con el mensaje recibido
+                            // Do thingies with message
 
                             string responseMessage = "Received: " + message;
                             await SendMessage(responseMessage);
