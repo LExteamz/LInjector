@@ -191,7 +191,7 @@
                         <controls:TabSystem Padding="5" x:Name="TabSystemz" Visibility="Hidden"/>
 
                         <!-- SETTINGS GRID -->
-                        <Grid x:Name="SettingsGrid" Background="#111111" Panel.ZIndex="2" Visibility="Visible" Grid.RowSpan="2">
+                        <Grid x:Name="SettingsGrid" Background="#111111" Panel.ZIndex="2" Visibility="Collapsed" Grid.RowSpan="2">
                             <Border CornerRadius="0" Grid.RowSpan="2">
                                 <Grid>
                                     <Grid.RowDefinitions>

@@ -33,8 +33,6 @@ namespace LInjector.Classes
             listener.Prefixes.Add("http://localhost:5343/");
             listener.Start();
 
-            MessageBox.Show("WebSocket server is running...");
-
             while (true)
             {
                 var context = await listener.GetContextAsync();
