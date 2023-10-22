@@ -74,7 +74,7 @@ namespace LInjector.Windows
             LogToConsole.Log("Loaded", ConsoleLogList);
             _ = Notifications.Fire(StatusListBox, "Welcome to LInjector", NotificationLabel);
             await LoadPostsAsync(ScriptPageGrid, PostsItemsControl);
-            ws.Start();
+            await ws.Start();
         }
 
         private void DragWindow(object sender, MouseButtonEventArgs e)
