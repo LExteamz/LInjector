@@ -713,27 +713,22 @@ namespace LInjector.Windows
             timer.Start();
         }
 
-        private void AttachedDetectorTick(object sender, EventArgs e)
+        internal void AttachedDetectorTick(object sender, EventArgs e)
         {
-            if (ConfigHandler.autoattach == false)
-            {
-                return;
-            }
+            if (ConfigHandler.autoattach == false) { return; }
 
             var processesByName = Process.GetProcessesByName("Windows10Universal");
             foreach (var Process in processesByName)
             {
                 var FilePath = Process.MainModule.FileName;
 
-                if (FilePath.Contains("ROBLOX"))
+                if (FilePath.Contains("ROBLOX") || FilePath.Contains("Fluster"))
                 {
                     try
                     {
                         var flag = FluxInterfacing.is_injected(FluxInterfacing.pid);
                         if (flag)
-                        {
-                            return;
-                        }
+                        { return; }
 
                         Inject();
                     }
