@@ -191,7 +191,7 @@
                         <controls:TabSystem Padding="5" x:Name="TabSystemz" Visibility="Hidden"/>
 
                         <!-- SETTINGS GRID -->
-                        <Grid x:Name="SettingsGrid" Background="#111111" Panel.ZIndex="2" Visibility="Hidden" Grid.RowSpan="2">
+                        <Grid x:Name="SettingsGrid" Background="#111111" Panel.ZIndex="2" Visibility="Visible" Grid.RowSpan="2">
                             <Border CornerRadius="0" Grid.RowSpan="2">
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -230,18 +230,23 @@
                                                                 <ToggleButton Checked="SaveTabsToggle_Checked" Unchecked="SaveTabsToggle_Unchecked" Width="30" Height="30" x:Name="SaveTabsToggle"/>
                                                                 <Label Content="Save Tabs" Foreground="White" FontSize="13" VerticalAlignment="Center"/>
                                                             </StackPanel>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xF167;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" Click="InfoButton_Click" BorderThickness="1,1,1,1"/>
-                                                                <Label Content="About" Foreground="LightGray" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
-                                                            </StackPanel>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xE8DE;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" Name="ChangeScriptsFolder" Click="ChangeScriptsFolder_Click" BorderThickness="1,1,1,1"/>
-                                                                <Label Content="Change script folder location." Foreground="LightGray" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
-                                                            </StackPanel>
+                                                            <Button Background="Transparent" Click="InfoButton_Click" BorderThickness="0" Padding="0" Margin="0">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xF167;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" BorderThickness="1,1,1,1"/>
+                                                                    <Label Content="About" Foreground="LightGray" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
+                                                                </StackPanel>
+                                                            </Button>
+
+                                                            <Button Background="Transparent" Click="ChangeScriptsFolder_Click" BorderThickness="0" Padding="0" Margin="0">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xE8DE;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" Name="ChangeScriptsFolder" BorderThickness="1,1,1,1"/>
+                                                                    <Label Content="Change script folder location." Foreground="LightGray" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
+                                                                </StackPanel>
+                                                            </Button>
                                                         </ListBox>
                                                     </Border>
                                                 </Grid>
-                                                <Grid x:Name="InformationGrid" Background="#141414" Panel.ZIndex="1" Visibility="Hidden" Margin="7,0,0,0" Grid.Column="1">
+                                                <Grid x:Name="InformationGrid" Background="#141414" Panel.ZIndex="1" Visibility="Collapsed" Margin="7,0,0,0" Grid.Column="1">
                                                     <Border Background="#141414">
                                                         <Grid Margin="10 10 0 0">
                                                             <StackPanel>
@@ -256,14 +261,14 @@
                                                                             <Image Source="\Resources\depso.png" MaxHeight="70" MaxWidth="70"/>
                                                                             <Grid MaxHeight="70">
                                                                                 <StackPanel>
-                                                                                    <Label Foreground="White" Margin="5 0 0 0" Padding="0">Depso</Label>
-                                                                                    <StackPanel Orientation="Horizontal">
-                                                                                        <materialDesign:PackIcon Padding="0" Margin="5 0 0 0" Kind="LanguageLua" Foreground="#FF8E83DE" VerticalAlignment="Center"/>
-                                                                                        <Label Margin="5 0 0 0" Content="Luau Development" Padding="0" FontSize="10" Foreground="#FF8E83DE"/>
+                                                                                    <Label Foreground="White" Content="Depso" Padding="0" Margin="5 0 0 0"/>
+                                                                                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                                                                                        <materialDesign:PackIcon Margin="0 0 0 0" Padding="0" Kind="LanguageLua" Foreground="#FF8E83DE" VerticalAlignment="Center"/>
+                                                                                        <Label Content="Luau Development" FontSize="10"  Foreground="#FF8E83DE"/>
                                                                                     </StackPanel>
                                                                                     <StackPanel Orientation="Horizontal">
-                                                                                        <materialDesign:PackIcon Margin="5 0 0 0" Kind="Code" Foreground="#FF8E83DE" VerticalAlignment="Center"/>
-                                                                                        <Label Content="Programming" FontSize="10" Foreground="#FF8E83DE"/>
+                                                                                        <materialDesign:PackIcon Padding="0" Margin="5 0 0 0" Kind="Code" Foreground="#FF8E83DE" VerticalAlignment="Center"/>
+                                                                                        <Label Content="Programming" Padding="0" Margin="5 0 0 0" FontSize="10" Foreground="#FF8E83DE"/>
                                                                                     </StackPanel>
                                                                                 </StackPanel>
                                                                             </Grid>
