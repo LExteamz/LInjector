@@ -1,34 +1,68 @@
 ﻿using System;
-using System.IO;
-using System.Windows.Threading;
-
-/*
- * ░▒█░░░░▀█▀░█▀▀▄░░░▀░█▀▀░█▀▄░▀█▀░▄▀▀▄░█▀▀▄░░░▀█▀░█▀▀▄░▀█▀░█▀▀░█▀▀▄░█▀▀▄░█▀▀▄░█░░░░▒█▀▀▀░█░▒█░█▀▀▄░█▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄░█▀▀
- * ░▒█░░░░▒█░░█░▒█░░░█░█▀▀░█░░░░█░░█░░█░█▄▄▀░░░▒█░░█░▒█░░█░░█▀▀░█▄▄▀░█░▒█░█▄▄█░█░░░░▒█▀▀░░█░▒█░█░▒█░█░░░░█░░░█▀░█░░█░█░▒█░▀▀▄
- * ░▒█▄▄█░▄█▄░▀░░▀░█▄█░▀▀▀░▀▀▀░░▀░░░▀▀░░▀░▀▀░░░▄█▄░▀░░▀░░▀░░▀▀▀░▀░▀▀░▀░░▀░▀░░▀░▀▀░░░▒█░░░░░▀▀▀░▀░░▀░▀▀▀░░▀░░▀▀▀░░▀▀░░▀░░▀░▀▀▀
- * 
- * Created by depthso/depso (https://github.com/depthso)
- * 
- */
+using System.Net;
+using System.Net.WebSockets;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace LInjector.Classes
 {
-    public static class InternalFunctions
+    public class WSComm
     {
-        static DispatcherTimer timer = new DispatcherTimer();
-
-        public static void Load(object sender, EventArgs e)
+        public async Task Start()
         {
+            var listener = new HttpListener();
+            listener.Prefixes.Add("http://localhost:5343/");
+            listener.Start();
 
-            string Script_Content = File.ReadAllText(Files.InitLuaPath);
-            FluxInterfacing.run_script(FluxInterfacing.pid, Script_Content);
+            MessageBox.Show("WebSocket server is running...");
+
+            while (true)
+            {
+                var context = await listener.GetContextAsync();
+                if (context.Request.IsWebSocketRequest)
+                {
+                    await ProcessWebSocketRequest(context);
+                }
+            }
         }
 
-        public static void RunInternalFunctions()
+        static async Task ProcessWebSocketRequest(HttpListenerContext context)
         {
-            timer.Tick += InternalFunctions.Load;
-            timer.Interval = TimeSpan.FromSeconds(5);
-            timer.Start();
+            var wsContext = await context.AcceptWebSocketAsync(null);
+
+            using (WebSocket webSocket = wsContext.WebSocket)
+            {
+                try
+                {
+                    byte[] buffer = new byte[1024];
+                    WebSocketReceiveResult result;
+
+                    do
+                    {
+                        result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+                        if (result.MessageType == WebSocketMessageType.Text)
+                        {
+                            string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+
+                            // CustomCw.rconsoleprint(message, "lgray");
+                            // Do thingies with the received message
+
+                            string responseMessage = "Received: " + message;
+                            byte[] responseBuffer = Encoding.UTF8.GetBytes(responseMessage);
+
+                            await webSocket.SendAsync(new ArraySegment<byte>(responseBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                        }
+                    }
+                    while (!result.EndOfMessage);
+                }
+                catch (WebSocketException ex)
+                {
+                    MessageBox.Show("WebSocket error: " + ex.Message);
+                }
+            }
         }
     }
 }

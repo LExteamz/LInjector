@@ -8,10 +8,10 @@ using System.Windows;
 [assembly: AssemblyTitle("LInjector")]
 [assembly: AssemblyDescription("The LInjector Program")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("LEx")]
+[assembly: AssemblyCompany("LEx Softworks")]
 [assembly: AssemblyProduct("LInjector")]
 [assembly: AssemblyCopyright("Copyright (c) LEx 2023")]
-[assembly: AssemblyTrademark("LEx")]
+[assembly: AssemblyTrademark("LEx Softworks")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

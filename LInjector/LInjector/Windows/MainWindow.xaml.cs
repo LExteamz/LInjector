@@ -16,8 +16,11 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Media3D;
 using System.Windows.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using MessageBox = System.Windows.Forms.MessageBox;
+using Window = System.Windows.Window;
 
 namespace LInjector.Windows
 {
@@ -32,6 +35,8 @@ namespace LInjector.Windows
         private bool IsInfoShown = false;
 
         internal string ScriptListPath = ".\\scripts\\";
+
+        WSComm ws = new WSComm();
 
         #endregion
 
@@ -59,10 +64,7 @@ namespace LInjector.Windows
                 _ = Notifications.Fire(StatusListBox, "Couldn't initialize Fluxus Interface.", NotificationLabel);
             }
 
-            if (ConfigHandler.topmost)
-            {
-                this.Topmost = true;
-            }
+            if (ConfigHandler.topmost) { this.Topmost = true; }
 
             TabSystemz.Visibility = Visibility.Visible;
             if (RegistryHandler.GetValue("ScriptListPath", "0").Length != 0) { ScriptListPath = RegistryHandler.GetValue("ScriptListPath", "0"); }
@@ -72,6 +74,7 @@ namespace LInjector.Windows
             LogToConsole.Log("Loaded", ConsoleLogList);
             _ = Notifications.Fire(StatusListBox, "Welcome to LInjector", NotificationLabel);
             await LoadPostsAsync(ScriptPageGrid, PostsItemsControl);
+            ws.Start();
         }
 
         private void DragWindow(object sender, MouseButtonEventArgs e)
@@ -117,7 +120,7 @@ namespace LInjector.Windows
                             postIndex++;
                             CreateGrid(post.Title, post.Description, post.Script, post.Creator, rowIndex, columnIndex, uniformGrid, postIndex);
                         }
-
+                        
                         PostsItemsControl.Items.Clear();
                         PostsItemsControl.Items.Add(uniformGrid);
                     }
@@ -141,9 +144,10 @@ namespace LInjector.Windows
                 Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#161616")),
                 CornerRadius = new CornerRadius(5),
                 Margin = new Thickness(10),
-                Name = $"Asynced",
+                Tag = title,
                 BorderBrush = Brushes.DarkGray,
-                BorderThickness = new Thickness(0.5),
+                BorderThickness = new Thickness(0.3),
+                MinHeight = 80,
             };
 
             Grid contentGrid = new Grid
@@ -166,7 +170,7 @@ namespace LInjector.Windows
 
             contentGrid.Children.Insert(0, stackPanel);
 
-            Grid.SetRow(stackPanel, 1);
+            Grid.SetRow(stackPanel, 0);
             Grid.SetColumn(stackPanel, 0);
             Grid.SetColumnSpan(stackPanel, 3);
 
@@ -303,27 +307,14 @@ namespace LInjector.Windows
                                 TabSystemz.add_tab_with_text(asyncedscript, posts[index].Title);
                                 ToggleScriptHub();
                             }
-                            else
-                            {
-                                _ = Notifications.Fire(StatusListBox, response.ReasonPhrase, NotificationLabel);
-                            }
+                            else { _ = Notifications.Fire(StatusListBox, $"Script Error : {response.ReasonPhrase}", NotificationLabel); }
                         }
 
                     }
-                    else
-                    {
-                        MessageBox.Show("Invalid index.");
-                    }
+                    else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.", NotificationLabel); } 
                 }
-                else
-                {
-                    MessageBox.Show("Invalid tag type.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Invalid int index type.");
-            }
+                else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.", NotificationLabel); } 
+            } else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.", NotificationLabel); }
         }
 
         public async void ExecuteScript_ClickAsync(object sender, RoutedEventArgs e)
@@ -422,54 +413,39 @@ namespace LInjector.Windows
                                     _ = Notifications.Fire(StatusListBox, "Unknown error.", NotificationLabel);
                                 }
                             }
-                            else
-                            {
-                                _ = Notifications.Fire(StatusListBox, response.ReasonPhrase, NotificationLabel);
-                            }
+                            else { _ = Notifications.Fire(StatusListBox, $"Script Error : {response.ReasonPhrase}", NotificationLabel); }
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("Invalid index.");
-                    }
+                    else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.", NotificationLabel); }
                 }
-                else
-                {
-                    MessageBox.Show("Invalid tag type.");
-                }
+                else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.", NotificationLabel); }
             }
-            else
-            {
-                MessageBox.Show("Invalid int index type.");
-            }
+            else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.", NotificationLabel); }
         }
 
         private void SearchScriptHub_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string searchText = SearchScriptHub.Text;
-            CustomCw.Cw("Search text changed: " + searchText);
             UpdatePostsDisplay();
         }
 
         private void UpdatePostsDisplay()
         {
-            string searchText = SearchScriptHub.Text.ToLower();
+            string searchQuery = SearchScriptHub.Text.ToLower();
 
-            foreach (UIElement item in PostsItemsControl.Items)
+            Debug.WriteLine("suka blyad");
+            foreach (var item in PostsItemsControl.Items)
             {
-                if (item is Border border)
+                if (item is FrameworkElement frameworkElement && frameworkElement.Tag is string tag)
                 {
-                    int postIndex = border.Tag as int? ?? -1;
-
-                    if (postIndex >= 0 && postIndex < posts.Count)
+                    Debug.WriteLine(tag);
+                    if (tag.Contains(searchQuery.ToLower()))
                     {
-                        string postTitle = posts[postIndex].Title.ToLower();
-                        bool isVisible = postTitle.Contains(searchText);
-                        border.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                        frameworkElement.Visibility = Visibility.Visible;
+                        MessageBox.Show("suka");
                     }
                     else
                     {
-                        border.Visibility = Visibility.Collapsed;
+                        frameworkElement.Visibility = Visibility.Collapsed;
                     }
                 }
             }
@@ -483,12 +459,16 @@ namespace LInjector.Windows
 
         private void ToggleScriptHub()
         {
+            if (IsSettingsShown == true || IsInfoShown) { return; }
+
             if (ScriptPageGrid.Visibility == Visibility.Visible)
             {
+                IsScriptsShown = false;
                 ScriptPageGrid.Visibility = Visibility.Collapsed;
                 TabSystemz.Visibility = Visibility.Visible;
             } else
             {
+                IsScriptsShown = true;
                 ScriptPageGrid.Visibility = Visibility.Visible;
                 TabSystemz.Visibility = Visibility.Collapsed;
             }
@@ -522,10 +502,12 @@ namespace LInjector.Windows
             if (WindowState == WindowState.Maximized)
             {
                 WindowState = WindowState.Normal;
+                MaximizeButton.Content = "\xE922";
             }
             else
             {
                 WindowState = WindowState.Maximized;
+                MaximizeButton.Content = "\xE923";
             }
         }
 
@@ -654,7 +636,6 @@ namespace LInjector.Windows
                     {
 
                         FluxInterfacing.inject();
-                        InternalFunctions.RunInternalFunctions();
                         FunctionWatch.runFuncWatch();
                         if (FluxInterfacing.pid > 0)
                         {
@@ -729,7 +710,7 @@ namespace LInjector.Windows
         {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Tick += AttachedDetectorTick;
-            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Interval = TimeSpan.FromSeconds(5);
             timer.Start();
         }
 

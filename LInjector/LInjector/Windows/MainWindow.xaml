@@ -94,15 +94,16 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.RowSpan="1" Background="#121212" Panel.ZIndex="3">
-                    <TextBox TextAlignment="Left" Padding="4" x:Name="SearchScriptHub" TextChanged="SearchScriptHub_TextChanged" Foreground="White" Style="{StaticResource MaterialDesignTextBox}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" MinWidth="300px">
-                        <materialDesign:TextFieldAssist.DecorationVisibility>Hidden</materialDesign:TextFieldAssist.DecorationVisibility>
-                    </TextBox>
-                    <Button x:Name="HideScriptHub" Background="Transparent" BorderBrush="Transparent" Content="&#xE70D;" Click="HideScriptHub_Click" Foreground="White" FontSize="10" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
+                <Grid Grid.RowSpan="1" Background="#141414" Panel.ZIndex="3">
+                    <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <TextBox TextAlignment="Left" Padding="4" materialDesign:TextFieldAssist.HasTrailingIcon="True" materialDesign:TextFieldAssist.TrailingIcon="Search" x:Name="SearchScriptHub" TextChanged="SearchScriptHub_TextChanged" Foreground="White" Style="{StaticResource MaterialDesignTextBox}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" BorderThickness="0">
+                            <materialDesign:TextFieldAssist.DecorationVisibility>Hidden</materialDesign:TextFieldAssist.DecorationVisibility>
+                        </TextBox>
+                        <Button x:Name="HideScriptHub" Background="Transparent" BorderBrush="Transparent" Content="&#xE70D;" Click="HideScriptHub_Click" Foreground="White" FontSize="10" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
+                    </VirtualizingStackPanel>  
                 </Grid>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="2" materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
-                    <ItemsControl Name="PostsItemsControl" Grid.Row="2">
-                    </ItemsControl>
+                    <ItemsControl Name="PostsItemsControl" Grid.Row="2"/>
                 </ScrollViewer>
             </Grid>
 
@@ -144,7 +145,7 @@
                                 <Image Source="/Resources/Icons/Attach.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="ScriptPage_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Visible" ToolTip="Script Hub">
+                        <Button Background="#141414" Click="ScriptPage_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Collapsed" ToolTip="Script Hub">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Script.png" Height="25" Width="25" HorizontalAlignment="Center"/>

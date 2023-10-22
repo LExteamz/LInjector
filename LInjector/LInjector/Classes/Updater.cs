@@ -30,7 +30,8 @@ namespace LInjector.Classes
         public const string AccountNamee = "LExteamz";
 
         public static readonly string localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        public static readonly string RobloxACFolder = Path.Combine(localAppDataFolder, "Packages", "ROBLOXCORPORATION.ROBLOX_55nm5eh3cm0pr", "AC");
+        public static readonly string localPackagesFolder = Path.Combine(localAppDataFolder, "Packages");
+        public static readonly string RobloxACFolder = GetRobloxACFolder();
         public static readonly string workspaceFolder = Path.Combine(RobloxACFolder, "workspace");
         public static readonly string autoexecFolder = Path.Combine(RobloxACFolder, "autoexec");
         public static readonly string exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -43,7 +44,23 @@ namespace LInjector.Classes
         public static readonly string InitLua = $"https://raw.githubusercontent.com/{AccountName}/LInjector/master/LInjector/LInjector/Resources/Internal/Init.lua";
         public static readonly string InitLuaPath = Path.Combine(autoexecFolder, "LInjector.lua");
         public static readonly string DLLsJSON = $"{DLLSURl}/Modules.json";
+
+        public static string GetRobloxACFolder()
+        {
+            string[] packageFolders = Directory.GetDirectories(Files.localPackagesFolder);
+
+            foreach (string packageFolder in packageFolders)
+            {
+                if (packageFolder.Contains("ROBLOXCORPORATION.ROBLOX"))
+                {
+                    return Path.Combine(packageFolder, "AC");
+                }
+            }
+
+            throw new InvalidOperationException("No se encontró la carpeta ROBLOXCORPORATION.ROBLOX en localPackagesFolder.");
+        }
     }
+
     #endregion
 
     #region Auto Module Updater
