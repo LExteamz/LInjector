@@ -7,8 +7,10 @@
 * Written By Depso
 *
 * ]]
+
 local EXPLOIT_NAME = "LInjector"
-local EXLPOIT_VERSION = "11.10.2023"
+local GITHUB_NAME = "LExteamz"
+local EXLPOIT_VERSION = "23.10.2023"
 
 --[[local genv = getgenv()
 if genv[EXPLOIT_NAME] then
@@ -19,6 +21,7 @@ genv[EXPLOIT_NAME] = true]]
 --- Libraries
 local HashIngLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/zzerexx/scripts/main/HashLib.lua"))()
 local disassemble = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/decompile.lua"))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/'..GITHUB_NAME..'/LInjector/main/Redistributables/Lua%20Scripts/SaveInstance.lua'))()
 
 local MarketplaceService=game.MarketplaceService
 local localplayer=game:GetService'Players'.LocalPlayer
