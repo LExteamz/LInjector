@@ -20,7 +20,9 @@ genv[EXPLOIT_NAME] = true]]
 local HashIngLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/zzerexx/scripts/main/HashLib.lua"))()
 local disassemble = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/decompile.lua"))()
 
+local MarketplaceService=game.MarketplaceService
 local localplayer=game:GetService'Players'.LocalPlayer
+local StarterGui=game:GetService("StarterGui")
 -------------
 
 local hashlibalgs = {
@@ -140,12 +142,21 @@ Export("set_clipboard",toclipboard)
 Export("set_clipboard",toclipboard)
 Export("Clipboard",{set=toclipboard})
 
-pcall(function()
-   SendFunction(('welcome|||%s|||%s'):format(
+pcall(spawn, function()
+ repeat wait() until game:IsLoaded'' == true
+ 
+  StarterGui:SetCore("ChatMakeSystemMessage",{
+  	Text = "LInjector has successfully loaded!",
+  	Color = Color3.fromRGB(230 , 0 , 255),
+  	Font = Enum.Font.SourceSansBold,
+  	FontSize = Enum.FontSize.Size18
+  })
+  rconsoleprint(([[Welcome %s! 
+Successfully loaded at %s!]]):format(
       localplayer.DisplayName, 
       MarketplaceService:GetProductInfo(game.PlaceId).Name
-   ))
-end)
+  ))
+ end)
  
  --[[
  *
