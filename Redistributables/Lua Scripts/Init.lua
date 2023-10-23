@@ -10,7 +10,7 @@
 
 local EXPLOIT_NAME = "LInjector"
 local GITHUB_NAME = "LExteamz"
-local EXLPOIT_VERSION = "23.10.2023"
+local EXPLOIT_VERSION = "23.10.2023"
 
 --[[local genv = getgenv()
 if genv[EXPLOIT_NAME] then
@@ -107,10 +107,10 @@ end)
 
 
 Export("identifyexecutor", function()
-   return EXPLOIT_NAME, EXLPOIT_VERSION
+   return EXPLOIT_NAME, EXPLOIT_VERSION
 end)
 Export("getexecutorname", function()
-   return EXPLOIT_NAME, EXLPOIT_VERSION
+   return EXPLOIT_NAME, EXPLOIT_VERSION
 end)
 Export("disassemble", disassemble)
 Export("decompile", disassemble)
@@ -149,7 +149,7 @@ pcall(spawn, function()
  repeat wait() until game:IsLoaded'' == true
  
   StarterGui:SetCore("ChatMakeSystemMessage",{
-  	Text = "LInjector has successfully loaded!",
+  	Text = "LInjector has successfully loaded!\nVersion: "..EXPLOIT_VERSION,
   	Color = Color3.fromRGB(230 , 0 , 255),
   	Font = Enum.Font.SourceSansBold,
   	FontSize = Enum.FontSize.Size18
