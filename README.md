@@ -2,10 +2,10 @@
   <img width="70%" src="https://user-images.githubusercontent.com/98148217/236020704-b931f1b0-3c4b-4bd3-95fb-f0c22e40a093.png">
 </p>
 <p align="center">
-<img src="https://dcbadge.vercel.app/api/shield/686765279363334205">
-<a href="https://discord.gg/NQY28YSVAb">
-<img src="https://dcbadge.vercel.app/api/server/NQY28YSVAb">
-</a>
+	<img src="https://dcbadge.vercel.app/api/shield/686765279363334205">
+	<a href="https://discord.gg/NQY28YSVAb">
+		<img src="https://dcbadge.vercel.app/api/server/NQY28YSVAb">
+	</a>
 </p>
 <h3 align="center">LInjector | Open-source Lua Script Executor.</h3>
 
@@ -50,8 +50,7 @@ To edit the Forms, first compile. For any reason, forms can't load if not compil
 ## Why LInjector?
 Well, here are some reasons:
 - It's an open-source project, which ensures the program does not contain malware.
-- Injection speed, the injection speed of LInjector has shown an advantage over other executors. Approaching about 0.3 seconds or 300 milliseconds.
-- Optimized tab system. The tab system in LInjector is optimized to use no more than 1 Gigabyte of RAM, even with 40 tabs open.
+- Injection speed, the injection speed of LInjector has shown an advantage over other executors. Approaching about 300 miliseconds.
 - Transparency about the state and code of LInjector. I can ensure you'll get a response about LInjector every time.
 
 <hr/>
@@ -69,7 +68,6 @@ We urge all users to use LInjector only for development and utility purposes and
 - LInjector uses the [Fluxus](https://fluxteam.net) (based of [WeAreDevs](https://wearedevs.net)) Modules to work.
 - [The text editor is Monaco.](https://microsoft.github.io/monaco-editor/)
 - Monaco Editor, edited by [Krnl](https://krnl.place/) and [depthso](https://github.com/depthso)
-- [Spinning Gradient by me (you can take it and put it into your personal projects.](https://gist.github.com/NotExcelz/6bece91fcd3388618dde3de6bcab4a60)
 - [Tab System by lxnnydev](https://github.com/lxnnydev/Winforms-Tab-System)
 - [Depso's UNC Patches](https://github.com/depthso/Roblox-UNC-Patches)
 - [MastersMZ Scripts API](https://mastersmzscripts.com)
