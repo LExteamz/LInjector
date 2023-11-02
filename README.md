@@ -20,7 +20,7 @@ LInjector uses the Monaco editor, the same one that powers Visual Studio Code, w
 <table>
 	<tr>
 		<td width="600">
-			<img src="https://media.discordapp.net/attachments/1122366811229405264/1151744638399565895/image.png" height="100%">
+			<img src="https://media.discordapp.net/attachments/1122366811229405264/1169533293092425758/image.png" height="100%">
 		</td>
 		<td width="600">
 			<img src="https://github.com/LExteamz/LInjector/assets/147359654/a32c944e-5240-4d35-bfeb-786e4918860a" height="100%">
@@ -31,7 +31,7 @@ LInjector uses the Monaco editor, the same one that powers Visual Studio Code, w
 <hr/>
 
 ## About
-LInjector is primarily developed by [Excel](https://github.com/NotExcelz) and [Depso](https://github.com/Depthso).\
+LInjector is primarily developed by [Excel](https://github.com/NeverExcel) and [Depso](https://github.com/depthso).\
 It was created out of the necessity for a secure and open-source executor without the risks associated with popular ones.
 
 ## About the Structure of LInjector
@@ -42,7 +42,7 @@ I apologize for the uncommented code. If you have any questions, you can contact
 
 ## How to Build?
 To edit the Forms, first compile. For any reason, forms can't load if not compiled. If you opened the forms before compiling, restart Visual Studio, and your problem should be fixed.
-- Clone the repository :  `gh repo clone NotExcelz/LInjector`
+- Clone the repository :  `gh repo clone LExteamz/LInjector`
 - Open LInjector.sln in Visual Studio 2022.
 - Set Release x86
 - Build Solution (CTRL + SHIFT + B)
