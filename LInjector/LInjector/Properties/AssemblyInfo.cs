@@ -6,11 +6,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("LInjector")]
-[assembly: AssemblyDescription("The LInjector Program")]
+[assembly: AssemblyDescription("LInjector Development Tool")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("LEx Softworks")]
 [assembly: AssemblyProduct("LInjector")]
-[assembly: AssemblyCopyright("Copyright (c) LEx 2023")]
+[assembly: AssemblyCopyright("Copyright (c) LEx Softworks 2023")]
 [assembly: AssemblyTrademark("LEx Softworks")]
 [assembly: AssemblyCulture("")]
 
