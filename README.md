@@ -36,7 +36,7 @@ It was created out of the necessity for a secure and open-source executor withou
 
 ## About the Structure of LInjector
 A legitimate development tool.\
-Windows Forms Application.\
+Designed using Windows Presentation Foundation (WPF).\
 Written in C#, with .NET Framework 4.8 | 32-Bit.\
 I apologize for the uncommented code. If you have any questions, you can contact me via my Discord Server.
 

@@ -8,21 +8,18 @@ using System.Windows;
 
 namespace LInjector.Classes
 {
-    public class WSComm
+    public class WebComs
     {
-        private static WSComm instance;
+        private static WebComs instance;
         private WebSocket webSocket;
 
-        public WSComm()
-        {
+        public WebComs() { }
 
-        }
-
-        public static WSComm GetInstance()
+        public static WebComs GetInstance()
         {
             if (instance == null)
             {
-                instance = new WSComm();
+                instance = new WebComs();
             }
             return instance;
         }
