@@ -28,31 +28,6 @@
             <Grid.ColumnDefinitions>
             </Grid.ColumnDefinitions>
 
-            <!-- SCRIPTS PAGE GRID -->
-
-            <Grid x:Name="ScriptsGrid" Background="#111111" Panel.ZIndex="1" Visibility="Visible" Grid.RowSpan="2" Margin="-5000, 0, 5000, 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="19*"/>
-                    <RowDefinition Height="0*"/>
-                    <RowDefinition Height="81*"/>
-                </Grid.RowDefinitions>
-                <Grid Background="#111111" Margin="15,40,15,7" Panel.ZIndex="2" MouseDown="DragWindow">
-                    <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
-                        <Image Source="\Resources\Icons\Script.png" VerticalAlignment="Center" Width="30" Height="30"/>
-                        <Label Foreground="White" Content="MastersMZ Scripts" VerticalAlignment="Center" FontSize="15" Margin="0 0 0 0" Width="157"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="52" Height="Auto" Margin="0,0,0,-7">
-                        <materialDesign:ButtonAssist.CornerRadius>8</materialDesign:ButtonAssist.CornerRadius>
-                        <Button Background="Transparent" BorderBrush="Transparent" Content="&#xE76B;" Foreground="White" FontSize="15" FontFamily="Segoe MDL2 Assets" Click="ScriptPage_Click" Height="36" Width="52"/>
-                    </StackPanel>
-                </Grid>
-                <Border Background="#141414" Margin="15,0,15,15" CornerRadius="5" Grid.Row="1" Grid.RowSpan="2">
-                    <Grid>
-
-                    </Grid>
-                </Border>
-            </Grid>
-
             <!-- TITLE BAR -->
             <Border CornerRadius="0" Background="#161616" Visibility="Visible" Panel.ZIndex="10">
                 <Grid MouseDown="DragWindow" Background="Transparent">
@@ -113,6 +88,25 @@
                 </Grid>
             </Border>
 
+            <!-- SCRIPTS PAGE GRID -->
+            <Grid Name="ScriptPageGrid" Grid.Row="1" Background="#111111" Panel.ZIndex="1" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.RowSpan="1" Background="#141414" Panel.ZIndex="3">
+                    <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <TextBox TextAlignment="Left" Padding="4" materialDesign:TextFieldAssist.HasTrailingIcon="True" materialDesign:TextFieldAssist.TrailingIcon="Search" x:Name="SearchScriptHub" TextChanged="SearchScriptHub_TextChanged" Foreground="White" Style="{StaticResource MaterialDesignTextBox}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" BorderThickness="0">
+                            <materialDesign:TextFieldAssist.DecorationVisibility>Hidden</materialDesign:TextFieldAssist.DecorationVisibility>
+                        </TextBox>
+                        <Button x:Name="HideScriptHub" Background="Transparent" BorderBrush="Transparent" Content="&#xE70D;" Click="HideScriptHub_Click" Foreground="White" FontSize="10" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
+                    </VirtualizingStackPanel>  
+                </Grid>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="2" materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+                    <ItemsControl Name="PostsItemsControl" Grid.Row="2"/>
+                </ScrollViewer>
+            </Grid>
+
             <!-- WINDOW CONTENT BEGANS -->
 
             <!-- LEFT SIDE THINGS -->
@@ -139,7 +133,7 @@
                                 </Setter>
                             </Style>
                         </ListBox.ItemContainerStyle>
-                        <Button Background="#141414" Click="ExecuteButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5">
+                        <Button Background="#141414" Click="ExecuteButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Execute">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Execute.png" Height="25" Width="25" HorizontalAlignment="Center"/>
@@ -151,25 +145,25 @@
                                 <Image Source="/Resources/Icons/Attach.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="ScriptPage_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Collapsed">
+                        <Button Background="#141414" Click="ScriptPage_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Collapsed" ToolTip="Script Hub">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Script.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="ConsoleDebugButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5">
+                        <Button Background="#141414" Click="ConsoleDebugButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Console">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Console.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="SettingsButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5">
+                        <Button Background="#141414" Click="SettingsButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Settings">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Settings.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="DiscordButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5">
+                        <Button Background="#141414" Click="DiscordButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Discord">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <materialDesign:ShadowAssist.Darken>False</materialDesign:ShadowAssist.Darken>
                             <Button.Content>
@@ -178,7 +172,7 @@
                         </Button>
                     </ListBox>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
-                        <Button Background="Transparent" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 0 0 3.2" Padding="5" VerticalAlignment="Bottom">
+                        <Button Background="Transparent" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 0 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
                             <Button.Content>
                                 <Image Source="/Resources/Icons/GitHub.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
@@ -197,7 +191,7 @@
                         <controls:TabSystem Padding="5" x:Name="TabSystemz" Visibility="Hidden"/>
 
                         <!-- SETTINGS GRID -->
-                        <Grid x:Name="SettingsGrid" Background="#111111" Panel.ZIndex="2" Visibility="Hidden" Grid.RowSpan="2">
+                        <Grid x:Name="SettingsGrid" Background="#111111" Panel.ZIndex="2" Visibility="Collapsed" Grid.RowSpan="2">
                             <Border CornerRadius="0" Grid.RowSpan="2">
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -236,18 +230,23 @@
                                                                 <ToggleButton Checked="SaveTabsToggle_Checked" Unchecked="SaveTabsToggle_Unchecked" Width="30" Height="30" x:Name="SaveTabsToggle"/>
                                                                 <Label Content="Save Tabs" Foreground="White" FontSize="13" VerticalAlignment="Center"/>
                                                             </StackPanel>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xF167;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" Click="InfoButton_Click" BorderThickness="1,1,1,1"/>
-                                                                <Label Content="About" Foreground="LightGray" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
-                                                            </StackPanel>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xE8DE;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" Name="ChangeScriptsFolder" Click="ChangeScriptsFolder_Click" BorderThickness="1,1,1,1"/>
-                                                                <Label Content="Change script folder location." Foreground="LightGray" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
-                                                            </StackPanel>
+                                                            <Button Background="Transparent" Click="InfoButton_Click" BorderThickness="0" Padding="0" Margin="0">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xF167;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" BorderThickness="1,1,1,1"/>
+                                                                    <Label Content="About" Foreground="LightGray" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
+                                                                </StackPanel>
+                                                            </Button>
+
+                                                            <Button Background="Transparent" Click="ChangeScriptsFolder_Click" BorderThickness="0" Padding="0" Margin="0">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xE8DE;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" Name="ChangeScriptsFolder" BorderThickness="1,1,1,1"/>
+                                                                    <Label Content="Change script folder location." Foreground="LightGray" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
+                                                                </StackPanel>
+                                                            </Button>
                                                         </ListBox>
                                                     </Border>
                                                 </Grid>
-                                                <Grid x:Name="InformationGrid" Background="#141414" Panel.ZIndex="1" Visibility="Hidden" Margin="7,0,0,0" Grid.Column="1">
+                                                <Grid x:Name="InformationGrid" Background="#141414" Panel.ZIndex="1" Visibility="Collapsed" Margin="7,0,0,0" Grid.Column="1">
                                                     <Border Background="#141414">
                                                         <Grid Margin="10 10 0 0">
                                                             <StackPanel>
@@ -262,14 +261,14 @@
                                                                             <Image Source="\Resources\depso.png" MaxHeight="70" MaxWidth="70"/>
                                                                             <Grid MaxHeight="70">
                                                                                 <StackPanel>
-                                                                                    <Label Foreground="White" Margin="5 0 0 0" Padding="0">Depso</Label>
-                                                                                    <StackPanel Orientation="Horizontal">
-                                                                                        <materialDesign:PackIcon Padding="0" Margin="5 0 0 0" Kind="LanguageLua" Foreground="#FF8E83DE" VerticalAlignment="Center"/>
-                                                                                        <Label Margin="5 0 0 0" Content="Luau Development" Padding="0" FontSize="10" Foreground="#FF8E83DE"/>
+                                                                                    <Label Foreground="White" Content="Depso" Padding="0" Margin="5 0 0 0"/>
+                                                                                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                                                                                        <materialDesign:PackIcon Margin="0 0 0 0" Padding="0" Kind="LanguageLua" Foreground="#FF8E83DE" VerticalAlignment="Center"/>
+                                                                                        <Label Content="Luau Development" FontSize="10"  Foreground="#FF8E83DE"/>
                                                                                     </StackPanel>
                                                                                     <StackPanel Orientation="Horizontal">
-                                                                                        <materialDesign:PackIcon Margin="5 0 0 0" Kind="Code" Foreground="#FF8E83DE" VerticalAlignment="Center"/>
-                                                                                        <Label Content="Programming" FontSize="10" Foreground="#FF8E83DE"/>
+                                                                                        <materialDesign:PackIcon Padding="0" Margin="5 0 0 0" Kind="Code" Foreground="#FF8E83DE" VerticalAlignment="Center"/>
+                                                                                        <Label Content="Programming" Padding="0" Margin="5 0 0 0" FontSize="10" Foreground="#FF8E83DE"/>
                                                                                     </StackPanel>
                                                                                 </StackPanel>
                                                                             </Grid>
@@ -350,7 +349,7 @@
                         </Grid.RowDefinitions>
                         <Border CornerRadius="4 4 0 0" Background="#141414" Margin="0,0,0,2">
                             <Grid>
-                                <TextBox Padding="4" TextChanged="SearchScriptsBox_TextChanged" Foreground="White" Style="{StaticResource MaterialDesignTextBox}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" x:Name="SearchScriptsBox" BorderThickness="0">
+                                <TextBox ToolTip="Search scripts" Padding="4" TextChanged="SearchScriptsBox_TextChanged" Foreground="White" Style="{StaticResource MaterialDesignTextBox}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" x:Name="SearchScriptsBox" BorderThickness="0">
                                     <materialDesign:TextFieldAssist.DecorationVisibility>Hidden</materialDesign:TextFieldAssist.DecorationVisibility>
                                 </TextBox>
                             </Grid>
@@ -362,10 +361,10 @@
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="115*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Margin="0,6,0,0" materialDesign:RippleAssist.IsDisabled="True" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#141414" Padding="0 0 0 0" BorderBrush="#00744CE0" x:Name="OpenFileButton" Click="OpenFileButton_Click" Height="32">
+                            <Button ToolTip="Open File" Margin="0,6,0,0" materialDesign:RippleAssist.IsDisabled="True" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#141414" Padding="0 0 0 0" BorderBrush="#00744CE0" x:Name="OpenFileButton" Click="OpenFileButton_Click" Height="32">
                                 <Label Content="&#xE8E5;" Foreground="White" FontFamily="Segoe MDL2 Assets"/>
                             </Button>
-                            <Button VerticalAlignment="Top" materialDesign:RippleAssist.IsDisabled="True" HorizontalAlignment="Stretch" Background="#141414" BorderBrush="#00744CE0" x:Name="SaveToFileButton" Click="SaveToFileButton_Click" Height="32" Grid.Column="2" Margin="0,6,0,0">
+                            <Button ToolTip="Save to File" VerticalAlignment="Top" materialDesign:RippleAssist.IsDisabled="True" HorizontalAlignment="Stretch" Background="#141414" BorderBrush="#00744CE0" x:Name="SaveToFileButton" Click="SaveToFileButton_Click" Height="32" Grid.Column="2" Margin="0,6,0,0">
                                 <Label Content="&#xEA35;" Foreground="White" FontFamily="Segoe MDL2 Assets"/>
                             </Button>
                         </Grid>

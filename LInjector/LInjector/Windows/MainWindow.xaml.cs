@@ -1,19 +1,23 @@
 ﻿using LInjector.Classes;
 using LInjector.WPF.Classes;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using MessageBox = System.Windows.Forms.MessageBox;
+using Window = System.Windows.Window;
 
 namespace LInjector.Windows
 {
@@ -22,57 +26,464 @@ namespace LInjector.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Main Required-Values
         private bool IsSettingsShown = false;
         private bool IsScriptsShown = false;
         private bool IsInfoShown = false;
 
-        private readonly HttpClient client = new HttpClient();
-        private readonly WebClient webCl = new WebClient();
-
         internal string ScriptListPath = ".\\scripts\\";
 
+        WebComs ws = new WebComs();
 
-        Storyboard StoryBoard = new Storyboard();
+        #endregion
 
+        #region Window
         public MainWindow()
         {
             InitializeComponent();
             RunAutoAttachTimer();
         }
 
-        // "ObjectShift" FUNCTION FROM COMET-UPDATING-SYSTEM (https://github.com/MarsQQ/Comet-Updating-System-)
-
-        private IEasingFunction Smooth { get; set; }
-        = new QuarticEase
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            EasingMode = EasingMode.EaseInOut
-        };
-
-        public void ObjectShift(Duration speed, DependencyObject Object, Thickness Get, Thickness Set)
-        {
-            ThicknessAnimation Animation = new ThicknessAnimation()
+            try
             {
-                From = Get,
-                To = Set,
-                Duration = speed,
-                EasingFunction = Smooth,
-            };
-            Storyboard.SetTarget(Animation, Object);
-            Storyboard.SetTargetProperty(Animation, new PropertyPath(MarginProperty));
-            StoryBoard.Children.Add(Animation);
-            StoryBoard.Begin();
-            StoryBoard.Children.Remove(Animation);
-        }
+                await Updater.CheckForUpdates();
+                FluxInterfacing.create_files(Path.GetFullPath("Resources\\libs\\Module.dll"));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Couldn't initialize Fluxus Interface\nException:\n"
+                                                   + ex.Message
+                                                   + "\nPlease, share it on Discord.",
+                    "[ERROR] LInjector", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                _ = Notifications.Fire(StatusListBox, "Couldn't initialize Fluxus Interface.", NotificationLabel);
+            }
 
+            if (ConfigHandler.topmost) { this.Topmost = true; }
+
+            TabSystemz.Visibility = Visibility.Visible;
+            if (RegistryHandler.GetValue("ScriptListPath", "0").Length != 0) { ScriptListPath = RegistryHandler.GetValue("ScriptListPath", "0"); }
+            RefreshScriptList();
+            LoadSavedTabs();
+            ParseConfig();
+            LogToConsole.Log("Loaded", ConsoleLogList);
+            _ = Notifications.Fire(StatusListBox, "Welcome to LInjector", NotificationLabel);
+            await LoadPostsAsync(ScriptPageGrid, PostsItemsControl);
+            await ws.Start();
+        }
 
         private void DragWindow(object sender, MouseButtonEventArgs e)
         {
             try { DragMove(); } catch { }
         }
 
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
+
+        private void OnCloseFadeoutCompleted(object sender, EventArgs e)
+        {
+            Close();
+            System.Windows.Application.Current.Shutdown();
+        }
+        #endregion
+
+        #region Script Hub
+
+        private const string PostsURL = "https://api.mastersmzscripts.com/posts.json";
+        public static List<Post> posts = new List<Post>();
+
+        public async Task LoadPostsAsync(Grid grid, ItemsControl PostsItemsControl)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(PostsURL);
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    posts = JsonConvert.DeserializeObject<List<Post>>(responseBody);
+
+                    if (posts.Count > 0)
+                    {
+                        UniformGrid uniformGrid = new UniformGrid();
+                        uniformGrid.Columns = 3;
+
+                        int postIndex = -1;
+
+                        foreach (var post in posts)
+                        {
+                            int rowIndex = 0;
+                            int columnIndex = 0;
+                            postIndex++;
+                            CreateGrid(post.Title, post.Description, post.Script, post.Creator, rowIndex, columnIndex, uniformGrid, postIndex);
+                        }
+
+                        PostsItemsControl.Items.Clear();
+                        PostsItemsControl.Items.Add(uniformGrid);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No posts found.", "MastersMZ Scripts");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading posts: " + ex.StackTrace, "Error");
+                FunctionWatch.clipboardSetText($"{ex.StackTrace}\n\n{ex.Message}");
+            }
+        }
+
+        public void CreateGrid(string title, string description, string scriptLink, string creator, int rowIndex, int columnIndex, UniformGrid whatgridbozo, int postIndex)
+        {
+            Border border = new Border
+            {
+                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#161616")),
+                CornerRadius = new CornerRadius(5),
+                Margin = new Thickness(10),
+                Tag = title,
+                BorderBrush = Brushes.DarkGray,
+                BorderThickness = new Thickness(0.3),
+                MinHeight = 80,
+            };
+
+            Grid contentGrid = new Grid
+            {
+                Margin = new Thickness(3)
+            };
+
+            contentGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            contentGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            contentGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            contentGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            contentGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            contentGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+            StackPanel stackPanel = new StackPanel
+            {
+                Orientation = System.Windows.Controls.Orientation.Vertical,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+
+            contentGrid.Children.Insert(0, stackPanel);
+
+            Grid.SetRow(stackPanel, 0);
+            Grid.SetColumn(stackPanel, 0);
+            Grid.SetColumnSpan(stackPanel, 3);
+
+            System.Windows.Controls.TextBlock titleLabel = new System.Windows.Controls.TextBlock
+            {
+                Text = title,
+                Foreground = Brushes.WhiteSmoke,
+                FontSize = 13,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(0, 0, 0, 0)
+            };
+            stackPanel.Children.Add(titleLabel);
+
+            TextBlock descriptionTextBlock = new TextBlock
+            {
+                Text = description,
+                Foreground = Brushes.Gray,
+                FontSize = 11,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                TextWrapping = TextWrapping.WrapWithOverflow,
+            };
+            stackPanel.Children.Add(descriptionTextBlock);
+
+            StackPanel buttonStackPanel = new StackPanel
+            {
+                Orientation = System.Windows.Controls.Orientation.Horizontal,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+            contentGrid.Children.Add(buttonStackPanel);
+            Grid.SetRow(buttonStackPanel, 2);
+            Grid.SetColumn(buttonStackPanel, 0);
+            Grid.SetColumnSpan(buttonStackPanel, 3);
+
+            System.Windows.Controls.Button executeButton = new System.Windows.Controls.Button
+            {
+                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#141414")),
+                BorderBrush = Brushes.Transparent,
+                Height = 30,
+                Width = 30,
+                Margin = new Thickness(0, 0, 3, 0),
+                Padding = new Thickness(5),
+                VerticalAlignment = VerticalAlignment.Bottom,
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                Content = "\xF5B0",
+                ToolTip = "Execute",
+                FontSize = 14,
+                Tag = postIndex
+            };
+            buttonStackPanel.Children.Add(executeButton);
+
+            System.Windows.Controls.Button loadIntoEditorButton = new System.Windows.Controls.Button
+            {
+                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#141414")),
+                Foreground = Brushes.White,
+                BorderBrush = Brushes.Transparent,
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                Content = "\xE7AC",
+                Height = 30,
+                Width = 30,
+                Margin = new Thickness(0, 0, 3, 0),
+                Padding = new Thickness(5),
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Tag = postIndex,
+                ToolTip = "Load Into Editor",
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left
+            };
+            buttonStackPanel.Children.Add(loadIntoEditorButton);
+
+            System.Windows.Controls.Label creatorLabel = new System.Windows.Controls.Label
+            {
+                Content = creator,
+                Foreground = Brushes.DarkGray,
+                FontSize = 10,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
+            buttonStackPanel.Children.Add(creatorLabel);
+
+            border.Child = contentGrid;
+
+            whatgridbozo.Children.Add(border);
+            Grid.SetRow(border, rowIndex);
+            Grid.SetColumn(border, columnIndex);
+
+            loadIntoEditorButton.Click += LoadIntoEditor_ClickAsync;
+            executeButton.Click += ExecuteScript_ClickAsync;
+        }
+
+        public class Post
+        {
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string Script { get; set; }
+            public string Creator { get; set; }
+        }
+
+        public async void LoadIntoEditor_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            if (sender is System.Windows.Controls.Button button)
+            {
+                if (button.Tag is int index)
+                {
+                    if (index >= 0 && index < posts.Count)
+                    {
+                        if (posts[index].Script.Contains("discord"))
+                        {
+                            var result = MessageBox.Show("LInjector detected this script contains a Discord invite link, would you like to open it?", "LInjector", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (result == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                Process.Start(posts[index].Script);
+                                return;
+                            }
+                            else { return; }
+                        }
+
+                        if (posts[index].Script.StartsWith("loadstring"))
+                        {
+                            TabSystemz.add_tab_with_text(posts[index].Script, posts[index].Title);
+                            ToggleScriptHub();
+                            return;
+                        }
+
+                        using (HttpClient client = new HttpClient())
+                        {
+                            HttpResponseMessage response = await client.GetAsync(new Uri(posts[index].Script));
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                string asyncedscript = await response.Content.ReadAsStringAsync();
+                                TabSystemz.add_tab_with_text(asyncedscript, posts[index].Title);
+                                ToggleScriptHub();
+                            }
+                            else { _ = Notifications.Fire(StatusListBox, $"Script Error : {response.ReasonPhrase}", NotificationLabel); }
+                        }
+
+                    }
+                    else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.", NotificationLabel); }
+                }
+                else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.", NotificationLabel); }
+            }
+            else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.", NotificationLabel); }
+        }
+
+        public async void ExecuteScript_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            if (sender is System.Windows.Controls.Button button)
+            {
+                if (button.Tag is int index)
+                {
+                    if (index >= 0 && index < posts.Count)
+                    {
+                        if (posts[index].Script.Contains("discord"))
+                        {
+                            var result = MessageBox.Show("LInjector detected this script contains a Discord invite link, would you like to open it?", "LInjector", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (result == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                Process.Start(posts[index].Script);
+                                return;
+                            }
+                            else { return; }
+                        }
+
+                        if (posts[index].Script.StartsWith("loadstring"))
+                        {
+                            try
+                            {
+                                var flag = !FluxInterfacing.is_injected(FluxInterfacing.pid);
+                                if (!flag)
+                                {
+                                    try
+                                    {
+                                        FluxInterfacing.run_script(FluxInterfacing.pid, posts[index].Script);
+                                        await Notifications.Fire(StatusListBox, "Executed", NotificationLabel);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        CustomCw.Cw($"LInjector couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                                    }
+                                }
+                                else
+                                {
+                                    Inject();
+                                    await Task.Delay(500);
+                                    FluxInterfacing.run_script(FluxInterfacing.pid, posts[index].Script);
+                                    await Notifications.Fire(StatusListBox, "Executed", NotificationLabel);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("LInjector couldn't run the script.", "LInjector",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CustomCw.Cw($"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                            }
+                        }
+
+                        using (HttpClient client = new HttpClient())
+                        {
+                            HttpResponseMessage response = await client.GetAsync(new Uri(posts[index].Script));
+
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                string asyncedscript = await response.Content.ReadAsStringAsync();
+                                try
+                                {
+                                    try
+                                    {
+                                        var flag = !FluxInterfacing.is_injected(FluxInterfacing.pid);
+                                        if (!flag)
+                                        {
+                                            try
+                                            {
+                                                FluxInterfacing.run_script(FluxInterfacing.pid, asyncedscript);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                CustomCw.Cw($"LInjector couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Inject();
+                                            await Task.Delay(500);
+                                            FluxInterfacing.run_script(FluxInterfacing.pid, asyncedscript);
+                                            ToggleScriptHub();
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show("LInjector couldn't run the script.", "LInjector",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        CustomCw.Cw($"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                                    }
+                                }
+                                catch
+                                {
+                                    _ = Notifications.Fire(StatusListBox, "Unknown error.", NotificationLabel);
+                                }
+                            }
+                            else { _ = Notifications.Fire(StatusListBox, $"Script Error : {response.ReasonPhrase}", NotificationLabel); }
+                        }
+                    }
+                    else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.", NotificationLabel); }
+                }
+                else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.", NotificationLabel); }
+            }
+            else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.", NotificationLabel); }
+        }
+
+        private void SearchScriptHub_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdatePostsDisplay();
+        }
+
+        private void UpdatePostsDisplay()
+        {
+            string searchQuery = SearchScriptHub.Text.ToLower();
+
+            Debug.WriteLine("suka blyad");
+            foreach (var item in PostsItemsControl.Items)
+            {
+                if (item is FrameworkElement frameworkElement && frameworkElement.Tag is string tag)
+                {
+                    Debug.WriteLine(tag);
+                    if (tag.Contains(searchQuery.ToLower()))
+                    {
+                        frameworkElement.Visibility = Visibility.Visible;
+                        MessageBox.Show("suka");
+                    }
+                    else
+                    {
+                        frameworkElement.Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
+        }
+
+
+        private void HideScriptHub_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleScriptHub();
+        }
+
+        private void ToggleScriptHub()
+        {
+            if (IsSettingsShown == true || IsInfoShown) { return; }
+
+            if (ScriptPageGrid.Visibility == Visibility.Visible)
+            {
+                IsScriptsShown = false;
+                ScriptPageGrid.Visibility = Visibility.Collapsed;
+                TabSystemz.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                IsScriptsShown = true;
+                ScriptPageGrid.Visibility = Visibility.Visible;
+                TabSystemz.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        #endregion
+
+        #region Button Functions
+
+        private async void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             SaveTabs();
+            
+            // If Client is Connected, then, send a message to WebSockets connected to request disconnect.
+            if (FluxInterfacing.is_injected(FluxInterfacing.pid) == true)
+            { await ws.SendMessage("LINJECTOR_DISCONNECT"); }
 
             TabSystemz.Visibility = Visibility.Hidden;
             Storyboard fadeOutStoryboard = new Storyboard();
@@ -89,35 +500,17 @@ namespace LInjector.Windows
             fadeOutStoryboard.Begin();
         }
 
-        private async void SaveTabs()
-        {
-            if (ConfigHandler.save_tabs == false) { return; }
-
-            foreach (TabItem item in TabSystemz.maintabs.Items)
-            {
-                var GetTextzzzz = await (item.Content as monaco_api).GetText();
-                if (GetTextzzzz.Length > 1)
-                {
-                    File.WriteAllText($"{Files.savedtabspath}\\{item.Header.ToString()}", GetTextzzzz.ToString());
-                }
-            }
-        }
-
-        private void OnCloseFadeoutCompleted(object sender, EventArgs e)
-        {
-            Close();
-            System.Windows.Application.Current.Shutdown();
-        }
-
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Maximized)
             {
                 WindowState = WindowState.Normal;
+                MaximizeButton.Content = "\xE922";
             }
             else
             {
                 WindowState = WindowState.Maximized;
+                MaximizeButton.Content = "\xE923";
             }
         }
 
@@ -131,30 +524,17 @@ namespace LInjector.Windows
             Inject();
         }
 
-        private void ScriptPage_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (IsScriptsShown == false)
-            {
-                if (IsSettingsShown == true || IsInfoShown == true) { return; }
-                IsScriptsShown = true;
-                ObjectShift(TimeSpan.FromMilliseconds(1500), ScriptsGrid, ScriptsGrid.Margin, new Thickness(0, 0, 0, 0)); // SHOW
-                TabSystemz.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                IsScriptsShown = false;
-                ObjectShift(TimeSpan.FromMilliseconds(1500), ScriptsGrid, ScriptsGrid.Margin, new Thickness(-5000, 0, 5000, 0));
-                TabSystemz.Visibility = Visibility.Visible;
-            }
-        }
-
         private void ConsoleDebugButton_Click(object sender, RoutedEventArgs e)
         {
             if (ConsoleManager.isConsoleVisible)
             { ConsoleManager.HideConsole(); }
             else
             { ConsoleManager.ShowConsole(); }
+        }
+
+        private void ScriptPage_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleScriptHub();
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
@@ -198,7 +578,7 @@ namespace LInjector.Windows
                     else
                     {
                         Inject();
-                        await Task.Delay(1500);
+                        await Task.Delay(500);
                         FluxInterfacing.run_script(FluxInterfacing.pid, scriptString);
                     }
                 }
@@ -215,58 +595,38 @@ namespace LInjector.Windows
             }
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private void GitHubButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                await Updater.CheckForUpdates();
-                FluxInterfacing.create_files(Path.GetFullPath("Resources\\libs\\Module.dll"));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Couldn't initialize Fluxus Interface\nException:\n"
-                                                   + ex.Message
-                                                   + "\nPlease, share it on Discord.",
-                    "[ERROR] LInjector", MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-                _ = Notifications.Fire(StatusListBox, "Couldn't initialize Fluxus Interface.", NotificationLabel);
-            }
-
-            if (ConfigHandler.topmost)
-            {
-                this.Topmost = true;
-            }
-
-            TabSystemz.Visibility = Visibility.Visible;
-            await VersionChecker.CheckVersionUWP();
-            if (RegistryHandler.GetValue("ScriptListPath", "0").Length != 0) { ScriptListPath = RegistryHandler.GetValue("ScriptListPath", "0"); }
-            RefreshScriptList();
-            LoadSavedTabs();
-            ParseConfig();
-            LogToConsole.Log("Loaded", ConsoleLogList);
-            _ = Notifications.Fire(StatusListBox, "Welcome to LInjector", NotificationLabel);
+            Process.Start($"https://github.com/{Files.AccountName}/LInjector");
         }
 
-        private void LoadSavedTabs()
+        private void DiscordButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ConfigHandler.save_tabs == false) { return; }
-
-            foreach (string file in Directory.EnumerateFiles(Files.savedtabspath))
-            {
-                TabSystemz.add_tab_with_text(File.ReadAllText(file), Path.GetFileName(file));
-            }
-
-            DeleteSavedTabs();
+            Process.Start("https://discord.gg/NQY28YSVAb");
         }
 
-        private void DeleteSavedTabs()
+        private void InfoButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var item in Directory.EnumerateFiles(Files.savedtabspath))
-            {
-                File.Delete(item);
-            }
+            ToggleInfo();
         }
 
+        public void ToggleInfo()
+        {
+            if (IsInfoShown == false)
+            {
+                if (IsScriptsShown == true) { return; }
+                IsInfoShown = true;
+                InformationGrid.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                IsInfoShown = false;
+                InformationGrid.Visibility = Visibility.Collapsed;
+            }
+        }
+        #endregion
+
+        #region Self-Explainatory
         public void Inject()
         {
             FluxInterfacing.create_files(Path.GetFullPath(".\\Resources\\libs\\Module.dll"));
@@ -279,7 +639,6 @@ namespace LInjector.Windows
                     {
 
                         FluxInterfacing.inject();
-                        InternalFunctions.RunInternalFunctions();
                         FunctionWatch.runFuncWatch();
                         if (FluxInterfacing.pid > 0)
                         {
@@ -309,36 +668,71 @@ namespace LInjector.Windows
                 _ = Notifications.Fire(StatusListBox, "Already injected", NotificationLabel);
             }
         }
+        #endregion
+
+        #region Save Tabs
+        private async void SaveTabs()
+        {
+            if (ConfigHandler.save_tabs == false) { return; }
+
+            foreach (TabItem item in TabSystemz.maintabs.Items)
+            {
+                var GetTextzzzz = await (item.Content as monaco_api).GetText();
+                if (GetTextzzzz.Length > 1)
+                {
+                    File.WriteAllText($"{Files.savedtabspath}\\{item.Header.ToString()}", GetTextzzzz.ToString());
+                }
+            }
+        }
+
+        private void LoadSavedTabs()
+        {
+            if (ConfigHandler.save_tabs == false) { return; }
+
+            foreach (string file in Directory.EnumerateFiles(Files.savedtabspath))
+            {
+                TabSystemz.add_tab_with_text(File.ReadAllText(file), Path.GetFileName(file));
+            }
+
+            DeleteSavedTabs();
+        }
+
+        private void DeleteSavedTabs()
+        {
+            foreach (var item in Directory.EnumerateFiles(Files.savedtabspath))
+            {
+                File.Delete(item);
+            }
+        }
+
+        #endregion
+
+        #region Auto Attach
 
         public void RunAutoAttachTimer()
         {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Tick += AttachedDetectorTick;
-            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Interval = TimeSpan.FromSeconds(5);
             timer.Start();
         }
 
-        private void AttachedDetectorTick(object sender, EventArgs e)
+        internal void AttachedDetectorTick(object sender, EventArgs e)
         {
-            if (ConfigHandler.autoattach == false)
-            {
-                return;
-            }
+            if (ConfigHandler.autoattach == false) { return; }
 
             var processesByName = Process.GetProcessesByName("Windows10Universal");
             foreach (var Process in processesByName)
             {
                 var FilePath = Process.MainModule.FileName;
 
-                if (FilePath.Contains("ROBLOX"))
+                if (FilePath.Contains("ROBLOX") || FilePath.Contains("Fluster"))
                 {
                     try
                     {
                         var flag = FluxInterfacing.is_injected(FluxInterfacing.pid);
                         if (flag)
-                        {
-                            return;
-                        }
+                        { return; }
 
                         Inject();
                     }
@@ -347,16 +741,9 @@ namespace LInjector.Windows
             }
         }
 
-        private void GitHubButton_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start($"https://github.com/{Files.AccountName}/LInjector");
-        }
+        #endregion
 
-        private void DiscordButton_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start("https://discord.gg/NQY28YSVAb");
-        }
-
+        #region Script List
         private void SearchScriptsBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             RefreshScriptList();
@@ -404,9 +791,6 @@ namespace LInjector.Windows
                             TabSystemz.ChangeCurrentTabTitle(selectedItem.ToString());
                             TabSystemz.current_monaco().SetText(File.ReadAllText(scriptfolder + "\\" + (selectedItem != null ? selectedItem.ToString() : (string)null)));
                         }
-                        else
-                        {
-                        }
                     }
                 }
                 else
@@ -419,11 +803,14 @@ namespace LInjector.Windows
             catch { }
         }
 
+        #endregion
+
+        #region Open and Save File
         private void OpenFileButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var openFileDialog = new OpenFileDialog
+                var openFileDialog = new System.Windows.Forms.OpenFileDialog
                 {
                     Title = "Open Script Files | LInjector",
                     Filter = "Script Files (*.txt;*.lua;*.luau)|*.txt;*.lua;*.luau|All files (*.*)|*.*",
@@ -460,7 +847,7 @@ namespace LInjector.Windows
 
         private async void SaveToFileButton_Click(object sender, RoutedEventArgs e)
         {
-            var saveFileDialog = new SaveFileDialog
+            var saveFileDialog = new System.Windows.Forms.SaveFileDialog
             {
                 FileName = await TabSystemz.GetCurrentTabTitle(),
                 Title = "Save to File | LInjector",
@@ -504,27 +891,9 @@ namespace LInjector.Windows
                 }
             }
         }
+        #endregion
 
-        private void InfoButton_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleInfo();
-        }
-
-        public void ToggleInfo()
-        {
-            if (IsInfoShown == false)
-            {
-                if (IsScriptsShown == true) { return; }
-                IsInfoShown = true;
-                InformationGrid.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                IsInfoShown = false;
-                InformationGrid.Visibility = Visibility.Collapsed;
-            }
-        }
-
+        #region Settings
         private void ChangeScriptsFolder_Click(object sender, RoutedEventArgs e)
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog
@@ -678,5 +1047,7 @@ namespace LInjector.Windows
             ConfigHandler.SetConfigValue("save_tabs", false);
             ConfigHandler.save_tabs = false;
         }
+        #endregion
     }
+
 }
