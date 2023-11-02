@@ -480,7 +480,7 @@ namespace LInjector.Windows
         private async void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             SaveTabs();
-            
+
             // If Client is Connected, then, send a message to WebSockets connected to request disconnect.
             if (FluxInterfacing.is_injected(FluxInterfacing.pid) == true)
             { await ws.SendMessage("LINJECTOR_DISCONNECT"); }

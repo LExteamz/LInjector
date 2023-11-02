@@ -1,5 +1,4 @@
-﻿using LInjector.Classes;
-using Microsoft.Web.WebView2.Wpf;
+﻿using Microsoft.Web.WebView2.Wpf;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
