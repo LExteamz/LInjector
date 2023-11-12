@@ -10,7 +10,7 @@
 
 local EXPLOIT_NAME = "LInjector"
 local GITHUB_NAME = "LExteamz"
-local EXPLOIT_VERSION = "23.10.2023"
+local EXPLOIT_VERSION = "11.11.2023"
 
 --[[local genv = getgenv()
 if genv[EXPLOIT_NAME] then

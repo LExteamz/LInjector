@@ -25,9 +25,10 @@ namespace LInjector.Classes
     public static class Files
     {
 
-        public static readonly string currentVersion = "v11.10.2023";
+        public static readonly string currentVersion = "v11.11.2023";
         public static readonly string AccountName = "LExteamz";
-        public const string AccountNamee = "LExteamz";
+        public
+        const string AccountNamee = "LExteamz";
 
         public static readonly string localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         public static readonly string localPackagesFolder = Path.Combine(localAppDataFolder, "Packages");
@@ -89,7 +90,7 @@ namespace LInjector.Classes
                     string newModuleChecksum = await GetChecksum(moduleUrl);
 
                     if (string.IsNullOrEmpty(localFluxChecksum) || localFluxChecksum != newFluxChecksum ||
-                        string.IsNullOrEmpty(localModuleChecksum) || localModuleChecksum != newModuleChecksum)
+                       string.IsNullOrEmpty(localModuleChecksum) || localModuleChecksum != newModuleChecksum)
                     {
                         CreateFiles.RedownloadModules();
 
@@ -243,9 +244,7 @@ namespace LInjector.Classes
                 var registryAddress = "SOFTWARE\\LInjector";
                 using (RegistryKey reg = Registry.CurrentUser.OpenSubKey(registryAddress))
                 {
-                    if (reg == null)
-                    {
-                    }
+                    if (reg == null) { }
 
                     string[] valueNames = reg.GetValueNames();
 
@@ -262,7 +261,6 @@ namespace LInjector.Classes
     }
 
     #endregion
-
 
     #region Create files for Initial Ran of LInjector
 
@@ -340,7 +338,7 @@ namespace LInjector.Classes
 
         #endregion
 
-        #region Module/DLL Redownloader
+        #region Module / DLL Redownloader
 
         internal static void RedownloadModules()
         {
@@ -381,12 +379,15 @@ namespace LInjector.Classes
             catch { }
         }
 
-
         public static void DeleteFilesAndFoldersRecursively(string target_dir)
         {
             foreach (string file in Directory.GetFiles(target_dir))
             {
-                try { File.Delete(file); } catch { }
+                try
+                {
+                    File.Delete(file);
+                }
+                catch { }
             }
 
             foreach (string subDir in Directory.GetDirectories(target_dir))
@@ -395,13 +396,17 @@ namespace LInjector.Classes
             }
 
             Task.Delay(1000);
-            try { Directory.Delete(target_dir, true); } catch { }
+            try
+            {
+                Directory.Delete(target_dir, true);
+            }
+            catch { }
         }
 
         #endregion
     }
 
-    #region Log Creator that saves files in user %temp%
+    #region Log Creator that saves files in user % temp %
 
     public static class TempLog
     {
@@ -428,7 +433,11 @@ namespace LInjector.Classes
     #region VERSION CHECKER MADE WITH POWERSHELL SCRIPTING
     public static class VersionChecker
     {
-        public static string Version { get; set; }
+        public static string Version
+        {
+            get;
+            set;
+        }
         static string appName = "ROBLOXCORPORATION.ROBLOX";
         static string outputDirectory = Path.Combine(Path.GetTempPath(), "LInjector");
         static string versionFilePath = Path.Combine(outputDirectory, "uwpversion");
@@ -447,7 +456,6 @@ namespace LInjector.Classes
         ";
 
         #endregion
-
 
         #region WEB VERSION CHECKER
 
@@ -537,8 +545,10 @@ namespace LInjector.Classes
 
     public class CheckLatest
     {
-        private const string owner = Files.AccountNamee;
-        private const string repo = "LInjector";
+        private
+        const string owner = Files.AccountNamee;
+        private
+        const string repo = "LInjector";
 
         public static bool IsOutdatedVersion(string currentVersion)
         {
@@ -549,9 +559,9 @@ namespace LInjector.Classes
                 var releases = client.Repository.Release.GetAll(owner, repo).Result;
 
                 var latestRelease = releases
-                    .Where(r => r.TagName.StartsWith("v"))
-                    .OrderByDescending(r => r.PublishedAt)
-                    .FirstOrDefault();
+                   .Where(r => r.TagName.StartsWith("v"))
+                   .OrderByDescending(r => r.PublishedAt)
+                   .FirstOrDefault();
 
                 if (latestRelease == null)
                 {

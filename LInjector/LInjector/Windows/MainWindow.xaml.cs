@@ -26,7 +26,7 @@ namespace LInjector.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
-        #region Main Required-Values
+        #region Main Required - Values
         private bool IsSettingsShown = false;
         private bool IsScriptsShown = false;
         private bool IsInfoShown = false;
@@ -53,32 +53,41 @@ namespace LInjector.Windows
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Couldn't initialize Fluxus Interface\nException:\n"
-                                                   + ex.Message
-                                                   + "\nPlease, share it on Discord.",
+                MessageBox.Show("Couldn't initialize Fluxus Interface\nException:\n" +
+                    ex.Message +
+                    "\nPlease, share it on Discord.",
                     "[ERROR] LInjector", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
                 _ = Notifications.Fire(StatusListBox, "Couldn't initialize Fluxus Interface.", NotificationLabel);
             }
 
-            if (ConfigHandler.topmost) { this.Topmost = true; }
+            if (ConfigHandler.topmost)
+            {
+                this.Topmost = true;
+            }
 
             TabSystemz.Visibility = Visibility.Visible;
-            if (RegistryHandler.GetValue("ScriptListPath", "0").Length != 0) { ScriptListPath = RegistryHandler.GetValue("ScriptListPath", "0"); }
+            if (RegistryHandler.GetValue("ScriptListPath", "0").Length != 0)
+            {
+                ScriptListPath = RegistryHandler.GetValue("ScriptListPath", "0");
+            }
             RefreshScriptList();
             LoadSavedTabs();
             ParseConfig();
             LogToConsole.Log("Loaded", ConsoleLogList);
-            _ = Notifications.Fire(StatusListBox, "Welcome to LInjector", NotificationLabel);
             await LoadPostsAsync(ScriptPageGrid, PostsItemsControl);
             await ws.Start();
+            _ = Notifications.Fire(StatusListBox, "Welcome to LInjector", NotificationLabel);
         }
 
         private void DragWindow(object sender, MouseButtonEventArgs e)
         {
-            try { DragMove(); } catch { }
+            try
+            {
+                DragMove();
+            }
+            catch { }
         }
-
 
         private void OnCloseFadeoutCompleted(object sender, EventArgs e)
         {
@@ -89,7 +98,8 @@ namespace LInjector.Windows
 
         #region Script Hub
 
-        private const string PostsURL = "https://api.mastersmzscripts.com/posts.json";
+        private
+        const string PostsURL = "https://api.mastersmzscripts.com/posts.json";
         public static List<Post> posts = new List<Post>();
 
         public async Task LoadPostsAsync(Grid grid, ItemsControl PostsItemsControl)
@@ -152,12 +162,30 @@ namespace LInjector.Windows
                 Margin = new Thickness(3)
             };
 
-            contentGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            contentGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            contentGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            contentGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            contentGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            contentGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            contentGrid.ColumnDefinitions.Add(new ColumnDefinition
+            {
+                Width = new GridLength(1, GridUnitType.Star)
+            });
+            contentGrid.ColumnDefinitions.Add(new ColumnDefinition
+            {
+                Width = new GridLength(1, GridUnitType.Star)
+            });
+            contentGrid.ColumnDefinitions.Add(new ColumnDefinition
+            {
+                Width = new GridLength(1, GridUnitType.Star)
+            });
+            contentGrid.RowDefinitions.Add(new RowDefinition
+            {
+                Height = new GridLength(1, GridUnitType.Star)
+            });
+            contentGrid.RowDefinitions.Add(new RowDefinition
+            {
+                Height = new GridLength(1, GridUnitType.Star)
+            });
+            contentGrid.RowDefinitions.Add(new RowDefinition
+            {
+                Height = new GridLength(1, GridUnitType.Star)
+            });
 
             StackPanel stackPanel = new StackPanel
             {
@@ -262,10 +290,26 @@ namespace LInjector.Windows
 
         public class Post
         {
-            public string Title { get; set; }
-            public string Description { get; set; }
-            public string Script { get; set; }
-            public string Creator { get; set; }
+            public string Title
+            {
+                get;
+                set;
+            }
+            public string Description
+            {
+                get;
+                set;
+            }
+            public string Script
+            {
+                get;
+                set;
+            }
+            public string Creator
+            {
+                get;
+                set;
+            }
         }
 
         public async void LoadIntoEditor_ClickAsync(object sender, RoutedEventArgs e)
@@ -284,7 +328,10 @@ namespace LInjector.Windows
                                 Process.Start(posts[index].Script);
                                 return;
                             }
-                            else { return; }
+                            else
+                            {
+                                return;
+                            }
                         }
 
                         if (posts[index].Script.StartsWith("loadstring"))
@@ -304,15 +351,27 @@ namespace LInjector.Windows
                                 TabSystemz.add_tab_with_text(asyncedscript, posts[index].Title);
                                 ToggleScriptHub();
                             }
-                            else { _ = Notifications.Fire(StatusListBox, $"Script Error : {response.ReasonPhrase}", NotificationLabel); }
+                            else
+                            {
+                                _ = Notifications.Fire(StatusListBox, $"Script Error : {response.ReasonPhrase}", NotificationLabel);
+                            }
                         }
 
                     }
-                    else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.", NotificationLabel); }
+                    else
+                    {
+                        _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.", NotificationLabel);
+                    }
                 }
-                else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.", NotificationLabel); }
+                else
+                {
+                    _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.", NotificationLabel);
+                }
             }
-            else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.", NotificationLabel); }
+            else
+            {
+                _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.", NotificationLabel);
+            }
         }
 
         public async void ExecuteScript_ClickAsync(object sender, RoutedEventArgs e)
@@ -331,7 +390,10 @@ namespace LInjector.Windows
                                 Process.Start(posts[index].Script);
                                 return;
                             }
-                            else { return; }
+                            else
+                            {
+                                return;
+                            }
                         }
 
                         if (posts[index].Script.StartsWith("loadstring"))
@@ -370,7 +432,6 @@ namespace LInjector.Windows
                         using (HttpClient client = new HttpClient())
                         {
                             HttpResponseMessage response = await client.GetAsync(new Uri(posts[index].Script));
-
 
                             if (response.IsSuccessStatusCode)
                             {
@@ -411,14 +472,26 @@ namespace LInjector.Windows
                                     _ = Notifications.Fire(StatusListBox, "Unknown error.", NotificationLabel);
                                 }
                             }
-                            else { _ = Notifications.Fire(StatusListBox, $"Script Error : {response.ReasonPhrase}", NotificationLabel); }
+                            else
+                            {
+                                _ = Notifications.Fire(StatusListBox, $"Script Error : {response.ReasonPhrase}", NotificationLabel);
+                            }
                         }
                     }
-                    else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.", NotificationLabel); }
+                    else
+                    {
+                        _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.", NotificationLabel);
+                    }
                 }
-                else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.", NotificationLabel); }
+                else
+                {
+                    _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.", NotificationLabel);
+                }
             }
-            else { _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.", NotificationLabel); }
+            else
+            {
+                _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.", NotificationLabel);
+            }
         }
 
         private void SearchScriptHub_TextChanged(object sender, TextChangedEventArgs e)
@@ -429,8 +502,6 @@ namespace LInjector.Windows
         private void UpdatePostsDisplay()
         {
             string searchQuery = SearchScriptHub.Text.ToLower();
-
-            Debug.WriteLine("suka blyad");
             foreach (var item in PostsItemsControl.Items)
             {
                 if (item is FrameworkElement frameworkElement && frameworkElement.Tag is string tag)
@@ -439,7 +510,6 @@ namespace LInjector.Windows
                     if (tag.Contains(searchQuery.ToLower()))
                     {
                         frameworkElement.Visibility = Visibility.Visible;
-                        MessageBox.Show("suka");
                     }
                     else
                     {
@@ -449,7 +519,6 @@ namespace LInjector.Windows
             }
         }
 
-
         private void HideScriptHub_Click(object sender, RoutedEventArgs e)
         {
             ToggleScriptHub();
@@ -457,7 +526,10 @@ namespace LInjector.Windows
 
         private void ToggleScriptHub()
         {
-            if (IsSettingsShown == true || IsInfoShown) { return; }
+            if (IsSettingsShown == true || IsInfoShown)
+            {
+                return;
+            }
 
             if (ScriptPageGrid.Visibility == Visibility.Visible)
             {
@@ -483,7 +555,9 @@ namespace LInjector.Windows
 
             // If Client is Connected, then, send a message to WebSockets connected to request disconnect.
             if (FluxInterfacing.is_injected(FluxInterfacing.pid) == true)
-            { await ws.SendMessage("LINJECTOR_DISCONNECT"); }
+            {
+                await ws.SendMessage("LINJECTOR_DISCONNECT");
+            }
 
             TabSystemz.Visibility = Visibility.Hidden;
             Storyboard fadeOutStoryboard = new Storyboard();
@@ -527,9 +601,13 @@ namespace LInjector.Windows
         private void ConsoleDebugButton_Click(object sender, RoutedEventArgs e)
         {
             if (ConsoleManager.isConsoleVisible)
-            { ConsoleManager.HideConsole(); }
+            {
+                ConsoleManager.HideConsole();
+            }
             else
-            { ConsoleManager.ShowConsole(); }
+            {
+                ConsoleManager.ShowConsole();
+            }
         }
 
         private void ScriptPage_Click(object sender, RoutedEventArgs e)
@@ -541,7 +619,10 @@ namespace LInjector.Windows
         {
             if (IsSettingsShown == false)
             {
-                if (IsScriptsShown == true) { return; }
+                if (IsScriptsShown == true)
+                {
+                    return;
+                }
                 IsSettingsShown = true;
                 TabSystemz.Visibility = Visibility.Collapsed;
                 SettingsGrid.Visibility = Visibility.Visible;
@@ -614,19 +695,21 @@ namespace LInjector.Windows
         {
             if (IsInfoShown == false)
             {
-                if (IsScriptsShown == true) { return; }
+                if (IsScriptsShown == true)
+                {
+                    return;
+                }
                 IsInfoShown = true;
-                InformationGrid.Visibility = Visibility.Visible;
+                InfoTab.Focus();
             }
             else
             {
                 IsInfoShown = false;
-                InformationGrid.Visibility = Visibility.Collapsed;
             }
         }
         #endregion
 
-        #region Self-Explainatory
+        #region Self - Explainatory
         public void Inject()
         {
             FluxInterfacing.create_files(Path.GetFullPath(".\\Resources\\libs\\Module.dll"));
@@ -658,8 +741,8 @@ namespace LInjector.Windows
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error on inject:\n" + ex.Message
-                                                                            + "\nStack Trace:\n" + ex.StackTrace,
+                    MessageBox.Show("Error on inject:\n" + ex.Message +
+                        "\nStack Trace:\n" + ex.StackTrace,
                         "LInjector | Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -673,7 +756,10 @@ namespace LInjector.Windows
         #region Save Tabs
         private async void SaveTabs()
         {
-            if (ConfigHandler.save_tabs == false) { return; }
+            if (ConfigHandler.save_tabs == false)
+            {
+                return;
+            }
 
             foreach (TabItem item in TabSystemz.maintabs.Items)
             {
@@ -687,7 +773,10 @@ namespace LInjector.Windows
 
         private void LoadSavedTabs()
         {
-            if (ConfigHandler.save_tabs == false) { return; }
+            if (ConfigHandler.save_tabs == false)
+            {
+                return;
+            }
 
             foreach (string file in Directory.EnumerateFiles(Files.savedtabspath))
             {
@@ -719,7 +808,10 @@ namespace LInjector.Windows
 
         internal void AttachedDetectorTick(object sender, EventArgs e)
         {
-            if (ConfigHandler.autoattach == false) { return; }
+            if (ConfigHandler.autoattach == false)
+            {
+                return;
+            }
 
             var processesByName = Process.GetProcessesByName("Windows10Universal");
             foreach (var Process in processesByName)
@@ -732,7 +824,9 @@ namespace LInjector.Windows
                     {
                         var flag = FluxInterfacing.is_injected(FluxInterfacing.pid);
                         if (flag)
-                        { return; }
+                        {
+                            return;
+                        }
 
                         Inject();
                     }
@@ -844,7 +938,6 @@ namespace LInjector.Windows
             }
         }
 
-
         private async void SaveToFileButton_Click(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new System.Windows.Forms.SaveFileDialog
@@ -883,7 +976,6 @@ namespace LInjector.Windows
                         }
                     }
 
-
                 }
                 catch (Exception)
                 {
@@ -915,28 +1007,60 @@ namespace LInjector.Windows
         public void ParseConfig()
         {
             if (ConfigHandler.autoattach)
-            { AutoAttachToggle.IsChecked = true; }
-            else { AutoAttachToggle.IsChecked = false; }
+            {
+                AutoAttachToggle.IsChecked = true;
+            }
+            else
+            {
+                AutoAttachToggle.IsChecked = false;
+            }
 
             if (ConfigHandler.splashscreen)
-            { SplashToggle.IsChecked = true; }
-            else { SplashToggle.IsChecked = false; }
+            {
+                SplashToggle.IsChecked = true;
+            }
+            else
+            {
+                SplashToggle.IsChecked = false;
+            }
 
             if (ConfigHandler.debug)
-            { DebugModeToggle.IsChecked = true; }
-            else { DebugModeToggle.IsChecked = false; }
+            {
+                DebugModeToggle.IsChecked = true;
+            }
+            else
+            {
+                DebugModeToggle.IsChecked = false;
+            }
 
             if (RPCManager.isEnabled)
-            { RPCToggle.IsChecked = true; enablerpc(); }
-            else { RPCToggle.IsChecked = false; shutdownrpc(); }
+            {
+                RPCToggle.IsChecked = true;
+                enablerpc();
+            }
+            else
+            {
+                RPCToggle.IsChecked = false;
+                shutdownrpc();
+            }
 
             if (ConfigHandler.topmost)
-            { TopmostToggle.IsChecked = true; }
-            else { TopmostToggle.IsChecked = false; }
+            {
+                TopmostToggle.IsChecked = true;
+            }
+            else
+            {
+                TopmostToggle.IsChecked = false;
+            }
 
             if (ConfigHandler.save_tabs)
-            { SaveTabsToggle.IsChecked = true; }
-            else { SaveTabsToggle.IsChecked = false; }
+            {
+                SaveTabsToggle.IsChecked = true;
+            }
+            else
+            {
+                SaveTabsToggle.IsChecked = false;
+            }
         }
 
         // AUTO ATTACH TOGGLE
