@@ -1096,10 +1096,9 @@ namespace LInjector.Windows
         }
 
         // Emulator Mode
-        private async void ToggleEmuMode_Checked(object sender, RoutedEventArgs e)
+        private void ToggleEmuMode_Checked(object sender, RoutedEventArgs e)
         {
-            await ws.Start();
-
+            ExecuteButton.Click -= ExecuteButton_Click;
             ExecuteButton.Click += HookExecute;
             ConfigHandler.emulator_mode = true;
             ConfigHandler.SetConfigValue("emulator_mode", true);
@@ -1107,6 +1106,7 @@ namespace LInjector.Windows
 
         private void ToggleEmuMode_Unchecked(object sender, RoutedEventArgs e)
         {
+            ExecuteButton.Click -= HookExecute;
             ExecuteButton.Click += ExecuteButton_Click;
             ConfigHandler.emulator_mode = false;
             ConfigHandler.SetConfigValue("emulator_mode", false);

@@ -10,6 +10,7 @@ namespace LInjector.Classes
 {
     public class WebComs
     {
+        private static readonly object lockObject = new object();
         private static WebComs instance;
         private WebSocket webSocket;
 
@@ -19,7 +20,13 @@ namespace LInjector.Classes
         {
             if (instance == null)
             {
-                instance = new WebComs();
+                lock (lockObject)
+                {
+                    if (instance == null)
+                    {
+                        instance = new WebComs();
+                    }
+                }
             }
             return instance;
         }
@@ -27,29 +34,54 @@ namespace LInjector.Classes
         public async Task Start()
         {
             var listener = new HttpListener();
-            listener.Prefixes.Add($"http://localhost:5343/");
+            listener.Prefixes.Add("http://localhost:5343/");
             listener.Start();
 
-            while (true)
+            try
             {
-                var context = await listener.GetContextAsync();
-                if (context.Request.IsWebSocketRequest)
+                while (true)
                 {
-                    await ProcessWebSocketRequest(context);
+                    var context = await listener.GetContextAsync();
+                    if (context.Request.IsWebSocketRequest)
+                    {
+                        await ProcessWebSocketRequest(context);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("WebSocket Error: " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
+            }
+            finally
+            {
+                listener.Close();
             }
         }
 
         public async Task SendMessage(string message)
         {
-            if (webSocket != null && webSocket.State == WebSocketState.Open)
+            WebSocket socket;
+
+            lock (lockObject)
             {
-                byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
-                await webSocket.SendAsync(new ArraySegment<byte>(messageBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                socket = webSocket;
             }
-            else
+
+            try
             {
-                MessageBox.Show("WebSocket Error : WebSocket not initialized.", "LInjector | Error", MessageBoxButton.OK);
+                if (socket != null && socket.State == WebSocketState.Open)
+                {
+                    byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
+                    await socket.SendAsync(new ArraySegment<byte>(messageBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                }
+                else
+                {
+                    MessageBox.Show("WebSocket Error: WebSocket not initialized or closed.", "LInjector | Error", MessageBoxButton.OK);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("WebSocket Error: " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
             }
         }
 
@@ -57,9 +89,9 @@ namespace LInjector.Classes
         {
             var wsContext = await context.AcceptWebSocketAsync(null);
 
-            using (WebSocket webSocket = wsContext.WebSocket)
+            using (WebSocket socket = wsContext.WebSocket)
             {
-                this.webSocket = webSocket;
+                this.webSocket = socket;
 
                 try
                 {
@@ -68,12 +100,11 @@ namespace LInjector.Classes
 
                     do
                     {
-                        result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                        result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
                         if (result.MessageType == WebSocketMessageType.Text)
                         {
                             string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-
                             CustomCw.rconsoleprint(message, "lgray");
 
                             string responseMessage = "Received: " + message;
@@ -84,9 +115,14 @@ namespace LInjector.Classes
                 }
                 catch (WebSocketException ex)
                 {
-                    MessageBox.Show("WebSocket Error : " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
+                    MessageBox.Show("WebSocket Error: " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
+                }
+                finally
+                {
+                    socket.Dispose(); // Ensure WebSocket resources are released
                 }
             }
         }
     }
+
 }
