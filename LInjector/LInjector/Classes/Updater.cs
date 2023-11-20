@@ -25,7 +25,7 @@ namespace LInjector.Classes
     public static class Files
     {
 
-        public static readonly string currentVersion = "v11.11.2023";
+        public static readonly string currentVersion = "v20.11.2023";
         public static readonly string AccountName = "LExteamz";
         public
         const string AccountNamee = "LExteamz";

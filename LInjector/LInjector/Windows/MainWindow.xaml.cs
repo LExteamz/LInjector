@@ -1007,7 +1007,7 @@ namespace LInjector.Windows
 
             SetToggle(TopmostToggle, ConfigHandler.topmost);
             SetToggle(SaveTabsToggle, ConfigHandler.save_tabs);
-            SetToggle(EmulatorToggle, ConfigHandler.emulator_mode);
+            SetToggle(ToggleEmuMode, ConfigHandler.emulator_mode);
         }
 
         private void SetToggle(System.Windows.Controls.Primitives.ToggleButton toggle, bool value)
@@ -1096,8 +1096,10 @@ namespace LInjector.Windows
         }
 
         // Emulator Mode
-        private void ToggleEmuMode_Checked(object sender, RoutedEventArgs e)
+        private async void ToggleEmuMode_Checked(object sender, RoutedEventArgs e)
         {
+            await ws.Start();
+
             ExecuteButton.Click += HookExecute;
             ConfigHandler.emulator_mode = true;
             ConfigHandler.SetConfigValue("emulator_mode", true);

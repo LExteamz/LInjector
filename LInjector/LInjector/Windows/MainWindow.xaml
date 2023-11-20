@@ -182,7 +182,7 @@
                         <controls:TabSystem Padding="5" x:Name="TabSystemz" Visibility="Hidden"/>
 
                         <!-- SETTINGS GRID -->
-                        <Grid x:Name="SettingsGrid" Background="#111111" Panel.ZIndex="2" Visibility="Visible" Grid.RowSpan="2">
+                        <Grid x:Name="SettingsGrid" Background="#111111" Panel.ZIndex="2" Visibility="Collapsed" Grid.RowSpan="2">
                             <Border CornerRadius="0" Grid.RowSpan="2">
                                 <Grid>
                                     <Grid.RowDefinitions></Grid.RowDefinitions>
@@ -216,7 +216,7 @@
                                                                         <Label Content="Debug Console" Foreground="White" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal" ToolTip="Executes scripts through a WebSocket using an Android Executor" Width="Auto">
-                                                                        <ToggleButton Width="30" x:Name="EmulatorToggle" Height="30" Checked="ToggleEmuMode_Checked" Unchecked="ToggleEmuMode_Unchecked" x:Name="ToggleEmuMode" />
+                                                                        <ToggleButton Width="30" Height="30" Checked="ToggleEmuMode_Checked" Unchecked="ToggleEmuMode_Unchecked" x:Name="ToggleEmuMode" />
                                                                         <Label Content="Emulator Mode" Foreground="White" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                                                                         <Button Content="&#xE897;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="White" BorderThickness="0" Click="HelpEmulator_Click"/>
                                                                     </StackPanel>
