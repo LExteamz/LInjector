@@ -27,7 +27,7 @@ namespace LInjector.Classes
         public async Task Start()
         {
             var listener = new HttpListener();
-            listener.Prefixes.Add("http://localhost:5343/");
+            listener.Prefixes.Add($"http://localhost:5343/");
             listener.Start();
 
             while (true)
@@ -75,7 +75,6 @@ namespace LInjector.Classes
                             string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
 
                             CustomCw.rconsoleprint(message, "lgray");
-                            // Do thingies with message
 
                             string responseMessage = "Received: " + message;
                             await SendMessage(responseMessage);

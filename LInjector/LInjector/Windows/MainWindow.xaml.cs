@@ -290,26 +290,10 @@ namespace LInjector.Windows
 
         public class Post
         {
-            public string Title
-            {
-                get;
-                set;
-            }
-            public string Description
-            {
-                get;
-                set;
-            }
-            public string Script
-            {
-                get;
-                set;
-            }
-            public string Creator
-            {
-                get;
-                set;
-            }
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string Script { get; set; }
+            public string Creator { get; set; }
         }
 
         public async void LoadIntoEditor_ClickAsync(object sender, RoutedEventArgs e)
@@ -1006,61 +990,29 @@ namespace LInjector.Windows
 
         public void ParseConfig()
         {
-            if (ConfigHandler.autoattach)
-            {
-                AutoAttachToggle.IsChecked = true;
-            }
-            else
-            {
-                AutoAttachToggle.IsChecked = false;
-            }
-
-            if (ConfigHandler.splashscreen)
-            {
-                SplashToggle.IsChecked = true;
-            }
-            else
-            {
-                SplashToggle.IsChecked = false;
-            }
-
-            if (ConfigHandler.debug)
-            {
-                DebugModeToggle.IsChecked = true;
-            }
-            else
-            {
-                DebugModeToggle.IsChecked = false;
-            }
+            SetToggle(AutoAttachToggle, ConfigHandler.autoattach);
+            SetToggle(SplashToggle, ConfigHandler.splashscreen);
+            SetToggle(DebugModeToggle, ConfigHandler.debug);
 
             if (RPCManager.isEnabled)
             {
-                RPCToggle.IsChecked = true;
+                SetToggle(RPCToggle, true);
                 enablerpc();
             }
             else
             {
-                RPCToggle.IsChecked = false;
+                SetToggle(RPCToggle, false);
                 shutdownrpc();
             }
 
-            if (ConfigHandler.topmost)
-            {
-                TopmostToggle.IsChecked = true;
-            }
-            else
-            {
-                TopmostToggle.IsChecked = false;
-            }
+            SetToggle(TopmostToggle, ConfigHandler.topmost);
+            SetToggle(SaveTabsToggle, ConfigHandler.save_tabs);
+            SetToggle(EmulatorToggle, ConfigHandler.emulator_mode);
+        }
 
-            if (ConfigHandler.save_tabs)
-            {
-                SaveTabsToggle.IsChecked = true;
-            }
-            else
-            {
-                SaveTabsToggle.IsChecked = false;
-            }
+        private void SetToggle(System.Windows.Controls.Primitives.ToggleButton toggle, bool value)
+        {
+            toggle.IsChecked = value;
         }
 
         // AUTO ATTACH TOGGLE
@@ -1143,8 +1095,27 @@ namespace LInjector.Windows
             shutdownrpc();
         }
 
-        // TOPMOST TOGGLE
+        // Emulator Mode
+        private void ToggleEmuMode_Checked(object sender, RoutedEventArgs e)
+        {
+            ExecuteButton.Click += HookExecute;
+            ConfigHandler.emulator_mode = true;
+            ConfigHandler.SetConfigValue("emulator_mode", true);
+        }
 
+        private void ToggleEmuMode_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ExecuteButton.Click += ExecuteButton_Click;
+            ConfigHandler.emulator_mode = false;
+            ConfigHandler.SetConfigValue("emulator_mode", false);
+        }
+
+        private void HelpEmulator_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://docs.lexploits.top/docs/api-reference#emulator-mode");
+        }
+
+        // Top Most
         private void TopmostToggle_Checked(object sender, RoutedEventArgs e)
         {
             ConfigHandler.SetConfigValue("topmost", true);
@@ -1171,6 +1142,38 @@ namespace LInjector.Windows
             ConfigHandler.SetConfigValue("save_tabs", false);
             ConfigHandler.save_tabs = false;
         }
+
+        private async void HookExecute(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var cm = TabSystemz.current_monaco();
+                string scriptString = await cm.GetText();
+
+                try
+                {
+                    try
+                    {
+                        await ws.SendMessage(scriptString);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomCw.Cw($"LInjector couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("LInjector couldn't run the script.", "LInjector",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CustomCw.Cw($"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                }
+            }
+            catch
+            {
+                _ = Notifications.Fire(StatusListBox, "Unknown error.", NotificationLabel);
+            }
+        }
+
         #endregion
     }
 
