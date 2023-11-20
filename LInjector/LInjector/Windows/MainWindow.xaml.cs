@@ -1114,7 +1114,7 @@ namespace LInjector.Windows
 
         private void HelpEmulator_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://docs.lexploits.top/docs/api-reference#emulator-mode");
+            Process.Start("https://docs.lexploits.top/docs/usage#emulator-mode");
         }
 
         // Top Most
