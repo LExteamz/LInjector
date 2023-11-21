@@ -537,11 +537,7 @@ namespace LInjector.Windows
         {
             SaveTabs();
 
-            // If Client is Connected, then, send a message to WebSockets connected to request disconnect.
-            if (FluxInterfacing.is_injected(FluxInterfacing.pid) == true)
-            {
-                await ws.SendMessage("LINJECTOR_DISCONNECT");
-            }
+            await ws.SendMessage("LINJECTOR_DISCONNECT");
 
             TabSystemz.Visibility = Visibility.Hidden;
             Storyboard fadeOutStoryboard = new Storyboard();
