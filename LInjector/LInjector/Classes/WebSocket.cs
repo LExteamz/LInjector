@@ -74,10 +74,7 @@ namespace LInjector.Classes
                     byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
                     await socket.SendAsync(new ArraySegment<byte>(messageBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
-                else
-                {
-                    MessageBox.Show("WebSocket Error: WebSocket not initialized or closed.", "LInjector | Error", MessageBoxButton.OK);
-                }
+                else {}
             }
             catch (Exception ex)
             {
