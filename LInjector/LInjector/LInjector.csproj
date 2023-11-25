@@ -305,9 +305,6 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="websocket-sharp, Version=1.0.3.0, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
-      <HintPath>..\packages\WebSocketSharp-netstandard-customheaders.1.0.3\lib\net45\websocket-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
