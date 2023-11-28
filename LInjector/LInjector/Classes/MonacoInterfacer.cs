@@ -21,7 +21,7 @@ namespace LInjector.WPF.Classes
 
         public monaco_api(string Text)
         {
-            this.Source = new Uri("https://lexploits.top/monaco/");
+            this.Source = new Uri("https://lexploits.top/monaco");
 
             this.CoreWebView2InitializationCompleted += monaco_api_CoreWebView2InitializationCompleted;
             this.ToSetText = Text;

@@ -74,7 +74,7 @@ namespace LInjector.Classes
                     byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
                     await socket.SendAsync(new ArraySegment<byte>(messageBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
-                else {}
+                else { }
             }
             catch (Exception ex)
             {

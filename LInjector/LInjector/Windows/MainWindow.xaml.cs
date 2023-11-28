@@ -1,4 +1,5 @@
-﻿using LInjector.Classes;
+﻿using Dsafa.WpfColorPicker;
+using LInjector.Classes;
 using LInjector.WPF.Classes;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +18,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.Forms.MessageBox;
 using Window = System.Windows.Window;
 
@@ -74,10 +77,10 @@ namespace LInjector.Windows
             RefreshScriptList();
             LoadSavedTabs();
             ParseConfig();
+            ParseMyTheme();
             LogToConsole.Log("Loaded", ConsoleLogList);
-            await LoadPostsAsync(ScriptPageGrid, PostsItemsControl);
-            await ws.Start();
             _ = Notifications.Fire(StatusListBox, "Welcome to LInjector", NotificationLabel);
+            await ws.Start();
         }
 
         private void DragWindow(object sender, MouseButtonEventArgs e)
@@ -1004,6 +1007,8 @@ namespace LInjector.Windows
             SetToggle(TopmostToggle, ConfigHandler.topmost);
             SetToggle(SaveTabsToggle, ConfigHandler.save_tabs);
             SetToggle(ToggleEmuMode, ConfigHandler.emulator_mode);
+
+            ParseMyThemeSelectors();
         }
 
         private void SetToggle(System.Windows.Controls.Primitives.ToggleButton toggle, bool value)
@@ -1173,6 +1178,94 @@ namespace LInjector.Windows
         }
 
         #endregion
+
+        #region Themes
+        private void ColorChanged(object sender, RoutedEventArgs e)
+        {
+            HandleColorChange((Button)sender);
+        }
+
+        private void HandleColorChange(Button button)
+        {
+            var dialog = new ColorPickerDialog();
+            var result = dialog.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                var color = dialog.Color;
+                var solidColorBrush = new SolidColorBrush(color);
+
+                if (Resources.Contains(button.Tag.ToString()))
+                {
+                    Resources[button.Tag.ToString()] = solidColorBrush;
+                }
+
+                button.Background = solidColorBrush;
+
+                string colorHexString = color.ToString();
+
+                Themes.SetColor(button.Tag.ToString(), colorHexString);
+            }
+        }
+
+        private void ParseMyTheme()
+        {
+            Resources[PrimaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("PrimaryColor"));
+            Resources[SecondaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("SecondaryColor"));
+            Resources[TertiaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("TertiaryColor"));
+            Resources[Text.Tag.ToString()] = ParseColor(Themes.GetColor("Text"));
+        }
+
+        private void ParseMyThemeSelectors()
+        {
+            SetControlBackground(SSC1, "SSC1");
+            SetControlBackground(SSC2, "SSC2");
+            SetControlBackground(PrimaryColor, "PrimaryColor");
+            SetControlBackground(SecondaryColor, "SecondaryColor");
+            SetControlBackground(TertiaryColor, "TertiaryColor");
+            SetControlBackground(Text, "Text");
+        }
+
+        private void SetControlBackground(FrameworkElement control, string colorKey)
+        {
+            PropertyInfo backgroundProperty = control.GetType().GetProperty("Background");
+            if (backgroundProperty != null)
+            {
+                SolidColorBrush brush = (SolidColorBrush)new BrushConverter().ConvertFromString(Themes.GetColor(colorKey));
+                backgroundProperty.SetValue(control, brush);
+            }
+        }
+
+        private void ResetTheme_Click(object sender, RoutedEventArgs e)
+        {
+            CreateFiles.ResetTheme();
+            ParseMyThemeSelectors();
+
+            Resources[PrimaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("PrimaryColor"));
+            Resources[SecondaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("SecondaryColor"));
+            Resources[TertiaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("TertiaryColor"));
+            Resources[Text.Tag.ToString()] = ParseColor(Themes.GetColor("Text"));
+        }
+
+        public System.Windows.Media.SolidColorBrush ParseColor(string srgb)
+        {
+            if (srgb.Contains("#"))
+                srgb = srgb.TrimStart('#');
+
+            if (srgb.Length != 8)
+            {
+                throw new ArgumentException($"sRGB must be 8 characters, got {srgb} : {srgb.Length}", nameof(srgb));
+            }
+
+            byte a = byte.Parse(srgb.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+            byte r = byte.Parse(srgb.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+            byte g = byte.Parse(srgb.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+            byte b = byte.Parse(srgb.Substring(6, 2), System.Globalization.NumberStyles.HexNumber);
+
+            return new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(a, r, g, b));
+        }
+        #endregion
+
     }
 
 }

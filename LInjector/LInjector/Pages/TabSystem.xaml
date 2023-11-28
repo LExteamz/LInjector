@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              VerticalAlignment="Stretch"
              HorizontalAlignment="Stretch"
+             xmlns:susdog="clr-namespace:LInjector.Windows"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -231,8 +232,8 @@
                         <Grid x:Name="maingrid" Margin="0,0,5,0">
                             <Border CornerRadius="3 3 3 3" Name="Mainn" Width="Auto" Height="26" BorderThickness="0" Background="{TemplateBinding Background}" Margin="0,0,0,0">
                                 <Grid>
-                                    <Border x:Name="Blueee" CornerRadius="5" Height="1" VerticalAlignment="Bottom" BorderThickness="0" Background="#1e1e1e"/>
-                                    <Border x:Name="Hoverborder" CornerRadius="5" Height="2" VerticalAlignment="Bottom" BorderThickness="0" Background="#1e1e1e"/>
+                                    <Border x:Name="Blueee" CornerRadius="5" Height="1" VerticalAlignment="Bottom" BorderThickness="0" Background="#CC1E1E1E"/>
+                                    <Border x:Name="Hoverborder" CornerRadius="5" Height="2" VerticalAlignment="Bottom" BorderThickness="0" Background="#CC1E1E1E"/>
                                 </Grid>
                             </Border>
 

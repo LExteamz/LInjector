@@ -336,6 +336,19 @@ namespace LInjector.Classes
             }
         }
 
+        internal static void ResetTheme()
+        {
+            Themes.SetColor("SSC1", "#FF460B80");
+            Themes.SetColor("SSC2", "#FF570057");
+
+            Themes.SetColor("PrimaryColor", "#FF0F0F0F");
+            Themes.SetColor("SecondaryColor", "#FF111111");
+            Themes.SetColor("TertiaryColor", "#FF141414");
+            Themes.SetColor("QuaternaryColor", "#FF161616");
+
+            Themes.SetColor("Text", "#FFFFFFFF");
+        }
+
         #endregion
 
         #region Module / DLL Redownloader

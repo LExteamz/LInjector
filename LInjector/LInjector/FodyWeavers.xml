@@ -2,6 +2,13 @@
 	<Costura>
 		<ExcludeAssemblies>
 			Microsoft.Web.WebView2.Core
+			<!-- 
+			If you want to see correctly the text editor, uncomment the lines below.
+			
+			MaterialDesignColors
+			MaterialDesignThemes.Wpf
+			
+			-->
 		</ExcludeAssemblies>
 	</Costura>
 </Weavers>

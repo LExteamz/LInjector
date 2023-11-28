@@ -56,6 +56,7 @@ namespace LInjector.Pages
             {
                 case "AddT":
                     maintabs.Items.Add(CreateTab("", "Script" + " " + (this.maintabs.Items.Count + 1).ToString()));
+                    current_monaco().enable_minimap();
                     break;
                 case "RemoveT":
                     try
@@ -79,6 +80,7 @@ namespace LInjector.Pages
                 Content = CreateEditor(content),
                 IsSelected = true,
             };
+
 
         private void Clear_Editor(object sender, RoutedEventArgs e)
         {

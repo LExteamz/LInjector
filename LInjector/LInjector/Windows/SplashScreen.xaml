@@ -27,8 +27,8 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </LinearGradientBrush.RelativeTransform>
-                    <GradientStop x:Name="BSG1" Color="#460b80" Offset="-0.1"/>
-                    <GradientStop x:Name="BSG2" Color="#570057" Offset="1.1"/>
+                    <GradientStop x:Name="BSG1" Color="#FF460B80" Offset="-0.1"/>
+                    <GradientStop x:Name="BSG2" Color="#FF570057" Offset="1.1"/>
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
@@ -38,8 +38,8 @@
                     <LinearGradientBrush.Transform>
                         <RotateTransform x:Name="RotateTransform" />
                     </LinearGradientBrush.Transform>
-                    <GradientStop x:Name="GradientStop1" Color="#570057" Offset="0.0" />
-                    <GradientStop x:Name="GradientStop2" Color="#460b80" Offset="1.0" />
+                    <GradientStop x:Name="GradientStop1" Color="#FF570057" Offset="0.0" />
+                    <GradientStop x:Name="GradientStop2" Color="#FF460B80" Offset="1.0" />
                 </LinearGradientBrush>
             </Rectangle.Fill>
             <Rectangle.Triggers>

@@ -43,6 +43,18 @@ namespace LInjector.Windows
         public SplashScreen()
         {
             InitializeComponent();
+
+            if (!(Themes.LookColor("SSC1") && Themes.LookColor("SSC2") && Themes.LookColor("PrimaryColor") && Themes.LookColor("SecondaryColor") && Themes.LookColor("TertiaryColor") && Themes.LookColor("Text")))
+            {
+                Themes.SetColor("SSC1", "#FF460B80");
+                Themes.SetColor("SSC2", "#FF570057");
+
+                Themes.SetColor("PrimaryColor", "#FF0F0F0F");
+                Themes.SetColor("SecondaryColor", "#FF111111");
+                Themes.SetColor("TertiaryColor", "#FF141414");
+
+                Themes.SetColor("Text", "#FFFFFFFF");
+            }
             CreateFiles.Create();
             if (CheckLatest.IsOutdatedVersion(Files.currentVersion))
             {
@@ -92,6 +104,11 @@ namespace LInjector.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            GradientStop1.Color = ParseColor(Themes.GetColor("SSC1"));
+            GradientStop2.Color = ParseColor(Themes.GetColor("SSC2"));
+
+            BSG1.Color = ParseColor(Themes.GetColor("SSC2"));
+            BSG2.Color = ParseColor(Themes.GetColor("SSC1"));
 
             RGBTime = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, delegate
             {
@@ -100,6 +117,24 @@ namespace LInjector.Windows
             RGBTime.Start();
 
             ObjectShift(TimeSpan.FromMilliseconds(1000), LInjectorIcon, LInjectorIcon.Margin, new Thickness(0, 0, 0, 0));
+        }
+
+        public System.Windows.Media.Color ParseColor(string srgb)
+        {
+            if (srgb.Contains("#"))
+                srgb = srgb.TrimStart('#');
+
+            if (srgb.Length != 8)
+            {
+                throw new ArgumentException($"sRGB must be 8 characters, got {srgb} : {srgb.Length}", nameof(srgb));
+            }
+
+            byte a = byte.Parse(srgb.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+            byte r = byte.Parse(srgb.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+            byte g = byte.Parse(srgb.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+            byte b = byte.Parse(srgb.Substring(6, 2), System.Globalization.NumberStyles.HexNumber);
+
+            return System.Windows.Media.Color.FromArgb(a, r, g, b);
         }
     }
 }

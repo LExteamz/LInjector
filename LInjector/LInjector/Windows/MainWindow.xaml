@@ -13,21 +13,28 @@
         MinHeight="400"
         MinWidth="600"
         Height="400" Width="600" ShowInTaskbar="True" WindowStartupLocation="CenterScreen"
-        AllowsTransparency="True"
         Icon="\LInjector.ico"
         ResizeMode="CanResizeWithGrip"
         WindowStyle="None"
+        AllowsTransparency="True"
         Background="Transparent"
         Loaded="Window_Loaded">
+    <Window.Resources>
+        <SolidColorBrush Color="#FF0F0F0F" x:Key="PrimaryColor"/>
+        <SolidColorBrush Color="#FF111111" x:Key="SecondaryColor"/>
+        <SolidColorBrush Color="#FF141414" x:Key="TertiaryColor"/>
+
+        <SolidColorBrush Color="#FFFFFFFF" x:Key="Text"/>
+    </Window.Resources>
+
     <Border ClipToBounds="False">
-        <Grid ClipToBounds="True" Background="#0F0F0F">
+        <Grid ClipToBounds="True" Background="{DynamicResource PrimaryColor}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" MinHeight="35"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
             <!-- TITLE BAR -->
-            <Border CornerRadius="0" Background="#161616" Visibility="Visible" Panel.ZIndex="10">
+            <Border CornerRadius="0" Background="#FF141414" Visibility="Visible" Panel.ZIndex="10">
                 <Grid MouseDown="DragWindow" Background="Transparent">
                     <ListBox Background="Transparent" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0">
                         <ListBox.ItemContainerStyle>
@@ -44,7 +51,7 @@
                         <!-- Use a horizontal StackPanel to align items horizontally -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" MouseDown="DragWindow" Margin="5 0 0 0">
                             <Image Source="\Resources\LInjectorr.png" Stretch="Uniform" MaxHeight="23" MouseDown="DragWindow"/>
-                            <Label Content="LInjector" Foreground="White" FontSize="14" Margin="5 0 0 0" FontFamily="Microsoft YaHei UI" MouseDown="DragWindow" />
+                            <Label Content="LInjector" Foreground="#FFFFFFFF" FontSize="14" Margin="5 0 0 0" FontFamily="Microsoft YaHei UI" MouseDown="DragWindow" />
                         </StackPanel>
                     </ListBox>
                     <!-- LEFT SIDE THINGS END -->
@@ -64,36 +71,36 @@
                                     </Style>
                                 </ListBox.ItemContainerStyle>
                                 <StackPanel Orientation="Horizontal" MouseDown="DragWindow">
-                                    <!-- SHOULD BE #111111 -->
+                                    <!-- SHOULD BE #FF111111 -->
                                     <Border Background="Transparent" Width="25" Height="25" CornerRadius="5" Margin="10 0 0 0" Visibility="Visible" x:Name="AttachedStatusRect" MouseDown="DragWindow">
                                         <Rectangle Fill="Transparent" Width="20" Height="20" RadiusX="5" RadiusY="5" HorizontalAlignment="Center" x:Name="InjectedRectanglelol"/>
                                         <!-- ATTACHED: #9be69b -->
                                         <!-- NOT ATTACHED: #FFA7A7A7  -->
                                     </Border>
-                                    <Label x:Name="NotificationLabel" Content="" Foreground="White" FontFamily="Segoe UI" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="DragWindow"/>
+                                    <Label x:Name="NotificationLabel" Content="" Foreground="{DynamicResource Text}" FontFamily="Segoe UI" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="DragWindow"/>
                                 </StackPanel>
                             </ListBox>
                         </Border>
                     </Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Background="Transparent" BorderBrush="Transparent" Content="&#xE921;" Foreground="White" FontSize="10" FontFamily="Segoe MDL2 Assets" Click="MinimizeButton_Click" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
-                        <Button x:Name="MaximizeButton" Background="Transparent" BorderBrush="Transparent" Content="&#xE922;" Foreground="White" FontSize="10" FontFamily="Segoe MDL2 Assets" Click="MaximizeButton_Click" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
-                        <Button Background="Transparent" BorderBrush="Transparent" Content="&#xE8BB;" Foreground="White" FontSize="10" FontFamily="Segoe MDL2 Assets" Click="ExitButton_Click"     HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
+                        <Button Background="Transparent" BorderBrush="Transparent" Content="&#xE921;" Foreground="#FFFFFFFF" FontSize="10" FontFamily="Segoe MDL2 Assets" Click="MinimizeButton_Click" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
+                        <Button x:Name="MaximizeButton" Background="Transparent" BorderBrush="Transparent" Content="&#xE922;" Foreground="#FFFFFFFF" FontSize="10" FontFamily="Segoe MDL2 Assets" Click="MaximizeButton_Click" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
+                        <Button Background="Transparent" BorderBrush="Transparent" Content="&#xE8BB;" Foreground="#FFFFFFFF" FontSize="10" FontFamily="Segoe MDL2 Assets" Click="ExitButton_Click"     HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
                     </StackPanel>
                 </Grid>
             </Border>
             <!-- SCRIPTS PAGE GRID -->
-            <Grid Name="ScriptPageGrid" Grid.Row="1" Background="#111111" Panel.ZIndex="1" Visibility="Collapsed">
+            <Grid Name="ScriptPageGrid" Grid.Row="1" Background="{DynamicResource SecondaryColor}" Panel.ZIndex="1" Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.RowSpan="1" Background="#141414" Panel.ZIndex="3">
+                <Grid Grid.RowSpan="1" Background="{DynamicResource TertiaryColor}" Panel.ZIndex="3">
                     <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                        <TextBox TextAlignment="Left" Padding="4" materialDesign:TextFieldAssist.HasTrailingIcon="True" materialDesign:TextFieldAssist.TrailingIcon="Search" x:Name="SearchScriptHub" TextChanged="SearchScriptHub_TextChanged" Foreground="White" Style="{StaticResource MaterialDesignTextBox}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" BorderThickness="0">
+                        <TextBox TextAlignment="Left" Padding="4" materialDesign:TextFieldAssist.HasTrailingIcon="True" materialDesign:TextFieldAssist.TrailingIcon="Search" x:Name="SearchScriptHub" TextChanged="SearchScriptHub_TextChanged" Foreground="{DynamicResource Text}" Style="{DynamicResource MaterialDesignTextBox}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" BorderThickness="0">
                             <materialDesign:TextFieldAssist.DecorationVisibility>Hidden</materialDesign:TextFieldAssist.DecorationVisibility>
                         </TextBox>
-                        <Button x:Name="HideScriptHub" Background="Transparent" BorderBrush="Transparent" Content="&#xE70D;" Click="HideScriptHub_Click" Foreground="White" FontSize="10" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
+                        <Button x:Name="HideScriptHub" Background="Transparent" BorderBrush="Transparent" Content="&#xE70D;" Click="HideScriptHub_Click" Foreground="{DynamicResource Text}" FontSize="10" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
                     </VirtualizingStackPanel>
                 </Grid>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="2" materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
@@ -125,37 +132,37 @@
                                 </Setter>
                             </Style>
                         </ListBox.ItemContainerStyle>
-                        <Button Background="#141414" Click="ExecuteButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Execute" x:Name="ExecuteButton">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="ExecuteButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Execute" x:Name="ExecuteButton">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Execute.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="AttachButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Collapsed">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="AttachButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Collapsed">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Attach.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="ScriptPage_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Collapsed" ToolTip="Script Hub">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="ScriptPage_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Collapsed" ToolTip="Script Hub">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Script.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="ConsoleDebugButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Console">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="ConsoleDebugButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Console">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Console.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="SettingsButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Settings">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="SettingsButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Settings">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Settings.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="#141414" Click="DiscordButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Discord">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="DiscordButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Discord">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <materialDesign:ShadowAssist.Darken>False</materialDesign:ShadowAssist.Darken>
                             <Button.Content>
@@ -164,7 +171,7 @@
                         </Button>
                     </ListBox>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
-                        <Button Background="Transparent" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 0 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 0 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
                             <Button.Content>
                                 <Image Source="/Resources/Icons/GitHub.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
@@ -173,20 +180,20 @@
                 </Grid>
                 <!-- LEFT SIDE THINGS END -->
                 <!-- EDITOR BEGANS -->
-                <Border BorderBrush="Transparent" Background="#141414" Padding="0" BorderThickness="0" Margin="46,10,7,2" CornerRadius="4">
+                <Border BorderBrush="Transparent" Background="{DynamicResource TertiaryColor}" Padding="0" BorderThickness="0" Margin="46,10,7,2" CornerRadius="4">
                     <Grid Background="Transparent" ClipToBounds="True" x:Name="ControlsHolder">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition Height="0*"/>
                         </Grid.RowDefinitions>
-                        <controls:TabSystem Padding="5" x:Name="TabSystemz" Visibility="Hidden"/>
+                        <controls:TabSystem Padding="5" x:Name="TabSystemz" Visibility="Hidden" Background="{DynamicResource TertiaryColor}"/>
 
                         <!-- SETTINGS GRID -->
-                        <Grid x:Name="SettingsGrid" Background="#111111" Panel.ZIndex="2" Visibility="Collapsed" Grid.RowSpan="2">
+                        <Grid x:Name="SettingsGrid" Background="{DynamicResource SecondaryColor}" Panel.ZIndex="2" Visibility="Collapsed" Grid.RowSpan="2">
                             <Border CornerRadius="0" Grid.RowSpan="2">
                                 <Grid>
                                     <Grid.RowDefinitions></Grid.RowDefinitions>
-                                    <Border Background="#111111" Margin="5,0,5,5" CornerRadius="5" Grid.Row="1">
+                                    <Border Background="{DynamicResource SecondaryColor}" Margin="5,0,5,5" CornerRadius="5" Grid.Row="1">
                                         <Border>
                                             <Grid Margin="0,0,0,0">
                                                 <Grid.ColumnDefinitions>
@@ -194,7 +201,7 @@
                                                     <ColumnDefinition Width="201*" x:Name="infocolumndef"/>
                                                 </Grid.ColumnDefinitions>
                                                 <Grid Grid.ColumnSpan="2">
-                                                    <TabControl VerticalAlignment="Top" Foreground="White" materialDesign:RippleAssist.IsDisabled="True" Background="White" BorderBrush="White" materialDesign:TabAssist.HasFilledTab="False">
+                                                    <TabControl VerticalAlignment="Top" Foreground="{DynamicResource Text}" materialDesign:RippleAssist.IsDisabled="True" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" materialDesign:TabAssist.HasFilledTab="False">
                                                         <TabItem Header="Settings" x:Name="SettingsTab" materialDesign:TabAssist.HasFilledTab="False" Height="40" FontFamily="Segoe UI">
                                                             <TabItem.HeaderTemplate>
                                                                 <DataTemplate>
@@ -205,32 +212,32 @@
                                                                 <ListBox ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="0,0,0,0" materialDesign:RippleAssist.IsDisabled="True" materialDesign:ListBoxItemAssist.ShowSelection="False">
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Checked="AutoAttachToggle_Checked" Unchecked="AutoAttachToggle_Unchecked" Width="30" Height="30" x:Name="AutoAttachToggle"/>
-                                                                        <Label Content="Auto Attach" Foreground="White" FontSize="13" VerticalAlignment="Center"/>
+                                                                        <Label Content="Auto Attach" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Checked="SplashToggle_Checked" Unchecked="SplashToggle_Unchecked" Width="30" Height="30" x:Name="SplashToggle"/>
-                                                                        <Label Content="Splash Screen" Foreground="White" FontSize="13" VerticalAlignment="Center"/>
+                                                                        <Label Content="Splash Screen" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Checked="DebugModeToggle_Checked" Unchecked="DebugModeToggle_Unchecked" Width="30" Height="30" x:Name="DebugModeToggle"/>
-                                                                        <Label Content="Debug Console" Foreground="White" FontSize="13" VerticalAlignment="Center"/>
+                                                                        <Label Content="Debug Console" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal" ToolTip="Executes scripts through a WebSocket using an Android Executor" Width="Auto">
                                                                         <ToggleButton Width="30" Height="30" Checked="ToggleEmuMode_Checked" Unchecked="ToggleEmuMode_Unchecked" x:Name="ToggleEmuMode" />
-                                                                        <Label Content="Emulator Mode" Foreground="White" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                                                        <Button Content="&#xE897;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="White" BorderThickness="0" Click="HelpEmulator_Click"/>
+                                                                        <Label Content="Emulator Mode" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                                                        <Button Content="&#xE897;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="{DynamicResource Text}" BorderThickness="0" Click="HelpEmulator_Click"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Width="30" Height="30" Checked="RPCToggle_Checked" Unchecked="RPCToggle_Unchecked" x:Name="RPCToggle" />
-                                                                        <Label Content="Discord RPC" Foreground="White" FontSize="13" VerticalAlignment="Center"/>
+                                                                        <Label Content="Discord RPC" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Checked="TopmostToggle_Checked" Unchecked="TopmostToggle_Unchecked" Width="30" Height="30" x:Name="TopmostToggle" />
-                                                                        <Label Content="Window Topmost" Foreground="White" FontSize="13" VerticalAlignment="Center"/>
+                                                                        <Label Content="Window Topmost" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Checked="SaveTabsToggle_Checked" Unchecked="SaveTabsToggle_Unchecked" Width="30" Height="30" x:Name="SaveTabsToggle"/>
-                                                                        <Label Content="Save Tabs" Foreground="White" FontSize="13" VerticalAlignment="Center"/>
+                                                                        <Label Content="Save Tabs" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
                                                                     <Button Background="Transparent" Click="InfoButton_Click" BorderThickness="0" Padding="0" Margin="0">
                                                                         <StackPanel Orientation="Horizontal">
@@ -247,14 +254,100 @@
                                                                 </ListBox>
                                                             </Border>
                                                         </TabItem>
+                                                        <TabItem Header="Theme">
+                                                            <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" materialDesign:RippleAssist.IsDisabled="True" materialDesign:ListBoxItemAssist.ShowSelection="False">
+                                                                <StackPanel>
+                                                                    <Label Content="Splash Screen" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource Text}"/>
+                                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                                                        <Button Width="20" Height="20" Background="#460b80" Click="ColorChanged" Tag="SSC1" x:Name="SSC1">
+                                                                            <Button.Template>
+                                                                                <ControlTemplate TargetType="Button">
+                                                                                    <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Button.Template>
+                                                                        </Button>
+                                                                        <Label Content="Splash Screen Color 1" Foreground="{DynamicResource Text}"/>
+                                                                    </StackPanel>
+                                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                                                        <Button Width="20" Height="20" Background="#570057" Click="ColorChanged" Tag="SSC2" x:Name="SSC2">
+                                                                            <Button.Template>
+                                                                                <ControlTemplate TargetType="Button">
+                                                                                    <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Button.Template>
+                                                                        </Button>
+                                                                        <Label Content="Splash Screen Color 2" Foreground="{DynamicResource Text}"/>
+                                                                    </StackPanel>
+                                                                </StackPanel>
+
+                                                                <StackPanel>
+                                                                    <Label Content="Window" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource Text}"/>
+                                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                                                        <Button Width="20" Height="20" Background="{DynamicResource PrimaryColor}" Click="ColorChanged" Tag="PrimaryColor" x:Name="PrimaryColor">
+                                                                            <Button.Template>
+                                                                                <ControlTemplate TargetType="Button">
+                                                                                    <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Button.Template>
+                                                                        </Button>
+                                                                        <Label Content="Primary Color (Background)" Foreground="{DynamicResource Text}"/>
+                                                                    </StackPanel>
+                                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                                                        <Button Width="20" Height="20" Background="{DynamicResource SecondaryColor}" Click="ColorChanged" Tag="SecondaryColor" x:Name="SecondaryColor">
+                                                                            <Button.Template>
+                                                                                <ControlTemplate TargetType="Button">
+                                                                                    <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Button.Template>
+                                                                        </Button>
+                                                                        <Label Content="Secondary Color (Background)" Foreground="{DynamicResource Text}"/>
+                                                                    </StackPanel>
+                                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                                                        <Button Width="20" Height="20" Background="{DynamicResource TertiaryColor}" Click="ColorChanged" Tag="TertiaryColor" x:Name="TertiaryColor">
+                                                                            <Button.Template>
+                                                                                <ControlTemplate TargetType="Button">
+                                                                                    <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Button.Template>
+                                                                        </Button>
+                                                                        <Label Content="Tertiary Color (Background)" Foreground="{DynamicResource Text}"/>
+                                                                    </StackPanel>
+                                                                    
+                                                                </StackPanel>
+
+                                                                <StackPanel>
+                                                                    <Label Content="Text" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource Text}"/>
+                                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                                                        <Button Width="20" Height="20" Background="#FFFFFFFF" Click="ColorChanged" Tag="Text" x:Name="Text">
+                                                                            <Button.Template>
+                                                                                <ControlTemplate TargetType="Button">
+                                                                                    <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Button.Template>
+                                                                        </Button>
+                                                                        <Label Content="Text (Normal)" Foreground="{DynamicResource Text}"/>
+                                                                    </StackPanel>
+                                                                    <StackPanel>
+                                                                        <Button Foreground="{DynamicResource Text}" Content="Reset to Default Scheme" ToolTip="Reset Theme" Margin="0,6,0,0" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#FF141414" Padding="5" BorderBrush="#00744CE0" Click="ResetTheme_Click" Height="32" materialDesign:RippleAssist.IsDisabled="False"/>
+                                                                    </StackPanel>
+                                                                </StackPanel>
+                                                            </ListBox>
+                                                        </TabItem>
                                                         <TabItem Header="About" x:Name="InfoTab" materialDesign:TabAssist.HasFilledTab="False" Height="40" FontFamily="Segoe UI">
-                                                            <TabItem.HeaderTemplate>
-                                                                <DataTemplate>
-                                                                    <TextBlock Text="{Binding}" FontSize="12"/>
-                                                                </DataTemplate>
-                                                            </TabItem.HeaderTemplate>
-                                                            <Grid x:Name="InformationGrid" Background="#141414" Panel.ZIndex="1" Visibility="Visible" Margin="7,0,0,0" Grid.Column="1" materialDesign:RippleAssist.IsDisabled="True">
-                                                                <Border Background="#141414">
+                                                            <Grid x:Name="InformationGrid" Background="Transparent" Panel.ZIndex="1" Visibility="Visible" Margin="7,0,0,0" Grid.Column="1" materialDesign:RippleAssist.IsDisabled="True">
+                                                                <Border Background="Transparent">
                                                                     <Grid Margin="10 10 0 0">
                                                                         <StackPanel>
                                                                             <Grid x:Name="DepsoGrid">
@@ -268,7 +361,7 @@
                                                                                         <Image Source="\Resources\depso.png" MaxHeight="70" MaxWidth="70"/>
                                                                                         <Grid MaxHeight="70">
                                                                                             <StackPanel>
-                                                                                                <Label Foreground="White" Content="Depso" Padding="0" Margin="5 0 0 0"/>
+                                                                                                <Label Foreground="{DynamicResource Text}" Content="Depso" Padding="0" Margin="5 0 0 0"/>
                                                                                                 <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
                                                                                                     <materialDesign:PackIcon Margin="0 0 0 0" Padding="0" Kind="LanguageLua" Foreground="#FF8E83DE" VerticalAlignment="Center"/>
                                                                                                     <Label Content="Luau Development" FontSize="10"  Foreground="#FF8E83DE"/>
@@ -293,7 +386,7 @@
                                                                                         <Image Source="\Resources\Excel.png" MaxHeight="70" MaxWidth="70"/>
                                                                                         <Grid MaxHeight="70">
                                                                                             <StackPanel>
-                                                                                                <Label Foreground="White" Content="Excel" Padding="0" Margin="5 0 0 0"/>
+                                                                                                <Label Foreground="{DynamicResource Text}" Content="Excel" Padding="0" Margin="5 0 0 0"/>
                                                                                                 <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
                                                                                                     <materialDesign:PackIcon Margin="0 0 0 0" Padding="0" Kind="Drawing" Foreground="#FF8E83DE" VerticalAlignment="Center"/>
                                                                                                     <Label Content="UI Design" FontSize="10"  Foreground="#FF8E83DE"/>
@@ -325,12 +418,13 @@
                 </Border>
                 <!-- EDITOR ENDS -->
                 <!-- GAME CONSOLE COMMUNICATION BEGANS -->
-                <Border Background="#141414" BorderThickness="1" Margin="46,2,6,10" CornerRadius="4" Padding="0" Grid.Row="2">
+                <Border Background="{DynamicResource TertiaryColor}" BorderThickness="1" Margin="46,2,6,10" CornerRadius="4" Padding="0" Grid.Row="2">
                     <StackPanel Orientation="Vertical">
-                        <ListBox Background="Transparent" BorderThickness="0" Foreground="White" FontFamily="Consolas" x:Name="ConsoleLogList" x:FieldModifier="public" Height="72" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False"
-                                 materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True" materialDesign:ScrollViewerAssist.CornerRectangleVisibility="Collapsed">
+                        <ListBox Background="Transparent" BorderThickness="0" Foreground="{DynamicResource Text}" FontFamily="Consolas" x:Name="ConsoleLogList" x:FieldModifier="public" Height="72" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False"
+         materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True" materialDesign:ScrollViewerAssist.CornerRectangleVisibility="Collapsed">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="Background" Value="{DynamicResource Text}" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -353,25 +447,25 @@
                             <RowDefinition/>
                             <RowDefinition Height="Auto" MinHeight="40"/>
                         </Grid.RowDefinitions>
-                        <Border CornerRadius="4 4 0 0" Background="#141414" Margin="0,0,0,2">
+                        <Border CornerRadius="4 4 0 0" Background="{DynamicResource TertiaryColor}" Margin="0,0,0,2">
                             <Grid>
-                                <TextBox ToolTip="Search" Padding="4" TextChanged="SearchScriptsBox_TextChanged" Foreground="White" Style="{StaticResource MaterialDesignTextBox}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" x:Name="SearchScriptsBox" BorderThickness="0">
+                                <TextBox ToolTip="Search" Padding="4" TextChanged="SearchScriptsBox_TextChanged" Foreground="{DynamicResource Text}" Style="{DynamicResource MaterialDesignTextBox}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" x:Name="SearchScriptsBox" BorderThickness="0">
                                     <materialDesign:TextFieldAssist.DecorationVisibility>Hidden</materialDesign:TextFieldAssist.DecorationVisibility>
                                 </TextBox>
                             </Grid>
                         </Border>
-                        <ListBox SelectionChanged="SearchScriptsBox_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Hidden" Background="#FF141414" BorderThickness="0" Foreground="White" FontFamily="Segoe UI Semilight" x:Name="ScriptListHolder" Padding="5 5 5 5" Height="Auto" Margin="0,1,0,0" Loaded="ScriptListHolder_Loaded" Grid.Row="2" materialDesign:RippleAssist.IsDisabled="True"/>
-                        <Grid Background="#0F0F0F" Grid.Row="3" VerticalAlignment="Top" Height="40">
+                        <ListBox SelectionChanged="SearchScriptsBox_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Hidden" Background="{DynamicResource TertiaryColor}" BorderThickness="0" Foreground="{DynamicResource Text}" FontFamily="Segoe UI Semilight" x:Name="ScriptListHolder" Padding="5 5 5 5" Height="Auto" Margin="0,1,0,0" Loaded="ScriptListHolder_Loaded" Grid.Row="2" materialDesign:RippleAssist.IsDisabled="True"/>
+                        <Grid Background="{DynamicResource PrimaryColor}" Grid.Row="3" VerticalAlignment="Top" Height="40">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="115*"/>
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="115*"/>
                             </Grid.ColumnDefinitions>
-                            <Button ToolTip="Open File" Margin="0,6,0,0" materialDesign:RippleAssist.IsDisabled="True" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#141414" Padding="0 0 0 0" BorderBrush="#00744CE0" x:Name="OpenFileButton" Click="OpenFileButton_Click" Height="32">
-                                <Label Content="&#xE8E5;" Foreground="White" FontFamily="Segoe MDL2 Assets"/>
+                            <Button ToolTip="Open File" Margin="0,6,0,0" materialDesign:RippleAssist.IsDisabled="True" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{DynamicResource TertiaryColor}" Padding="0 0 0 0" BorderBrush="#00744CE0" x:Name="OpenFileButton" Click="OpenFileButton_Click" Height="32">
+                                <Label Content="&#xE8E5;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets"/>
                             </Button>
-                            <Button ToolTip="Save to File" VerticalAlignment="Top" materialDesign:RippleAssist.IsDisabled="True" HorizontalAlignment="Stretch" Background="#141414" BorderBrush="#00744CE0" x:Name="SaveToFileButton" Click="SaveToFileButton_Click" Height="32" Grid.Column="2" Margin="0,6,0,0">
-                                <Label Content="&#xEA35;" Foreground="White" FontFamily="Segoe MDL2 Assets"/>
+                            <Button ToolTip="Save to File" VerticalAlignment="Top" materialDesign:RippleAssist.IsDisabled="True" HorizontalAlignment="Stretch" Background="{DynamicResource TertiaryColor}" BorderBrush="#00744CE0" x:Name="SaveToFileButton" Click="SaveToFileButton_Click" Height="32" Grid.Column="2" Margin="0,6,0,0">
+                                <Label Content="&#xEA35;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets"/>
                             </Button>
                         </Grid>
                     </Grid>
