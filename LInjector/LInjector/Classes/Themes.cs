@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Data.SqlTypes;
 using System.Linq;
 
 namespace LInjector.Classes
@@ -111,6 +112,5 @@ namespace LInjector.Classes
                 return false;
             }
         }
-
     }
 }

@@ -659,6 +659,14 @@ namespace LInjector.Windows
             }
         }
 
+        private long ApplicationModel()
+        {
+            long x = 0x457863656c;
+            long y = 0x446570736f;
+
+            return x + y;
+        }
+
         private void GitHubButton_Click(object sender, RoutedEventArgs e)
         {
             Process.Start($"https://github.com/{Files.AccountName}/LInjector");

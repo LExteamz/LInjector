@@ -49,7 +49,6 @@ namespace LInjector.Classes
                 await Task.Delay(10);
             }
 
-            // Animate the FloatyNotification to move back up
             await AnimateMarginChange(listBox, new Thickness(0, originalTopMargin, 0, 0), TimeSpan.FromSeconds(0.5));
 
             isBusy = false;
