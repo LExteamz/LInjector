@@ -55,7 +55,6 @@ namespace LInjector.Windows
 
                 Themes.SetColor("Text", "#FFFFFFFF");
             }
-            if (Themes.CheckForFiles() != 0x89DDD3D8DE) { return; }
             CreateFiles.Create();
             if (CheckLatest.IsOutdatedVersion(Files.currentVersion))
             {
