@@ -155,10 +155,10 @@ namespace LInjector.Classes
             if (argsArray[0] == "rconsoleprint")
             {
                 ConsoleManager.ShowConsole();
-                CustomCw.rconsoleprint($"{argsArray [1]}", "white");
+                CustomCw.rconsoleprint($"{argsArray[1]}", "white");
                 return;
             }
-            if (argsArray   [0] == "rconsoleinfo")
+            if (argsArray[0] == "rconsoleinfo")
             {
                 ConsoleManager.ShowConsole();
                 CustomCw.rconsoleprint($"{argsArray[1]}", "info");
@@ -170,10 +170,10 @@ namespace LInjector.Classes
                 CustomCw.rconsoleprint($"{argsArray[1]}", "warn");
                 return;
             }
-            if (argsArray   [0] == "rconsoleerr")
+            if (argsArray[0] == "rconsoleerr")
             {
                 ConsoleManager.ShowConsole();
-                CustomCw.rconsoleprint($"{argsArray [1]}", "err");
+                CustomCw.rconsoleprint($"{argsArray[1]}", "err");
                 return;
             }
             if (argsArray[0] == "rconsolename")
@@ -183,7 +183,7 @@ namespace LInjector.Classes
                 return;
             }
 
-            if (argsArray   [0] == "rconsoleclear")
+            if (argsArray[0] == "rconsoleclear")
             {
                 try { Console.Clear(); } catch { }
                 return;
