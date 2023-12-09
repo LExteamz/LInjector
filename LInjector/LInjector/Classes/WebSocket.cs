@@ -103,7 +103,7 @@ namespace LInjector.Classes
                         if (result.MessageType == WebSocketMessageType.Text)
                         {
                             string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                            WebSocketFunctions.Parse(message);
+                            if (ConfigHandler.websocket_mode == true) { WebSocketFunctions.Parse(message); } else { return; }
                         }
                     }
                     while (!result.EndOfMessage);
