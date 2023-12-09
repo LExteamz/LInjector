@@ -703,6 +703,7 @@ namespace LInjector.Windows
         #region Self - Explainatory
         public void Inject()
         {
+            MessageBox.Show("Execution is not working, LInjector currently does not have support for any game client.", "LInjector", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             FluxInterfacing.create_files(Path.GetFullPath(".\\Resources\\libs\\Module.dll"));
             var flag = !FluxInterfacing.is_injected(FluxInterfacing.pid);
             if (flag)

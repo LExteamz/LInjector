@@ -58,7 +58,8 @@ namespace LInjector.Classes
                 }
             }
 
-            throw new InvalidOperationException("No se encontró la carpeta ROBLOXCORPORATION.ROBLOX en localPackagesFolder.");
+            MessageBox.Show("Game was not found at \"AppData\\Local\\Packages\\ROBLOXCORPORATION.ROBLOX\"\nYour temporary default location is your user Desktop.", "LInjector", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         }
     }
 
