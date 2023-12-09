@@ -14,7 +14,7 @@ namespace LInjector.Classes
         public static bool debug = false;
         public static bool discord_rpc { get; set; }
         public static bool save_tabs = false;
-        public static bool emulator_mode = false;
+        public static bool websocket_mode = false;
 
 
         public static void DoConfig()
@@ -29,7 +29,7 @@ namespace LInjector.Classes
                     { "topmost", false },
                     { "discord_rpc", false },
                     { "save_tabs", false },
-                    { "emulator_mode", false}
+                    { "websocket_mode", false}
                 };
 
                 string jsonString = JsonConvert.SerializeObject(config, Formatting.Indented);
@@ -41,9 +41,9 @@ namespace LInjector.Classes
                 string jsonString = File.ReadAllText(ConfigPath);
                 var config = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
 
-                if (config.TryGetValue("emulator_mode", out object emulator_modeA) && (bool)emulator_modeA)
+                if (config.TryGetValue("websocket_mode", out object websocket_mode) && (bool)websocket_mode)
                 {
-                    emulator_mode = true;
+                    websocket_mode = true;
                 }
 
                 if (config.TryGetValue("autoattach", out object autoAttachValue) && (bool)autoAttachValue)

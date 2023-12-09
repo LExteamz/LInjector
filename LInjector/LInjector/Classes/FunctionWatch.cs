@@ -52,7 +52,7 @@ namespace LInjector.Classes
             }
         }
 
-        private static void CreateLog(string String)
+        public static void CreateLog(string String)
         {
             CustomCw.Cw($"{String}", false, "roblox");
         }

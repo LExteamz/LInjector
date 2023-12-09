@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.WebSockets;
 using System.Text;
@@ -102,10 +103,7 @@ namespace LInjector.Classes
                         if (result.MessageType == WebSocketMessageType.Text)
                         {
                             string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                            CustomCw.rconsoleprint(message, "lgray");
-
-                            string responseMessage = "Received: " + message;
-                            await SendMessage(responseMessage);
+                            WebSocketFunctions.Parse(message);
                         }
                     }
                     while (!result.EndOfMessage);
@@ -122,4 +120,80 @@ namespace LInjector.Classes
         }
     }
 
+    public static class WebSocketFunctions
+    {
+        public static void Parse(string arguments)
+        {
+            string[] argsArray = arguments.Split(new[] { "|||" }, StringSplitOptions.None).Select(value => value.Trim()).ToArray();
+
+            if (argsArray[0] == "messagebox")
+            {
+                MessageBox.Show(argsArray[1], argsArray[2]);
+                return;
+            }
+            if (argsArray[0] == "welcome")
+            {
+                FunctionWatch.CreateLog($"Hello, {arguments[1]}!\nSuccessfully loaded at {arguments[2]}");
+
+                return;
+            }
+            if (argsArray[0] == "toclipboard")
+            {
+                FunctionWatch.clipboardSetText(arguments[1].ToString());
+                return;
+            }
+            if (argsArray[0] == "rconsoleclose")
+            {
+                ConsoleManager.HideConsole();
+                return;
+            }
+            if (argsArray[0] == "rconsoleshow")
+            {
+                ConsoleManager.ShowConsole();
+                return;
+            }
+            if (argsArray[0] == "rconsoleprint")
+            {
+                ConsoleManager.ShowConsole();
+                CustomCw.rconsoleprint($"{argsArray [1]}", "white");
+                return;
+            }
+            if (argsArray   [0] == "rconsoleinfo")
+            {
+                ConsoleManager.ShowConsole();
+                CustomCw.rconsoleprint($"{argsArray[1]}", "info");
+                return;
+            }
+            if (argsArray[0] == "rconsolewarn")
+            {
+                ConsoleManager.ShowConsole();
+                CustomCw.rconsoleprint($"{argsArray[1]}", "warn");
+                return;
+            }
+            if (argsArray   [0] == "rconsoleerr")
+            {
+                ConsoleManager.ShowConsole();
+                CustomCw.rconsoleprint($"{argsArray [1]}", "err");
+                return;
+            }
+            if (argsArray[0] == "rconsolename")
+            {
+                ConsoleManager.ShowConsole();
+                Console.Title = argsArray[1];
+                return;
+            }
+
+            if (argsArray   [0] == "rconsoleclear")
+            {
+                try { Console.Clear(); } catch { }
+                return;
+            }
+
+            if (argsArray[0] == "setDiscordRPC")
+            {
+                RPCManager.SetRPCDetails($"{argsArray[1]}");
+                return;
+            }
+        }
+    }
 }

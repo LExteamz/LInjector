@@ -1015,7 +1015,7 @@ namespace LInjector.Windows
 
             SetToggle(TopmostToggle, ConfigHandler.topmost);
             SetToggle(SaveTabsToggle, ConfigHandler.save_tabs);
-            SetToggle(ToggleEmuMode, ConfigHandler.emulator_mode);
+            SetToggle(ToggleEmuMode, ConfigHandler.websocket_mode);
 
             ParseMyThemeSelectors();
         }
@@ -1105,26 +1105,26 @@ namespace LInjector.Windows
             shutdownrpc();
         }
 
-        // Emulator Mode
-        private void ToggleEmuMode_Checked(object sender, RoutedEventArgs e)
+        // WebSocket Mode
+        private void ToggleWebSocketMode_Checked(object sender, RoutedEventArgs e)
         {
             ExecuteButton.Click -= ExecuteButton_Click;
             ExecuteButton.Click += HookExecute;
-            ConfigHandler.emulator_mode = true;
-            ConfigHandler.SetConfigValue("emulator_mode", true);
+            ConfigHandler.websocket_mode = true;
+            ConfigHandler.SetConfigValue("websocket_mode", true);
         }
 
-        private void ToggleEmuMode_Unchecked(object sender, RoutedEventArgs e)
+        private void ToggleWebSocketMode_Unchecked(object sender, RoutedEventArgs e)
         {
             ExecuteButton.Click -= HookExecute;
             ExecuteButton.Click += ExecuteButton_Click;
-            ConfigHandler.emulator_mode = false;
-            ConfigHandler.SetConfigValue("emulator_mode", false);
+            ConfigHandler.websocket_mode = false;
+            ConfigHandler.SetConfigValue("websocket_mode", false);
         }
 
-        private void HelpEmulator_Click(object sender, RoutedEventArgs e)
+        private void HelpWebSocket_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://docs.lexploits.top/docs/usage#emulator-mode");
+            Process.Start("https://docs.lexploits.top/docs/usage#websocket-mode");
         }
 
         // Top Most

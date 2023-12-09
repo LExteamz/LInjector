@@ -223,9 +223,9 @@
                                                                         <Label Content="Debug Console" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal" ToolTip="Executes scripts through a WebSocket using an Android Executor" Width="Auto">
-                                                                        <ToggleButton Width="30" Height="30" Checked="ToggleEmuMode_Checked" Unchecked="ToggleEmuMode_Unchecked" x:Name="ToggleEmuMode" />
-                                                                        <Label Content="Emulator Mode" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                                                        <Button Content="&#xE897;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="{DynamicResource Text}" BorderThickness="0" Click="HelpEmulator_Click"/>
+                                                                        <ToggleButton Width="30" Height="30" Checked="ToggleWebSocketMode_Checked" Unchecked="ToggleWebSocketMode_Unchecked" x:Name="ToggleEmuMode" />
+                                                                        <Label Content="WebSocket Mode" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                                                        <Button Content="&#xE897;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="{DynamicResource Text}" BorderThickness="0" Click="HelpWebSocket_Click"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Width="30" Height="30" Checked="RPCToggle_Checked" Unchecked="RPCToggle_Unchecked" x:Name="RPCToggle" />
