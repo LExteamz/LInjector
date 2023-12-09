@@ -51,7 +51,7 @@ namespace LInjector.Classes
             }
             catch (Exception ex)
             {
-                MessageBox.Show("WebSocket Error: " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
+                MessageBox.Show("WebSocket Error (1): " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
             }
             finally
             {
@@ -79,7 +79,7 @@ namespace LInjector.Classes
             }
             catch (Exception ex)
             {
-                MessageBox.Show("WebSocket Error: " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
+                MessageBox.Show("WebSocket Error (2): " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
             }
         }
 
@@ -110,7 +110,7 @@ namespace LInjector.Classes
                 }
                 catch (WebSocketException ex)
                 {
-                    MessageBox.Show("WebSocket Error: " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
+                    MessageBox.Show("WebSocket Error (3): " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
                 }
                 finally
                 {
