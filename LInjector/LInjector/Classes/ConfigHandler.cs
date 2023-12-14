@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace LInjector.Classes
 {
@@ -41,7 +42,7 @@ namespace LInjector.Classes
                 string jsonString = File.ReadAllText(ConfigPath);
                 var config = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
 
-                if (config.TryGetValue("websocket_mode", out object websocket_mode) && (bool)websocket_mode)
+                if (config.TryGetValue("websocket_mode", out object wsmode) && (bool)wsmode)
                 {
                     websocket_mode = true;
                 }

@@ -1015,7 +1015,7 @@ namespace LInjector.Windows
 
             SetToggle(TopmostToggle, ConfigHandler.topmost);
             SetToggle(SaveTabsToggle, ConfigHandler.save_tabs);
-            SetToggle(ToggleEmuMode, ConfigHandler.websocket_mode);
+            SetToggle(ToggleWebSocketMode, ConfigHandler.websocket_mode);
 
             ParseMyThemeSelectors();
         }
