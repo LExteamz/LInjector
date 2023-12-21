@@ -171,7 +171,7 @@
                         </Button>
                     </ListBox>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
-                        <Button Background="{DynamicResource TertiaryColor}" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 0 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
+                        <Button Background="{DynamicResource PrimaryColor}" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 0 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
                             <Button.Content>
                                 <Image Source="/Resources/Icons/GitHub.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
