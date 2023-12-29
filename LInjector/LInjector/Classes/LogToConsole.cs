@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Security.RightsManagement;
 using System.Windows.Controls;
 
 namespace LInjector.Classes
 {
     public static class LogToConsole
     {
-
-        public static void Log(string message, ListBox lb)
+        public static ListBox GetListBox = new ListBox();
+        public static void Log(string message)
         {
             ListBoxItem toLog = new ListBoxItem();
             DateTime localTime = DateTime.Now;
@@ -14,7 +15,7 @@ namespace LInjector.Classes
             string FormattedMessage = $"[{localTime.ToString("HH:mm")}] {message}";
             toLog.Content = FormattedMessage;
             toLog.Visibility = System.Windows.Visibility.Visible;
-            lb.Items.Add(toLog);
+            GetListBox.Items.Add(toLog);
         }
     }
 }

@@ -1,11 +1,14 @@
-﻿using System;
+﻿using LInjector.Windows;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.WebSockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace LInjector.Classes
 {
@@ -93,7 +96,7 @@ namespace LInjector.Classes
 
                 try
                 {
-                    byte[] buffer = new byte[1024];
+                    byte[] buffer = new byte[4096];
                     WebSocketReceiveResult result;
 
                     do
@@ -114,7 +117,7 @@ namespace LInjector.Classes
                 }
                 finally
                 {
-                    socket.Dispose(); // Ensure WebSocket resources are released
+                    socket.Dispose();
                 }
             }
         }
@@ -192,6 +195,12 @@ namespace LInjector.Classes
             if (argsArray[0] == "setDiscordRPC")
             {
                 RPCManager.SetRPCDetails($"{argsArray[1]}");
+                return;
+            }
+
+            if (argsArray[0] == "consolelog")
+            {
+                LogToConsole.Log(argsArray[1]);
                 return;
             }
         }

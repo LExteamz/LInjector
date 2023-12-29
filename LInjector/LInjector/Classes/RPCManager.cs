@@ -10,6 +10,11 @@ namespace LInjector.Classes
         public static DiscordRpcClient client;
         public static bool isEnabled;
 
+        public static void TerminateConnection()
+        {
+            client.Dispose();
+        }
+
         public static void SetRPCDetails(string Details)
         {
             RichPresence baseRichPresence = new RichPresence

@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Navigation;
 using System.Windows.Threading;
 using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -78,7 +79,8 @@ namespace LInjector.Windows
             LoadSavedTabs();
             ParseConfig();
             ParseMyTheme();
-            LogToConsole.Log("Loaded", ConsoleLogList);
+            LogToConsole.GetListBox = this.ConsoleLogList;
+            LogToConsole.Log("Loaded");
             _ = Notifications.Fire(StatusListBox, "Welcome to LInjector", NotificationLabel);
             await ws.Start();
         }
@@ -548,7 +550,7 @@ namespace LInjector.Windows
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(0.25)
+                Duration = TimeSpan.FromSeconds(0.10)
             };
             fadeOutStoryboard.Children.Add(fadeOutAnimation);
             Storyboard.SetTarget(fadeOutAnimation, this);
@@ -571,15 +573,9 @@ namespace LInjector.Windows
             }
         }
 
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
-        private void AttachButton_Click(object sender, RoutedEventArgs e)
-        {
-            Inject();
-        }
+        private void AttachButton_Click(object sender, RoutedEventArgs e) => Inject();
 
         private void ConsoleDebugButton_Click(object sender, RoutedEventArgs e)
         {
@@ -593,10 +589,7 @@ namespace LInjector.Windows
             }
         }
 
-        private void ScriptPage_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleScriptHub();
-        }
+        private void ScriptPage_Click(object sender, RoutedEventArgs e) => ToggleScriptHub();
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -677,10 +670,7 @@ namespace LInjector.Windows
             Process.Start("https://discord.gg/NQY28YSVAb");
         }
 
-        private void InfoButton_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleInfo();
-        }
+        private void InfoButton_Click(object sender, RoutedEventArgs e) => ToggleInfo();
 
         public void ToggleInfo()
         {
@@ -717,11 +707,11 @@ namespace LInjector.Windows
                         FunctionWatch.runFuncWatch();
                         if (FluxInterfacing.pid > 0)
                         {
-                            LogToConsole.Log($"Injected to Windows10Universal.exe with PID: {FluxInterfacing.pid}", ConsoleLogList);
+                            LogToConsole.Log($"Injected to Windows10Universal.exe with PID: {FluxInterfacing.pid}");
                         }
                         else
                         {
-                            LogToConsole.Log($"Windows10Universal.exe not detected.", ConsoleLogList);
+                            LogToConsole.Log($"Windows10Universal.exe not detected.");
                         }
                     }
                     catch (Exception ex)
@@ -1091,19 +1081,13 @@ namespace LInjector.Windows
 
             if (RPCManager.client.IsInitialized)
             {
-                RPCManager.client.Dispose();
+                RPCManager.TerminateConnection();
             }
         }
 
-        private void RPCToggle_Checked(object sender, RoutedEventArgs e)
-        {
-            enablerpc();
-        }
+        private void RPCToggle_Checked(object sender, RoutedEventArgs e) => enablerpc();
 
-        private void RPCToggle_Unchecked(object sender, RoutedEventArgs e)
-        {
-            shutdownrpc();
-        }
+        private void RPCToggle_Unchecked(object sender, RoutedEventArgs e) => shutdownrpc();
 
         // WebSocket Mode
         private void ToggleWebSocketMode_Checked(object sender, RoutedEventArgs e)
@@ -1122,10 +1106,7 @@ namespace LInjector.Windows
             ConfigHandler.SetConfigValue("websocket_mode", false);
         }
 
-        private void HelpWebSocket_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start("https://docs.lexploits.top/docs/usage#websocket-mode");
-        }
+        private void HelpWebSocket_Click(object sender, RoutedEventArgs e) => Process.Start("https://docs.lexploits.top/docs/usage#websocket-mode");
 
         // Top Most
         private void TopmostToggle_Checked(object sender, RoutedEventArgs e)
@@ -1189,10 +1170,7 @@ namespace LInjector.Windows
         #endregion
 
         #region Themes
-        private void ColorChanged(object sender, RoutedEventArgs e)
-        {
-            HandleColorChange((Button)sender);
-        }
+        private void ColorChanged(object sender, RoutedEventArgs e) => HandleColorChange((Button) sender);
 
         private void HandleColorChange(Button button)
         {
