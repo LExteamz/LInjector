@@ -10,7 +10,8 @@
 <h3 align="center">LInjector | Open-source Lua Script Executor.</h3>
 
 <hr/>
-<h4>LInjector, due to the introduction of Hyperion in the UWP Version is PATCHED. You can still edit the project and make it work by yourself, has been a very nice months, thank you all.</h3>
+<h3>LInjector, due to the introduction of Hyperion in the UWP Version is PATCHED. You can still edit the project and make it work by yourself, has been a very nice months, thank you all.
+The build can be set to x64 without any complications.</h3>
 <hr/>
 
 LInjector is an open-source interface for developers, designed to be minimal and easily customizable. <br>
@@ -39,7 +40,7 @@ It was created out of the necessity for a secure and open-source executor withou
 ## About the Structure of LInjector
 A legitimate development tool.\
 Designed using Windows Presentation Foundation (WPF).\
-Written in C#, with .NET Framework 4.8 | 32-Bit.\
+Written in C#, with .NET Framework 4.8.\
 I apologize for the uncommented code. If you have any questions, you can contact me via my Discord Server.
 
 ## How to Build?
@@ -52,7 +53,6 @@ To edit the Forms, first compile. For any reason, forms can't load if not compil
 ## Why LInjector?
 Well, here are some reasons:
 - It's an open-source project, which ensures the program does not contain malware.
-- Injection speed, the injection speed of LInjector has shown an advantage over other executors. Approaching about 300 miliseconds.
 - Transparency about the state and code of LInjector. I can ensure you'll get a response about LInjector every time.
 
 <hr/>
@@ -67,7 +67,7 @@ We do not condone or support any unethical or malicious activities that may be f
 We urge all users to use LInjector only for development and utility purposes and to refrain from using it for any illegal or unethical activities. By using this development tool, users acknowledge and agree to assume all risks associated with its use.
 
 ## Used Projects in LInjector
-- LInjector uses the [Fluxus](https://fluxteam.net) (based of [WeAreDevs](https://wearedevs.net)) Modules to work.
+- LInjector used the [Fluxus](https://fluxteam.net) (based of [WeAreDevs](https://wearedevs.net)) Modules to work.
 - [The text editor is Monaco.](https://microsoft.github.io/monaco-editor/)
 - Monaco Editor, edited by [Krnl](https://krnl.place/) and [depthso](https://github.com/depthso)
 - [Tab System by lxnnydev](https://github.com/lxnnydev/Winforms-Tab-System)
