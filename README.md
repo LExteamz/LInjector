@@ -8,6 +8,7 @@
 	</a>
 </p>
 <h3 align="center">LInjector | Open-source Lua Script Executor.</h3>
+<h4>LInjector, due to the introduction of Hyperion in the UWP Version is PATCHED. You can still edit the project and make it work by yourself, has been a very nice months, thank you all.</h3>
 
 <hr/>
 
