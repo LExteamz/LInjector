@@ -10,8 +10,9 @@
 <h3 align="center">LInjector | Open-source Lua Script Executor.</h3>
 
 <hr/>
-LInjector, due to the introduction of Hyperion in the UWP Version is <strong>PATCHED</strong>. You can still edit the project and make it work by yourself, has been a very nice months, thank you all.
-The build can be set to x64 without any complications
+<h1>
+LInjector, is <strong>PATCHED</strong> due to the introduction of Hyperion in the UWP Version. You can still edit the project and make it work by another way.
+</h1>
 <hr/>
 
 LInjector is an open-source interface for developers, designed to be minimal and easily customizable. <br>
@@ -40,7 +41,7 @@ It was created out of the necessity for a secure and open-source executor withou
 ## About the Structure of LInjector
 A legitimate development tool.\
 Designed using Windows Presentation Foundation (WPF).\
-Written in C#, with .NET Framework 4.8.\
+Written in C#, with .NET Framework 4.8, you can use any build architecture.\
 I apologize for the uncommented code. If you have any questions, you can contact me via my Discord Server.
 
 ## How to Build?
