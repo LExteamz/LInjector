@@ -54,7 +54,7 @@ namespace LInjector.Classes
             }
             catch (Exception ex)
             {
-                MessageBox.Show("WebSocket Error (1): " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
+                MessageBox.Show($"WebSocket Error (1): {ex.Message}", "LInjector | Error", MessageBoxButton.OK);
             }
             finally
             {
@@ -64,12 +64,7 @@ namespace LInjector.Classes
 
         public async Task SendMessage(string message)
         {
-            WebSocket socket;
-
-            lock (lockObject)
-            {
-                socket = webSocket;
-            }
+            WebSocket socket = webSocket;
 
             try
             {
@@ -78,11 +73,10 @@ namespace LInjector.Classes
                     byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
                     await socket.SendAsync(new ArraySegment<byte>(messageBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
-                else { }
             }
-            catch (Exception ex)
+            catch (WebSocketException ex)
             {
-                MessageBox.Show("WebSocket Error (2): " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
+                MessageBox.Show($"WebSocket Error (2): {ex.Message}", "LInjector | Error", MessageBoxButton.OK);
             }
         }
 
@@ -105,15 +99,22 @@ namespace LInjector.Classes
 
                         if (result.MessageType == WebSocketMessageType.Text)
                         {
-                            string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                            if (ConfigHandler.websocket_mode == true) { WebSocketFunctions.Parse(message); } else { return; }
+                            string receivedMessage = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                            if (ConfigHandler.websocket_mode == true)
+                            {
+                                WebSocketFunctions.Parse(receivedMessage);
+                            }
+                            else
+                            {
+                                return;
+                            }
                         }
                     }
                     while (!result.EndOfMessage);
                 }
                 catch (WebSocketException ex)
                 {
-                    MessageBox.Show("WebSocket Error (3): " + ex.Message, "LInjector | Error", MessageBoxButton.OK);
+                    MessageBox.Show($"WebSocket Error (3): {ex.Message}", "LInjector | Error", MessageBoxButton.OK);
                 }
                 finally
                 {
@@ -185,19 +186,16 @@ namespace LInjector.Classes
                 Console.Title = argsArray[1];
                 return;
             }
-
             if (argsArray[0] == "rconsoleclear")
             {
                 try { Console.Clear(); } catch { }
                 return;
             }
-
             if (argsArray[0] == "setDiscordRPC")
             {
                 RPCManager.SetRPCDetails($"{argsArray[1]}");
                 return;
             }
-
             if (argsArray[0] == "consolelog")
             {
                 LogToConsole.Log(argsArray[1]);
