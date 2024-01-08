@@ -1,14 +1,11 @@
-﻿using LInjector.Windows;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net;
 using System.Net.WebSockets;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace LInjector.Classes
 {

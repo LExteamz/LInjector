@@ -17,7 +17,6 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Navigation;
 using System.Windows.Threading;
 using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -1170,7 +1169,7 @@ namespace LInjector.Windows
         #endregion
 
         #region Themes
-        private void ColorChanged(object sender, RoutedEventArgs e) => HandleColorChange((Button) sender);
+        private void ColorChanged(object sender, RoutedEventArgs e) => HandleColorChange((Button)sender);
 
         private void HandleColorChange(Button button)
         {

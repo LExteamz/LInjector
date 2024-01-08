@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.RightsManagement;
 using System.Windows.Controls;
 
 namespace LInjector.Classes
