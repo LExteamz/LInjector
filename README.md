@@ -34,7 +34,7 @@ LInjector uses the Monaco editor, the same one that powers Visual Studio Code, w
 <hr/>
 
 ## About
-LInjector is primarily developed by [Excel](https://github.com/NeverExcel) and [Depso](https://github.com/depthso).\
+LInjector is primarily developed by [Excel](https://github.com/ItzzExcel) and [Depso](https://github.com/depthso).\
 It was created out of the necessity for a secure and open-source executor without the risks associated with popular ones.
 
 ## About the Structure of LInjector
