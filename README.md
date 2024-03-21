@@ -15,8 +15,8 @@ LInjector, is <strong>PATCHED</strong> due to the introduction of Hyperion in th
 <hr/>
 
 LInjector is an open-source interface for developers, designed to be minimal and easily customizable. <br>
-We currently support The UWP Version. [Learn more about Hyperion Byfron](https://docs.google.com/document/d/1FRWTMnPZ-6fuyKjaT_YDU8tT1DrmLSw63YKtc2CfiMI/edit?usp=sharing).<br>
-If you have a working Dynamic-Link Library (DLL), you can edit the source code of LInjector. <br>
+We currently **DON'T SUPPORT ANY VERSION**. [Learn more about Hyperion Byfron](https://docs.google.com/document/d/1FRWTMnPZ-6fuyKjaT_YDU8tT1DrmLSw63YKtc2CfiMI/edit?usp=sharing).<br>
+If you have a working Dynamic-Link Library (DLL), you can edit the source code of LInjector and make it work by yourself in any other way. <br>
 LInjector uses the Monaco editor, the same one that powers Visual Studio Code, with syntax highlighting, [developed by Krnl](https://krnl.place/) [and edited by Depso](https://github.com/depthso).
 
 ## Screenshots
