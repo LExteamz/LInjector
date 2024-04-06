@@ -17,6 +17,10 @@ namespace LInjector.Classes
 
         public WebComs() { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>WebComs class instance</returns>
         public static WebComs GetInstance()
         {
             if (instance == null)
@@ -32,6 +36,10 @@ namespace LInjector.Classes
             return instance;
         }
 
+        /// <summary>
+        /// Initializes the WebSocket server in localhost:5343
+        /// </summary>
+        /// <returns></returns>
         public async Task Start()
         {
             var listener = new HttpListener();
@@ -59,6 +67,11 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// Sends a message to all the clients connected to the WebSocket
+        /// </summary>
+        /// <param name="message">Message that will be sent to the clients connected</param>
+        /// <returns></returns>
         public async Task SendMessage(string message)
         {
             WebSocket socket = webSocket;
@@ -77,6 +90,11 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// "Parse" the WebSocket request received from a client.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         private async Task ProcessWebSocketRequest(HttpListenerContext context)
         {
             var wsContext = await context.AcceptWebSocketAsync(null);
@@ -123,6 +141,10 @@ namespace LInjector.Classes
 
     public static class WebSocketFunctions
     {
+        /// <summary>
+        /// Parses the WebSocket request messages.
+        /// </summary>
+        /// <param name="arguments"></param>
         public static void Parse(string arguments)
         {
             string[] argsArray = arguments.Split(new[] { "|||" }, StringSplitOptions.None).Select(value => value.Trim()).ToArray();

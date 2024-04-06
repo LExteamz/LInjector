@@ -10,6 +10,14 @@ namespace LInjector.Classes
     {
         private static bool isBusy;
 
+        /// <summary>
+        /// Shows a notification that popups in the LInjector contextual menu.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="listBox"></param>
+        /// <param name="message"></param>
+        /// <param name="targetControl"></param>
+        /// <returns></returns>
         public static async Task Fire<T>(ListBox listBox, string message, T targetControl) where T : Label
         {
 

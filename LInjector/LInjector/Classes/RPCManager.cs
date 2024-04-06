@@ -10,11 +10,18 @@ namespace LInjector.Classes
         public static DiscordRpcClient client;
         public static bool isEnabled;
 
+        /// <summary>
+        /// Ends the RPC Connection
+        /// </summary>
         public static void TerminateConnection()
         {
             client.Dispose();
         }
 
+        /// <summary>
+        /// Sets the RPC Details
+        /// </summary>
+        /// <param name="Details"></param>
         public static void SetRPCDetails(string Details)
         {
             RichPresence baseRichPresence = new RichPresence
@@ -59,6 +66,9 @@ namespace LInjector.Classes
         //     this.client.SetActivityAsync(activity);
         //}
 
+        /// <summary>
+        /// Initializes the RPC Client
+        /// </summary>
         public static void InitRPC()
         {
             client = new DiscordRpcClient("1104489169314660363");
@@ -69,6 +79,10 @@ namespace LInjector.Classes
             SetRPCDetails("Using LInjector");
         }
 
+        /// <summary>
+        /// Sets the detail to the string given
+        /// </summary>
+        /// <param name="currentFile"></param>
         public static void SetRpcFile(string currentFile)
         {
             if (client.IsInitialized)
@@ -86,6 +100,9 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// Sets the default RPC Strings.
+        /// </summary>
         public static void SetBaseRichPresence()
         {
             if (client.IsInitialized)

@@ -14,8 +14,8 @@ namespace LInjector.Windows
 
     public partial class SplashScreen : Window
     {
-        DispatcherTimer RGBTime;
         readonly int RGBSpinSpeed = 4;
+        DispatcherTimer RGBTime;
         Storyboard StoryBoard = new Storyboard();
 
         private IEasingFunction Smooth { get; set; }
@@ -24,6 +24,13 @@ namespace LInjector.Windows
             EasingMode = EasingMode.EaseInOut
         };
 
+        /// <summary>
+        /// Moves an object to a desired position
+        /// </summary>
+        /// <param name="speed">Speec in Miliseconds</param>
+        /// <param name="Object">WPF Object</param>
+        /// <param name="Get">Initial Position</param>
+        /// <param name="Set">Final Position</param>
         public void ObjectShift(Duration speed, DependencyObject Object, Thickness Get, Thickness Set)
         {
             ThicknessAnimation Animation = new ThicknessAnimation()

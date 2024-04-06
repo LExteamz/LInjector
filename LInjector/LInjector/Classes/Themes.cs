@@ -7,6 +7,12 @@ namespace LInjector.Classes
 
     internal static class Themes
     {
+        /// <summary>
+        /// Reads a color from the Registry Keys
+        /// </summary>
+        /// <param name="what"></param>
+        /// <param name="fallback"></param>
+        /// <returns>String in aRGB Format</returns>
         internal static string GetColor(string what, string fallback = "0")
         {
             try
@@ -46,6 +52,11 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// Writes to Registry Key
+        /// </summary>
+        /// <param name="what"></param>
+        /// <param name="ColorValue"></param>
         internal static void SetColor(string what, string ColorValue)
         {
             try
@@ -84,8 +95,11 @@ namespace LInjector.Classes
             }
         }
 
-
-
+        /// <summary>
+        /// Checks if a color exists on the Registry
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         internal static bool LookColor(string name)
         {
             try

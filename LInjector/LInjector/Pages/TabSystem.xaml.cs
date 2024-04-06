@@ -15,11 +15,20 @@ namespace LInjector.Pages
             maintabs.Items.Add(CreateTab("", "Script" + " " + (this.maintabs.Items.Count + 1).ToString()));
         }
 
+        /// <summary>
+        /// Returns the current Monaco Editor instance
+        /// </summary>
+        /// <returns>Current Monaco Editor instance</returns>
         public monaco_api current_monaco()
         {
             return maintabs.SelectedContent as monaco_api;
         }
 
+        /// <summary>
+        /// Creates a new tab in the TabSystem control with a separated Monaco Editor instance
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
         public void add_tab_with_text(string text, string title = null)
         {
             if (title == null)
@@ -31,6 +40,10 @@ namespace LInjector.Pages
 
         }
 
+        /// <summary>
+        /// Changes the current open Monaco Editor tab title
+        /// </summary>
+        /// <param name="title"></param>
         public void ChangeCurrentTabTitle(string title)
         {
             if (maintabs.SelectedItem is TabItem selectedTab)
@@ -39,6 +52,7 @@ namespace LInjector.Pages
             }
         }
 
+        /// <returns>Current open Monaco Editor instance tab title (name)</returns>
         public Task<string> GetCurrentTabTitle()
         {
             if (maintabs.SelectedItem is TabItem selectedTab)
@@ -82,6 +96,11 @@ namespace LInjector.Pages
             };
 
 
+        /// <summary>
+        /// Clears the Monaco Editor content and resets the title to its index.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Clear_Editor(object sender, RoutedEventArgs e)
         {
             var x = maintabs.SelectedContent as monaco_api;

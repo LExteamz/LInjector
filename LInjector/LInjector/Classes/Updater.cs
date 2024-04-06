@@ -46,6 +46,7 @@ namespace LInjector.Classes
         public static readonly string InitLuaPath = Path.Combine(autoexecFolder, "LInjector.lua");
         public static readonly string DLLsJSON = $"{DLLSURl}/Modules.json";
 
+        /// <returns>Path of the Game Folder "AC"</returns>
         public static string GetRobloxACFolder()
         {
             string[] packageFolders = Directory.GetDirectories(Files.localPackagesFolder);
@@ -71,6 +72,13 @@ namespace LInjector.Classes
     {
         static WebClient webClient = new WebClient();
 
+        /// <summary>
+        /// Fetches a JSON from any content delivery network, reads the
+        ///  content of it which are file hashes, if the
+        ///  local file hashes mismatch, the application downloads the
+        /// latest files provided in the JSON.
+        /// </summary>
+        /// <returns></returns>
         internal static async Task CheckForUpdates()
         {
             try
@@ -118,6 +126,11 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the checksum of an internet file.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>SHA1 checksum</returns>
         private static async Task<string> GetChecksum(string url)
         {
             try
@@ -144,6 +157,11 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// Calculates the checksum of a file provided in the <paramref name="path"/>.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns>SHA1 checksum</returns>
         private static string DoChecksum(string path)
         {
             try
@@ -167,6 +185,13 @@ namespace LInjector.Classes
 
     public static class RegistryHandler
     {
+
+        /// <summary>
+        /// Get the value of a Registry Key located in Local User\Software\LInjector
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="fallback"></param>
+        /// <returns>Registry Key value</returns>
         public static string GetValue(string name, string fallback)
         {
             try
@@ -206,6 +231,11 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// Writes to a Registry Key in Local User\Software\LInjector
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         public static void SetValue(string name, string value)
         {
             try
@@ -238,6 +268,11 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// Check if a value exists
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>boolean</returns>
         public static bool LookValue(string name)
         {
             try
@@ -271,6 +306,9 @@ namespace LInjector.Classes
         private static readonly HttpClient httpClient = new HttpClient();
         private static readonly WshShell wsh = new WshShell();
 
+        /// <summary>
+        /// Creates the required files for LInjector
+        /// </summary>
         public static void Create()
         {
             if (!string.Equals(Directory.GetCurrentDirectory(), Files.desiredDirectory, StringComparison.OrdinalIgnoreCase))
@@ -337,6 +375,9 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// Resets the user color theme.
+        /// </summary>
         internal static void ResetTheme()
         {
             Themes.SetColor("SSC1", "#FF460B80");
@@ -354,6 +395,9 @@ namespace LInjector.Classes
 
         #region Module / DLL Redownloader
 
+        /// <summary>
+        /// Deletes and replaces the old DLLs with the new ones.
+        /// </summary>
         internal static void RedownloadModules()
         {
             try
@@ -393,7 +437,11 @@ namespace LInjector.Classes
             catch { }
         }
 
-        public static void DeleteFilesAndFoldersRecursively(string target_dir)
+        /// <summary>
+        /// Self-explained
+        /// </summary>
+        /// <param name="target_dir">Target Directory</param>
+        private static void DeleteFilesAndFoldersRecursively(string target_dir)
         {
             foreach (string file in Directory.GetFiles(target_dir))
             {
@@ -424,6 +472,11 @@ namespace LInjector.Classes
 
     public static class TempLog
     {
+        /// <summary>
+        /// Creates a file in %TEMP% with the <paramref name="content"/> and <paramref name="fileName"/> provided
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="fileName"></param>
         public static void CreateVersionFile(string content, string fileName)
         {
             var tempPath = Path.GetTempPath();
@@ -447,11 +500,8 @@ namespace LInjector.Classes
     #region VERSION CHECKER MADE WITH POWERSHELL SCRIPTING
     public static class VersionChecker
     {
-        public static string Version
-        {
-            get;
-            set;
-        }
+        public static string Version { get; set; }
+
         static string appName = "ROBLOXCORPORATION.ROBLOX";
         static string outputDirectory = Path.Combine(Path.GetTempPath(), "LInjector");
         static string versionFilePath = Path.Combine(outputDirectory, "uwpversion");
@@ -473,6 +523,10 @@ namespace LInjector.Classes
 
         #region WEB VERSION CHECKER
 
+        /// <summary>
+        /// Checks the folder name in local computer, and compares it with the string provided.
+        /// </summary>
+        /// <returns></returns>
         public static async Task DlRbxVersion()
         {
             var rbxverurl = "http://setup.roblox.com/version";
@@ -493,7 +547,7 @@ namespace LInjector.Classes
             }
         }
 
-        public static string Extract(this string input, int len)
+        private static string Extract(this string input, int len)
         {
             if (string.IsNullOrEmpty(input) || input.Length < len)
             {
@@ -503,6 +557,10 @@ namespace LInjector.Classes
             return input.Substring(0, len);
         }
 
+        /// <summary>
+        /// Self-explainatory
+        /// </summary>
+        /// <param name="script"></param>
         public static void ExecutePowerShellScript(string script)
         {
             using (Process process = new Process())
@@ -523,6 +581,10 @@ namespace LInjector.Classes
         #endregion
 
         #region UWP VERSION CHECKER
+        /// <summary>
+        /// Checks the folder name in local computer, and compares it with the string provided.
+        /// </summary>
+        /// <returns></returns>
 
         public static async Task CheckVersionUWP()
         {
@@ -559,11 +621,14 @@ namespace LInjector.Classes
 
     public class CheckLatest
     {
-        private
-        const string owner = Files.AccountNamee;
-        private
-        const string repo = "LInjector";
+        private const string owner = Files.AccountNamee;
+        private const string repo = "LInjector";
 
+        /// <summary>
+        /// Checks if the current version of LInjector matches with the latest GitHub Release, see: <see cref="Files.currentVersion"/>
+        /// </summary>
+        /// <param name="currentVersion"></param>
+        /// <returns></returns>
         public static bool IsOutdatedVersion(string currentVersion)
         {
             try

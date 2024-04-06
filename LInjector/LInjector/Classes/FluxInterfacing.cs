@@ -19,6 +19,8 @@ using System.Windows.Forms;
  * Provided by Fluxteam.
  */
 
+// I will not touch this, it's very old.
+
 namespace LInjector.Classes
 {
 

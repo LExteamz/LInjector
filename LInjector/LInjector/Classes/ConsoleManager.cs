@@ -21,12 +21,18 @@ namespace LInjector.Classes
         private static extern IntPtr GetConsoleWindow();
 
         [DllImport("kernel32.dll")]
-        private static extern bool SetConsoleCtrlHandler(ConsoleCtrlHandlerDelegate handlerRoutine, bool add);
+        private static extern bool SetConsoleCtrlHandler(ConsoleCtrlHandlerDelegate handlerRoutine,
+                                                         bool add);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
+        /// <summary>
+        /// Auxiliar function used in ConsoleManager.Initialize function: <see cref="Initialize"/>
+        /// </summary>
+        /// <param name="eventType"></param>
+        /// <returns>I don't know</returns>
         private static bool ConsoleCtrlHandler(int eventType)
         {
             if (eventType == 2)
@@ -38,6 +44,21 @@ namespace LInjector.Classes
             return false;
         }
 
+        /// <summary>
+        /// Toggles the Visibility of the Windows Console used for debug prints and rconsole, also
+        /// known as "CMD Window".
+        /// </summary>
+        public static void ToggleConsoleVisibility()
+        {
+            if (isConsoleVisible)
+                HideConsole();
+            else
+                ShowConsole();
+        }
+
+        /// <summary>
+        /// Self-explainatory
+        /// </summary>
         public static void ShowConsole()
         {
             if (!isConsoleVisible)
@@ -51,6 +72,9 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// Self-explainatory
+        /// </summary>
         public static void HideConsole()
         {
             if (isConsoleVisible)
@@ -60,16 +84,19 @@ namespace LInjector.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes the Console to make it only closable from the WPF Button.
+        /// </summary>
         public static void Initialize()
         {
             SetConsoleCtrlHandler(ConsoleCtrlHandler, true);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_CLOSE, MF_BYCOMMAND);
         }
 
-        public static void ToFront()
-        {
-            SetForegroundWindow(GetConsoleWindow());
-        }
+        /// <summary>
+        /// Brings the Windows Console to the front of all the Windows.
+        /// </summary>
+        public static void ToFront() { SetForegroundWindow(GetConsoleWindow()); }
 
         [DllImport("kernel32.dll")]
         private static extern bool AllocConsole();

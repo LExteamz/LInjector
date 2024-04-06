@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -10,82 +11,74 @@ namespace LInjector.Classes
 
         public static bool topmost = false;
         public static bool autoattach = false;
-        public static bool splashscreen { get; set; }
+        public static bool splashscreen = true;
         public static bool debug = false;
-        public static bool discord_rpc { get; set; }
+        public static bool discord_rpc = false;
         public static bool save_tabs = false;
         public static bool websocket_mode = false;
 
-
+        /// <summary>
+        /// Reads the config and parse it to the bools of the <see cref="ConfigHandler"/> class.
+        /// </summary>
         public static void DoConfig()
         {
+            var defaultConfig = new Dictionary<string, bool>
+            {
+                { "autoattach", false },
+                { "splashscreen", true },
+                { "debug", false },
+                { "topmost", false },
+                { "discord_rpc", false },
+                { "save_tabs", false },
+                { "websocket_mode", false }
+            };
+
             if (!File.Exists(ConfigPath))
             {
-                var config = new Dictionary<string, object>
-                {
-                    { "autoattach", false },
-                    { "splashscreen", true },
-                    { "debug", false },
-                    { "topmost", false },
-                    { "discord_rpc", false },
-                    { "save_tabs", false },
-                    { "websocket_mode", false}
-                };
-
-                string jsonString = JsonConvert.SerializeObject(config, Formatting.Indented);
-                File.Create(ConfigPath).Close();
+                string jsonString = JsonConvert.SerializeObject(defaultConfig, Formatting.Indented);
                 File.WriteAllText(ConfigPath, jsonString);
             }
-            else if (File.Exists(ConfigPath))
+
+            string fileContents = File.ReadAllText(ConfigPath);
+            var config = JsonConvert.DeserializeObject<Dictionary<string, bool>>(fileContents);
+
+            AssignConfigValue(config, "websocket_mode", ref websocket_mode);
+            AssignConfigValue(config, "autoattach", ref autoattach);
+            AssignConfigValue(config, "splashscreen", ref splashscreen);
+            AssignConfigValue(config, "debug", ref debug, () =>
             {
-                string jsonString = File.ReadAllText(ConfigPath);
-                var config = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
+                ConsoleManager.Initialize();
+                ConsoleManager.ShowConsole();
+            });
+            AssignConfigValue(config, "topmost", ref topmost);
+            AssignConfigValue(config, "discord_rpc", ref RPCManager.isEnabled, () => discord_rpc = true);
+            AssignConfigValue(config, "save_tabs", ref save_tabs);
+        }
 
-                if (config.TryGetValue("websocket_mode", out object wsmode) && (bool)wsmode)
+        /// <summary>
+        /// Auxiliar function. See: <see cref="DoConfig"/>
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="key"></param>
+        /// <param name="field"></param>
+        /// <param name="customAction"></param>
+        private static void AssignConfigValue(Dictionary<string, bool> config, string key, ref bool field, Action customAction = null)
+        {
+            if (config.TryGetValue(key, out bool value))
+            {
+                field = value;
+                if (customAction != null && value)
                 {
-                    websocket_mode = true;
-                }
-
-                if (config.TryGetValue("autoattach", out object autoAttachValue) && (bool)autoAttachValue)
-                {
-                    autoattach = true;
-                }
-
-                if (config.TryGetValue("splashscreen", out object splashscreenValue) && (bool)splashscreenValue)
-                {
-                    splashscreen = true;
-                }
-
-                if (config.TryGetValue("debug", out object debugValue) && (bool)debugValue)
-                {
-                    ConsoleManager.Initialize();
-                    ConsoleManager.ShowConsole();
-                    debug = true;
-                }
-
-                if (config.TryGetValue("topmost", out object topMostValue) && (bool)topMostValue)
-                {
-                    topmost = true;
-                }
-
-                if (config.TryGetValue("discord_rpc", out object discord_rpc) && (bool)discord_rpc)
-                {
-                    RPCManager.isEnabled = true;
-                    discord_rpc = true;
-                }
-
-                if (config.TryGetValue("safe_mode", out object safe_mode) && (bool)safe_mode)
-                {
-                    safe_mode = true;
-                }
-
-                if (config.TryGetValue("save_tabs", out object save_tabsA) && (bool)save_tabsA)
-                {
-                    save_tabs = true;
+                    customAction();
                 }
             }
         }
 
+        /// <summary>
+        /// Writes config value into the config.json file.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="Value"></param>
         public static void SetConfigValue(string Name, bool Value)
         {
             try

@@ -8,6 +8,7 @@ namespace LInjector.WPF.Classes
     public class monaco_api : WebView2
     {
         // Thanks to parex for this awesome base!
+        // I will not touch this
 
         public bool isDOMLoaded { get; set; } = false;
         private string ToSetText;
