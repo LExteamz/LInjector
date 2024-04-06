@@ -130,8 +130,7 @@ namespace LInjector.Windows
 
         private void DragWindow(object sender, MouseButtonEventArgs e)
         {
-            // try { DragMove(); } catch { }
-            DragMove();
+            try { DragMove(); } catch { }
         }
 
         /// <summary>
