@@ -128,7 +128,11 @@ namespace LInjector.Windows
             await ws.Start();
         }
 
-        private void DragWindow(object sender, MouseButtonEventArgs e) => DragMove();
+        private void DragWindow(object sender, MouseButtonEventArgs e)
+        {
+            // try { DragMove(); } catch { }
+            DragMove();
+        }
 
         /// <summary>
         /// When the "outro" fadeout completes, the application does it normal shutdown.
