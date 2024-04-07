@@ -66,7 +66,7 @@ namespace LInjector.Windows
             if (CheckLatest.IsOutdatedVersion(Files.currentVersion))
             {
                 var outDatedResult = System.Windows.Forms.MessageBox.Show(
-                    "LInjector is outdated, please, re-download LInjector via GitHub or LInjector Webiste.\n" +
+                    "LInjector is outdated, please, re-download LInjector via GitHub or LInjector Website.\n" +
                     "Go to LInjector Download Page?",
                     "LInjector | Outdated", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (outDatedResult == System.Windows.Forms.DialogResult.Yes)
