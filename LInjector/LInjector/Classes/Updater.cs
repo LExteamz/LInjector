@@ -59,7 +59,7 @@ namespace LInjector.Classes
                 }
             }
 
-            MessageBox.Show("Game was not found at \"AppData\\Local\\Packages\\ROBLOXCORPORATION.ROBLOX\"\nYour temporary default location is your user TEMP folder.", "LInjector", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            // MessageBox.Show("Game was not found at \"AppData\\Local\\Packages\\ROBLOXCORPORATION.ROBLOX\"\nYour temporary default location is your user TEMP folder.", "LInjector", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return Environment.GetEnvironmentVariable("TEMP");
         }
     }
