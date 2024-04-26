@@ -119,8 +119,9 @@ namespace LInjector.Windows
             // Converts the MainWindow ListBox to a Static Item, this is used to easy-call the item
             // because it is needed from other sources.
             LogToConsole.GetListBox = this.ConsoleLogList;
+            Notifications.InitVars(StatusListBox, NotificationLabel);
             LogToConsole.Log("Loaded");
-            _ = Notifications.Fire(StatusListBox, "Welcome to LInjector", NotificationLabel);
+            await Notifications.Fire("Welcome to LInjector");
 
             // await ws.Start
             // Starts a WebSocket used to run simple LInjector functions, such as Log, rconsole, etc.
@@ -405,29 +406,24 @@ namespace LInjector.Windows
                             }
                             else
                             {
-                                _ = Notifications.Fire(StatusListBox,
-                                                       $"Script Error : {response.ReasonPhrase}",
-                                                       NotificationLabel);
+                                await Notifications.Fire($"Script Error : {response.ReasonPhrase}");
                             }
                         }
 
                     }
                     else
                     {
-                        _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.",
-                                               NotificationLabel);
+                        await Notifications.Fire("Script Error : Invalid index.");
                     }
                 }
                 else
                 {
-                    _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.",
-                                           NotificationLabel);
+                    await Notifications.Fire("Script Error : Invalid tag type.");
                 }
             }
             else
             {
-                _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.",
-                                       NotificationLabel);
+                await Notifications.Fire("Script Error : Invalid int index type.");
             }
         }
 
@@ -469,8 +465,7 @@ namespace LInjector.Windows
                                     {
                                         FluxInterfacing.run_script(FluxInterfacing.pid,
                                                                    posts[index].Script);
-                                        await Notifications.Fire(StatusListBox, "Executed",
-                                                                 NotificationLabel);
+                                        await Notifications.Fire("Executed");
                                     }
                                     catch (Exception ex)
                                     {
@@ -485,8 +480,7 @@ namespace LInjector.Windows
                                     await Task.Delay(500);
                                     FluxInterfacing.run_script(FluxInterfacing.pid,
                                                                posts[index].Script);
-                                    await Notifications.Fire(StatusListBox, "Executed",
-                                                             NotificationLabel);
+                                    await Notifications.Fire("Executed");
                                 }
                             }
                             catch (Exception ex)
@@ -548,34 +542,28 @@ namespace LInjector.Windows
                                 }
                                 catch
                                 {
-                                    _ = Notifications.Fire(StatusListBox, "Unknown error.",
-                                                           NotificationLabel);
+                                    await Notifications.Fire("Unknown error.");
                                 }
                             }
                             else
                             {
-                                _ = Notifications.Fire(StatusListBox,
-                                                       $"Script Error : {response.ReasonPhrase}",
-                                                       NotificationLabel);
+                                await Notifications.Fire($"Script Error : {response.ReasonPhrase}");
                             }
                         }
                     }
                     else
                     {
-                        _ = Notifications.Fire(StatusListBox, "Script Error : Invalid index.",
-                                               NotificationLabel);
+                        await Notifications.Fire("Script Error : Invalid index.");
                     }
                 }
                 else
                 {
-                    _ = Notifications.Fire(StatusListBox, "Script Error : Invalid tag type.",
-                                           NotificationLabel);
+                    await Notifications.Fire("Script Error : Invalid tag type.");
                 }
             }
             else
             {
-                _ = Notifications.Fire(StatusListBox, "Script Error : Invalid int index type.",
-                                       NotificationLabel);
+                await Notifications.Fire("Script Error : Invalid int index type.");
             }
         }
 
@@ -730,9 +718,7 @@ namespace LInjector.Windows
             }
             */
 
-            await Notifications.Fire(StatusListBox,
-                                     "Execution is no longer working! Thanks for using LInjector.",
-                                     NotificationLabel);
+            await Notifications.Fire("Execution is no longer working! Thanks for using LInjector.");
         }
 
         private long ApplicationModel()
@@ -1034,7 +1020,7 @@ namespace LInjector.Windows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OpenFileButton_Click(object sender, RoutedEventArgs e)
+        private async void OpenFileButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -1066,8 +1052,7 @@ namespace LInjector.Windows
             }
             catch
             {
-                _ = Notifications.Fire(StatusListBox, "Error while opening the file.",
-                                       NotificationLabel);
+                await Notifications.Fire("Error while opening the file.");
             }
         }
 
@@ -1097,8 +1082,7 @@ namespace LInjector.Windows
 
                     if (string.IsNullOrEmpty(result))
                     {
-                        _ = Notifications.Fire(StatusListBox, "No content detected",
-                                               NotificationLabel);
+                        await Notifications.Fire("No content detected");
                     }
                     else
                     {
@@ -1106,22 +1090,19 @@ namespace LInjector.Windows
                         {
                             File.WriteAllText(filePath, result);
                             string savedFileName = Path.GetFileName(saveFileDialog.FileName);
-                            _ = Notifications.Fire(StatusListBox, $"{savedFileName} saved",
-                                                   NotificationLabel);
+                            await Notifications.Fire($"{savedFileName} saved");
                             TabSystemz.ChangeCurrentTabTitle(savedFileName);
                         }
                         catch (Exception)
                         {
-                            _ = Notifications.Fire(StatusListBox, "Error saving the file",
-                                                   NotificationLabel);
+                            await Notifications.Fire("Error saving the file");
                         }
                     }
 
                 }
                 catch (Exception)
                 {
-                    _ = Notifications.Fire(StatusListBox, "Error saving the file",
-                                           NotificationLabel);
+                    await Notifications.Fire("Error saving the file");
                 }
             }
         }
@@ -1348,7 +1329,7 @@ namespace LInjector.Windows
             }
             catch
             {
-                _ = Notifications.Fire(StatusListBox, "Unknown error.", NotificationLabel);
+                await Notifications.Fire("Unknown error.");
             }
         }
 

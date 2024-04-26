@@ -177,22 +177,22 @@ namespace LInjector.Classes
             switch (inject_custom())
             {
                 case Result.DLLNotFound:
-                    _ = Notifications.Fire((new MainWindow()).StatusListBox, "Dynamic-Link Library (DLL) not found.", App.NotificationLabel);
+                    _ = Notifications.Fire("Dynamic-Link Library (DLL) not found.");
                     break;
                 case Result.OpenProcFail:
-                    _ = Notifications.Fire((new MainWindow()).StatusListBox, "OpenProcess failed.", App.NotificationLabel);
+                    _ = Notifications.Fire("OpenProcess failed.");
                     break;
                 case Result.AllocFail:
-                    _ = Notifications.Fire((new MainWindow()).StatusListBox, "Allocation failed", App.NotificationLabel);
+                    _ = Notifications.Fire("Allocation failed");
                     break;
                 case Result.LoadLibFail:
-                    _ = Notifications.Fire((new MainWindow()).StatusListBox, "LoadLibrary failed.", App.NotificationLabel);
+                    _ = Notifications.Fire("LoadLibrary failed.");
                     break;
                 case Result.ProcNotOpen:
-                    _ = Notifications.Fire((new MainWindow()).StatusListBox, "Couldn't find process. Make sure you have the game from the Microsoft Store.", App.NotificationLabel);
+                    _ = Notifications.Fire("Couldn't find process. Make sure you have the game from the Microsoft Store.");
                     break;
                 case Result.Unknown:
-                    _ = Notifications.Fire((new MainWindow()).StatusListBox, "An unkown error has occurred.", App.NotificationLabel);
+                    _ = Notifications.Fire("An unkown error has occurred.");
                     break;
             }
         }

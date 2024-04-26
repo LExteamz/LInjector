@@ -8,9 +8,9 @@ namespace LInjector.Classes
 {
     public static class Notifications
     {
-        /// <summary>
-        /// Check if the Notification Function is busy.
-        /// </summary>
+
+        private static Label label;
+        private static ListBox listbox;
         private static bool isBusy;
 
         /// <summary>
@@ -21,7 +21,8 @@ namespace LInjector.Classes
         /// <param name="message"></param>
         /// <param name="targetControl"></param>
         /// <returns></returns>
-        public static async Task Fire<T>(ListBox listBox, string message, T targetControl) where T : Label
+        ///
+        public static async Task Fire(string message)
         {
 
             if (isBusy)
@@ -32,37 +33,43 @@ namespace LInjector.Classes
                 }
             }
 
-            if (targetControl == null)
+            if (label == null)
             {
                 return;
             }
 
             isBusy = true;
 
-            double originalTopMargin = listBox.Margin.Top;
+            double originalTopMargin = listbox.Margin.Top;
 
-            await AnimateMarginChange(listBox, new Thickness(0, 0, 0, 0), TimeSpan.FromSeconds(0.5));
+            await AnimateMarginChange(listbox, new Thickness(0, 0, 0, 0), TimeSpan.FromSeconds(0.5));
 
-            targetControl.Content = "";
+            label.Content = "";
 
             foreach (var character in message)
             {
-                targetControl.Content += character.ToString();
+                label.Content += character.ToString();
                 await Task.Delay(15);
             }
 
             await Task.Delay(3000);
-            await AnimateMarginChange(listBox, new Thickness(0, originalTopMargin, 0, 0), TimeSpan.FromSeconds(0.8));
+            await AnimateMarginChange(listbox, new Thickness(0, originalTopMargin, 0, 0), TimeSpan.FromSeconds(0.8));
 
-            for (int i = targetControl.Content.ToString().Length; i > 0; i--)
+            for (int i = label.Content.ToString().Length; i > 0; i--)
             {
-                targetControl.Content = targetControl.Content.ToString().Remove(i - 1);
+                label.Content = label.Content.ToString().Remove(i - 1);
                 await Task.Delay(10);
             }
 
-            await AnimateMarginChange(listBox, new Thickness(0, originalTopMargin, 0, 0), TimeSpan.FromSeconds(0.5));
+            await AnimateMarginChange(listbox, new Thickness(0, originalTopMargin, 0, 0), TimeSpan.FromSeconds(0.5));
 
             isBusy = false;
+        }
+
+        public static void InitVars(ListBox blud, Label bozo)
+        {
+            label = bozo;
+            listbox = blud;
         }
 
         private static async Task AnimateMarginChange(FrameworkElement element, Thickness newMargin, TimeSpan duration)
