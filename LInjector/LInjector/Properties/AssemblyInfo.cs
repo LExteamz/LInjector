@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("LEx Softworks")]
 [assembly: AssemblyProduct("LInjector")]
-[assembly: AssemblyCopyright("Copyright (c) LEx Softworks 2023")]
+[assembly: AssemblyCopyright("Copyright (c) LEx Softworks 2024")]
 [assembly: AssemblyTrademark("LEx Softworks")]
 [assembly: AssemblyCulture("")]
 
@@ -50,4 +50,4 @@ using System.Windows;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("08.01.2024")]
+[assembly: AssemblyFileVersion("00.00.2024")]
