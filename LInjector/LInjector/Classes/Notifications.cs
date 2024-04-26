@@ -8,6 +8,9 @@ namespace LInjector.Classes
 {
     public static class Notifications
     {
+        /// <summary>
+        /// Check if the Notification Function is busy.
+        /// </summary>
         private static bool isBusy;
 
         /// <summary>
