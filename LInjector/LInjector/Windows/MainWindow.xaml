@@ -18,7 +18,8 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        ClipToBounds="False">
     <Window.Resources>
         <SolidColorBrush Color="#FF0F0F0F" x:Key="PrimaryColor"/>
         <SolidColorBrush Color="#FF111111" x:Key="SecondaryColor"/>
@@ -28,6 +29,7 @@
     </Window.Resources>
 
     <Border ClipToBounds="False">
+
         <Grid ClipToBounds="True" Background="{DynamicResource PrimaryColor}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" MinHeight="35"/>
@@ -50,8 +52,7 @@
                         </ListBox.ItemContainerStyle>
                         <!-- Use a horizontal StackPanel to align items horizontally -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" MouseDown="DragWindow" Margin="5 0 0 0">
-                            <Image Source="\Resources\LInjectorr.png" Stretch="Uniform" MaxHeight="23" MouseDown="DragWindow"/>
-                            <Label Content="LInjector" Foreground="#FFFFFFFF" FontSize="14" Margin="5 0 0 0" FontFamily="Microsoft YaHei UI" MouseDown="DragWindow" />
+                            <Image Source="\Resources\LInjectorr.png" Stretch="Uniform" MaxHeight="23" MouseDown="DragWindow"/> 
                         </StackPanel>
                     </ListBox>
                     <!-- LEFT SIDE THINGS END -->
