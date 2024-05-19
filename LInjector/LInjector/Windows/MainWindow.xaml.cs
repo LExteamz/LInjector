@@ -135,7 +135,7 @@ namespace LInjector.Windows
 
         private void TitleBarLabel_Loaded(object sender, RoutedEventArgs e)
         {
-            int seconds = 5;
+            int seconds = 120;
 
             TitleTimer.Interval = TimeSpan.FromSeconds(seconds);
             TitleTimer.Tick += randomizeTitleEvent;
