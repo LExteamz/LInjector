@@ -129,6 +129,39 @@ namespace LInjector.Windows
             await ws.Start();
         }
 
+        // Very useless function but it's interesting
+
+        DispatcherTimer TitleTimer = new DispatcherTimer();
+
+        private void TitleBarLabel_Loaded(object sender, RoutedEventArgs e)
+        {
+            int seconds = 5;
+
+            TitleTimer.Interval = TimeSpan.FromSeconds(seconds);
+            TitleTimer.Tick += randomizeTitleEvent;
+            TitleTimer.Start();
+        }
+
+        private void randomizeTitleEvent(object sender, EventArgs e) => randomizeTitle();
+
+
+        // ---------------------------- ATTENTION -------------------------------
+        // ----------------------------------------------------------------------
+        // THIS FUNCTION IS JUST A JOKE, IT'S NOT TO PRETEND TO BE OTHER PROGRAMS
+        // ----------------------------------------------------------------------
+        private async void randomizeTitle()
+        {
+            string[] ArrayTitles = { "LInjector", "x64dbg", "IDA Freeware", "HxD Editor",
+                "Cheat Engine 7.5", "IDA Pro", "Ghidra", "Radare2", "Binary Ninja",
+                "ReClass.NET", "WinDbg", "PE Tools", "PE Explorer", "Dumping in Progress..." };
+
+            Random random = new Random();
+            int randomIndex = random.Next(0, ArrayTitles.Length);
+            string randomTitle = ArrayTitles[randomIndex];
+
+            await Notifications.AnimateObjectContentAsync(TitleBarLabel, randomTitle);
+        }
+
         private void DragWindow(object sender, MouseButtonEventArgs e)
         {
             try { DragMove(); } catch { }
@@ -142,474 +175,6 @@ namespace LInjector.Windows
             Close();
             System.Windows.Application.Current.Shutdown();
         }
-        #endregion
-
-        #region Script Hub
-        // I don't want to comment this, I don't even know. 🗣🗣🗣
-
-        private const string PostsURL = "https://api.mastersmzscripts.com/posts.json";
-        public static List<Post> posts = new List<Post>();
-
-        /// <summary>
-        /// Don't touch it, it works.
-        /// THE FIRST ONE TO SKID IT GETS BOZO'ED
-        /// </summary>
-        /// <param name="grid"></param>
-        /// <param name="PostsItemsControl"></param>
-        /// <returns></returns>
-        public async Task LoadPostsAsync(Grid grid, ItemsControl PostsItemsControl)
-        {
-            try
-            {
-                using (HttpClient client = new HttpClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync(PostsURL);
-                    response.EnsureSuccessStatusCode();
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    posts = JsonConvert.DeserializeObject<List<Post>>(responseBody);
-
-                    if (posts.Count > 0)
-                    {
-                        UniformGrid uniformGrid = new UniformGrid();
-                        uniformGrid.Columns = 3;
-
-                        int postIndex = -1;
-
-                        foreach (var post in posts)
-                        {
-                            int rowIndex = 0;
-                            int columnIndex = 0;
-                            postIndex++;
-                            CreateGrid(post.Title, post.Description, post.Script, post.Creator,
-                                       rowIndex, columnIndex, uniformGrid, postIndex);
-                        }
-
-                        PostsItemsControl.Items.Clear();
-                        PostsItemsControl.Items.Add(uniformGrid);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No posts found.", "MastersMZ Scripts");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading posts: " + ex.StackTrace, "Error");
-                FunctionWatch.clipboardSetText($"{ex.StackTrace}\n\n{ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Don't touch it, it works
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="description"></param>
-        /// <param name="scriptLink"></param>
-        /// <param name="creator"></param>
-        /// <param name="rowIndex"></param>
-        /// <param name="columnIndex"></param>
-        /// <param name="whatgridbozo"></param>
-        /// <param name="postIndex"></param>
-        public void CreateGrid(string title, string description, string scriptLink, string creator,
-                               int rowIndex, int columnIndex, UniformGrid whatgridbozo,
-                               int postIndex)
-        {
-            Border border = new Border
-            {
-                Background =
-                    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#161616")),
-                CornerRadius = new CornerRadius(5),
-                Margin = new Thickness(10),
-                Tag = title,
-                BorderBrush = Brushes.DarkGray,
-                BorderThickness = new Thickness(0.3),
-                MinHeight = 80,
-            };
-
-            Grid contentGrid = new Grid { Margin = new Thickness(3) };
-
-            contentGrid.ColumnDefinitions.Add(
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            contentGrid.ColumnDefinitions.Add(
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            contentGrid.ColumnDefinitions.Add(
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            contentGrid.RowDefinitions.Add(
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            contentGrid.RowDefinitions.Add(
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            contentGrid.RowDefinitions.Add(
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-
-            StackPanel stackPanel =
-                new StackPanel
-                {
-                    Orientation = System.Windows.Controls.Orientation.Vertical,
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-
-            contentGrid.Children.Insert(0, stackPanel);
-
-            Grid.SetRow(stackPanel, 0);
-            Grid.SetColumn(stackPanel, 0);
-            Grid.SetColumnSpan(stackPanel, 3);
-
-            System.Windows.Controls.TextBlock titleLabel = new System.Windows.Controls.TextBlock
-            {
-                Text = title,
-                Foreground = Brushes.WhiteSmoke,
-                FontSize = 13,
-                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(0, 0, 0, 0)
-            };
-            stackPanel.Children.Add(titleLabel);
-
-            TextBlock descriptionTextBlock = new TextBlock
-            {
-                Text = description,
-                Foreground = Brushes.Gray,
-                FontSize = 11,
-                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
-                TextWrapping = TextWrapping.WrapWithOverflow,
-            };
-            stackPanel.Children.Add(descriptionTextBlock);
-
-            StackPanel buttonStackPanel =
-                new StackPanel
-                {
-                    Orientation = System.Windows.Controls.Orientation.Horizontal,
-                    HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Stretch
-                };
-            contentGrid.Children.Add(buttonStackPanel);
-            Grid.SetRow(buttonStackPanel, 2);
-            Grid.SetColumn(buttonStackPanel, 0);
-            Grid.SetColumnSpan(buttonStackPanel, 3);
-
-            System.Windows.Controls.Button executeButton = new System.Windows.Controls.Button
-            {
-                Background =
-                    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#141414")),
-                BorderBrush = Brushes.Transparent,
-                Height = 30,
-                Width = 30,
-                Margin = new Thickness(0, 0, 3, 0),
-                Padding = new Thickness(5),
-                VerticalAlignment = VerticalAlignment.Bottom,
-                FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
-                Content = "\xF5B0",
-                ToolTip = "Execute",
-                FontSize = 14,
-                Tag = postIndex
-            };
-            buttonStackPanel.Children.Add(executeButton);
-
-            System.Windows.Controls.Button loadIntoEditorButton =
-                new System.Windows.Controls.Button
-                {
-                    Background =
-                        new SolidColorBrush((Color)ColorConverter.ConvertFromString("#141414")),
-                    Foreground = Brushes.White,
-                    BorderBrush = Brushes.Transparent,
-                    FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                    Content = "\xE7AC",
-                    Height = 30,
-                    Width = 30,
-                    Margin = new Thickness(0, 0, 3, 0),
-                    Padding = new Thickness(5),
-                    VerticalAlignment = VerticalAlignment.Bottom,
-                    Tag = postIndex,
-                    ToolTip = "Load Into Editor",
-                    HorizontalAlignment = System.Windows.HorizontalAlignment.Left
-                };
-            buttonStackPanel.Children.Add(loadIntoEditorButton);
-
-            System.Windows.Controls.Label creatorLabel = new System.Windows.Controls.Label
-            {
-                Content = creator,
-                Foreground = Brushes.DarkGray,
-                FontSize = 10,
-                HorizontalAlignment = System.Windows.HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Bottom
-            };
-            buttonStackPanel.Children.Add(creatorLabel);
-
-            border.Child = contentGrid;
-
-            whatgridbozo.Children.Add(border);
-            Grid.SetRow(border, rowIndex);
-            Grid.SetColumn(border, columnIndex);
-
-            loadIntoEditorButton.Click += LoadIntoEditor_ClickAsync;
-            executeButton.Click += ExecuteScript_ClickAsync;
-        }
-
-        public class Post
-        {
-            public string Title { get; set; }
-
-            public string Description { get; set; }
-
-            public string Script { get; set; }
-
-            public string Creator { get; set; }
-        }
-
-        /// <summary>
-        /// Loads the script into the Editor
-        /// </summary>
-        public async void LoadIntoEditor_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            if (sender is System.Windows.Controls.Button button)
-            {
-                if (button.Tag is int index)
-                {
-                    if (index >= 0 && index < posts.Count)
-                    {
-                        if (posts[index].Script.Contains("discord"))
-                        {
-                            var result = MessageBox.Show(
-                                "LInjector detected this script contains a Discord invite link, would you like to open it?",
-                                "LInjector", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                            if (result == System.Windows.Forms.DialogResult.Yes)
-                            {
-                                Process.Start(posts[index].Script);
-                                return;
-                            }
-                            else
-                            {
-                                return;
-                            }
-                        }
-
-                        if (posts[index].Script.StartsWith("loadstring"))
-                        {
-                            TabSystemz.add_tab_with_text(posts[index].Script, posts[index].Title);
-                            ToggleScriptHub();
-                            return;
-                        }
-
-                        using (HttpClient client = new HttpClient())
-                        {
-                            HttpResponseMessage response =
-                                await client.GetAsync(new Uri(posts[index].Script));
-
-                            if (response.IsSuccessStatusCode)
-                            {
-                                string asyncedscript = await response.Content.ReadAsStringAsync();
-                                TabSystemz.add_tab_with_text(asyncedscript, posts[index].Title);
-                                ToggleScriptHub();
-                            }
-                            else
-                            {
-                                await Notifications.Fire($"Script Error : {response.ReasonPhrase}");
-                            }
-                        }
-
-                    }
-                    else
-                    {
-                        await Notifications.Fire("Script Error : Invalid index.");
-                    }
-                }
-                else
-                {
-                    await Notifications.Fire("Script Error : Invalid tag type.");
-                }
-            }
-            else
-            {
-                await Notifications.Fire("Script Error : Invalid int index type.");
-            }
-        }
-
-        /// <summary>
-        /// Executes the Script
-        /// </summary>
-        public async void ExecuteScript_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            if (sender is System.Windows.Controls.Button button)
-            {
-                if (button.Tag is int index)
-                {
-                    if (index >= 0 && index < posts.Count)
-                    {
-                        if (posts[index].Script.Contains("discord"))
-                        {
-                            var result = MessageBox.Show(
-                                "LInjector detected this script contains a Discord invite link, would you like to open it?",
-                                "LInjector", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                            if (result == System.Windows.Forms.DialogResult.Yes)
-                            {
-                                Process.Start(posts[index].Script);
-                                return;
-                            }
-                            else
-                            {
-                                return;
-                            }
-                        }
-
-                        if (posts[index].Script.StartsWith("loadstring"))
-                        {
-                            try
-                            {
-                                var flag = !FluxInterfacing.is_injected(FluxInterfacing.pid);
-                                if (!flag)
-                                {
-                                    try
-                                    {
-                                        FluxInterfacing.run_script(FluxInterfacing.pid,
-                                                                   posts[index].Script);
-                                        await Notifications.Fire("Executed");
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        CustomCw.Cw(
-                                            $"LInjector couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}",
-                                            false, "error");
-                                    }
-                                }
-                                else
-                                {
-                                    Inject();
-                                    await Task.Delay(500);
-                                    FluxInterfacing.run_script(FluxInterfacing.pid,
-                                                               posts[index].Script);
-                                    await Notifications.Fire("Executed");
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("LInjector couldn't run the script.", "LInjector",
-                                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                CustomCw.Cw(
-                                    $"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}",
-                                    false, "error");
-                            }
-                        }
-
-                        using (HttpClient client = new HttpClient())
-                        {
-                            HttpResponseMessage response =
-                                await client.GetAsync(new Uri(posts[index].Script));
-
-                            if (response.IsSuccessStatusCode)
-                            {
-                                string asyncedscript = await response.Content.ReadAsStringAsync();
-                                try
-                                {
-                                    try
-                                    {
-                                        var flag =
-                                            !FluxInterfacing.is_injected(FluxInterfacing.pid);
-                                        if (!flag)
-                                        {
-                                            try
-                                            {
-                                                FluxInterfacing.run_script(FluxInterfacing.pid,
-                                                                           asyncedscript);
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                CustomCw.Cw(
-                                                    $"LInjector couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}",
-                                                    false, "error");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Inject();
-                                            await Task.Delay(500);
-                                            FluxInterfacing.run_script(FluxInterfacing.pid,
-                                                                       asyncedscript);
-                                            ToggleScriptHub();
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show("LInjector couldn't run the script.",
-                                                        "LInjector", MessageBoxButtons.OK,
-                                                        MessageBoxIcon.Error);
-                                        CustomCw.Cw(
-                                            $"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}",
-                                            false, "error");
-                                    }
-                                }
-                                catch
-                                {
-                                    await Notifications.Fire("Unknown error.");
-                                }
-                            }
-                            else
-                            {
-                                await Notifications.Fire($"Script Error : {response.ReasonPhrase}");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        await Notifications.Fire("Script Error : Invalid index.");
-                    }
-                }
-                else
-                {
-                    await Notifications.Fire("Script Error : Invalid tag type.");
-                }
-            }
-            else
-            {
-                await Notifications.Fire("Script Error : Invalid int index type.");
-            }
-        }
-
-        private void SearchScriptHub_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            UpdatePostsDisplay();
-        }
-
-        private void UpdatePostsDisplay()
-        {
-            string searchQuery = SearchScriptHub.Text.ToLower();
-            foreach (var item in PostsItemsControl.Items)
-            {
-                if (item is FrameworkElement frameworkElement &&
-                    frameworkElement.Tag is string tag)
-                {
-                    Debug.WriteLine(tag);
-                    if (tag.Contains(searchQuery.ToLower()))
-                    {
-                        frameworkElement.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        frameworkElement.Visibility = Visibility.Collapsed;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Hides the Script Hub Grid.
-        /// </summary>
-        private void HideScriptHub_Click(object sender, RoutedEventArgs e) => ToggleScriptHub();
-
-        /// <summary>
-        /// Toggles the only uncommented section of this file.
-        /// </summary>
-        private void ToggleScriptHub()
-        {
-            if (IsSettingsShown || IsInfoShown) return;
-
-            IsScriptsShown = !IsScriptsShown;
-            ScriptPageGrid.Visibility = IsScriptsShown ? Visibility.Visible : Visibility.Collapsed;
-            TabSystemz.Visibility = IsScriptsShown ? Visibility.Collapsed : Visibility.Visible;
-        }
-
         #endregion
 
         #region Button Functions
@@ -657,7 +222,7 @@ namespace LInjector.Windows
         private void ConsoleDebugButton_Click(object sender, RoutedEventArgs e) =>
             ConsoleManager.ToggleConsoleVisibility();
 
-        private void ScriptPage_Click(object sender, RoutedEventArgs e) => ToggleScriptHub();
+        private async void ScriptPage_Click(object sender, RoutedEventArgs e) => await Notifications.Fire("Not implemented");
 
         /// <summary>
         /// Toggles the Settings Grid
@@ -1006,9 +571,7 @@ namespace LInjector.Windows
                         selectedItem.ToString());
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         #endregion
