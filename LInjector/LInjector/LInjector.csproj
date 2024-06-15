@@ -341,12 +341,12 @@
     <Compile Include="Classes\ConfigHandler.cs" />
     <Compile Include="Classes\ConsoleManager.cs" />
     <Compile Include="Classes\CustomCw.cs" />
-    <Compile Include="Classes\FluxInterfacing.cs" />
+    <Compile Include="Classes\ExploitDLL.cs" />
     <Compile Include="Classes\FunctionWatch.cs" />
+    <Compile Include="Classes\IntConsole.cs" />
     <Compile Include="Classes\Themes.cs" />
     <Compile Include="Classes\Updater.cs" />
     <Compile Include="Classes\WebSocket.cs" />
-    <Compile Include="Classes\LogToConsole.cs" />
     <Compile Include="Classes\MonacoInterfacer.cs" />
     <Compile Include="Classes\Notifications.cs" />
     <Compile Include="Classes\RPCManager.cs" />

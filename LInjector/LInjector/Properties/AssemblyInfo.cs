@@ -5,11 +5,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LInjector")]
+[assembly: AssemblyTitle("")]
 [assembly: AssemblyDescription("LInjector Development Tool")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("LEx Softworks")]
-[assembly: AssemblyProduct("LInjector")]
+[assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("Copyright (c) LEx Softworks 2024")]
 [assembly: AssemblyTrademark("LEx Softworks")]
 [assembly: AssemblyCulture("")]

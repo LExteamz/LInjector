@@ -2,17 +2,13 @@
 using LInjector.Classes;
 using LInjector.WPF.Classes;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -57,47 +53,35 @@ namespace LInjector.Windows
         {
             InitializeComponent();
 
-            // RunAutoAttachTimer (DEPRECATED)
+            // RunAutoAttachTime
             // The function no longer works, this was used to interact with
-            //  the Fluxus DLL Interface and listen
+            //  the Solara DLL Interface and listen
             //  when THE GAME process was launched and then check if
             //  ConfigHandler.autoattach was enabled.
             //
-            // RunAutoAttachTimer();
+            RunAutoAttachTimer();
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            /*
+
             try
             {
                 // await Updater.CheckForUpdates
                 // Fetches a JSON from any content delivery network, reads the
-                //  content of it which are file hashes, if the
-                //  local file hashes mismatch, the application downloads the
-                //  latest files provided in the JSON.
+                // content of it which are file hashes, if the
+                // local file hashes mismatch, the application downloads the
+                // latest files provided in the JSON.
 
-                // await Updater.CheckForUpdates();
+                await Updater.CheckForUpdates();
 
-                // FluxInterfacing.create_files
-                // Used to create the files needed by the DLL.
-                //
-                // FluxInterfacing.create_files(Path.GetFullPath("Resources\\libs\\Module.dll"));
             }
             catch (Exception ex)
             {
-                // If some of the commands above spit an Error, a MessageBox was shown.
+                // If some of the commands above spit an Error, a MessageBox will show.
 
-                // MessageBox.Show(
-                //     "Couldn't initialize Fluxus Interface\nException:\n" +
-                //         ex.Message + "\nPlease, share it on Discord.",
-                //     "[ERROR] LInjector", MessageBoxButtons.OK,
-                //     MessageBoxIcon.Information);
-                // _ = Notifications.Fire(StatusListBox,
-                //                        "Couldn't initialize Fluxus Interface.",
-                //                        NotificationLabel);
+                await Notifications.Fire(ex.Message);
             }
-            */
 
             this.Topmost = ConfigHandler.topmost;
 
@@ -118,9 +102,9 @@ namespace LInjector.Windows
 
             // Converts the MainWindow ListBox to a Static Item, this is used to easy-call the item
             // because it is needed from other sources.
-            LogToConsole.GetListBox = this.ConsoleLogList;
+            IntConsole.GetListBox = this.ConsoleLogList;
             Notifications.InitVars(StatusListBox, NotificationLabel);
-            LogToConsole.Log("Loaded");
+            IntConsole.Log("Loaded");
             await Notifications.Fire("Welcome to LInjector");
 
             // await ws.Start
@@ -217,7 +201,7 @@ namespace LInjector.Windows
         /// <summary>
         /// Attach and Inject are the same, this was used to load LInjector into the GAME.
         /// </summary>
-        private void AttachButton_Click(object sender, RoutedEventArgs e) => Inject();
+        private void AttachButton_Click(object sender, RoutedEventArgs e) => ExploitDLL.Inject();
 
         private void ConsoleDebugButton_Click(object sender, RoutedEventArgs e) =>
             ConsoleManager.ToggleConsoleVisibility();
@@ -240,7 +224,6 @@ namespace LInjector.Windows
         /// </summary>
         private async void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
-            /* No longer working.
             try
             {
                 // Get the current Monaco Editor instance
@@ -252,38 +235,32 @@ namespace LInjector.Windows
                 try
                 {
                     // Check if Fluxus is not injected
-                    var flag = !FluxInterfacing.is_injected(FluxInterfacing.pid);
+                    var flag = !ExploitDLL.IsAttached();
                     if (!flag)
                     {
                         // Run the script if Injected
-                        //FluxInterfacing.run_script(FluxInterfacing.pid, scriptString);
+                        ExploitDLL.RunScript(scriptString);
                     }
                     else
                     {
                         // Inject the process and then run the script
-                        // Inject(); NO LONGER WORKING
-                        // await Task.Delay(500); // Task.Delay to ensure proper injection (bad
-            practice)
-                        // FluxInterfacing.run_script(FluxInterfacing.pid, scriptString); NO LOGER
-            WORKING
+                        ExploitDLL.Inject();
+                        await Task.Delay(500); // Task.Delay to ensure proper injection (bad practice)
+                        ExploitDLL.RunScript(scriptString);
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle Fluxus Interfacing exception.
-                    MessageBox.Show("LInjector couldn't run the script.", "LInjector",
-            MessageBoxButtons.OK, MessageBoxIcon.Error); CustomCw.Cw($"(Module) Exception
-            thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                    // Handle Exploit Interfacing exception.
+                    FunctionWatch.clipboardSetText($"Message: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                    await Notifications.Fire("Exception pasted to Clipboard");
                 }
             }
             catch
             {
                 // Handle anything
-                _ = Notifications.Fire(StatusListBox, "Unknown error.", NotificationLabel);
+                await Notifications.Fire("Unknown error.");
             }
-            */
-
-            await Notifications.Fire("Execution is no longer working! Thanks for using LInjector.");
         }
 
         private long ApplicationModel()
@@ -330,60 +307,6 @@ namespace LInjector.Windows
         /// <summary>
         /// This is the core function of the executable, we all know for what it was used.
         /// </summary>
-        public void Inject()
-        {
-            MessageBox.Show(
-                "Execution is not working, LInjector currently does not have support for any game client.",
-                "LInjector", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-            /*
-            // Create necessary files for the Fluxus DLLs
-            FluxInterfacing.create_files(Path.GetFullPath(".\\Resources\\libs\\Module.dll"));
-
-            // Check
-            var flag = !FluxInterfacing.is_injected(FluxInterfacing.pid);
-            if (flag)
-            {
-                try
-                {
-                    try
-                    {
-                        // Perform injection
-                        FluxInterfacing.inject();
-
-                        // Runs the File System Event watcher, ensuring the UNC compatibility
-                        FunctionWatch.runFuncWatch();
-
-                        // Check for Process Id
-                        if (FluxInterfacing.pid > 0)
-                        {
-                            LogToConsole.Log($"Injected to Windows10Universal.exe with PID:
-            {FluxInterfacing.pid}");
-                        }
-                        else
-                        {
-                            LogToConsole.Log($"Windows10Universal.exe not detected.");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _ = Notifications.Fire(StatusListBox, "Something went wrong...",
-            NotificationLabel); MessageBox.Show($"Exception Message: {ex.InnerException}\nStack
-            Trace: {ex.StackTrace}"); throw ex;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error on inject:\n" + ex.Message + "\nStack Trace:\n" +
-            ex.StackTrace, "LInjector | Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else // If injected
-            {
-                _ = Notifications.Fire(StatusListBox, "Already injected", NotificationLabel);
-            }
-            */
-        }
         #endregion
 
         #region Save Tabs
@@ -459,26 +382,19 @@ namespace LInjector.Windows
         {
             if (!ConfigHandler.autoattach) return;
 
-            var processesByName = Process.GetProcessesByName("Windows10Universal");
+            var processesByName = Process.GetProcessesByName("RobloxPlayerBeta");
             foreach (var process in processesByName)
             {
                 try
                 {
                     var filePath = process.MainModule.FileName;
 
-                    /* We all know it
-                     if (filePath.Contains("ROBLOX") || filePath.Contains("Fluster"))
-                     {
-                         if (FluxInterfacing.is_injected(FluxInterfacing.pid))
-                             return;
-
-                         Inject();
-                     }
-                     */
+                    if (ExploitDLL.IsAttached()) { return; }
+                    ExploitDLL.Inject();
                 }
                 catch (Exception ex)
                 {
-                    LogToConsole.Log(ex.Message);
+                    IntConsole.Log(ex.Message);
                 }
             }
         }
@@ -716,6 +632,22 @@ namespace LInjector.Windows
             }
             SetToggle(TopmostToggle, ConfigHandler.topmost);
             SetToggle(SaveTabsToggle, ConfigHandler.save_tabs);
+            SetToggle(HideBottomConsole, ConfigHandler.hide_internalconsole);
+            if (ConfigHandler.hide_internalconsole)
+            {
+                SetToggle(HideBottomConsole, ConfigHandler.hide_scriptlist);
+                InternalConsole.Visibility = Visibility.Collapsed;
+                LaPeopleII.Height = new GridLength(5, GridUnitType.Star);
+            }
+            if (ConfigHandler.hide_scriptlist)
+            {
+                LEFTOpenFileButton.Visibility = Visibility.Visible;
+                LEFTSaveFileButton.Visibility = Visibility.Visible;
+
+                SetToggle(HideScriptListAndIO, ConfigHandler.hide_scriptlist);
+                ScriptListForMastersMZ.Visibility = Visibility.Collapsed;
+                ScriptListAndSaveCDef.Width = new GridLength(0, GridUnitType.Star);
+            }
             SetToggle(ToggleWebSocketMode, ConfigHandler.websocket_mode);
             ParseMyThemeSelectors();
         }
@@ -856,6 +788,48 @@ namespace LInjector.Windows
         {
             ConfigHandler.SetConfigValue("save_tabs", false);
             ConfigHandler.save_tabs = false;
+        }
+
+        private void HideScriptListAndIO_Checked(object sender, RoutedEventArgs e)
+        {
+
+            ConfigHandler.SetConfigValue("hide_scriptlist", true);
+            ConfigHandler.hide_scriptlist = true;
+
+            ScriptListForMastersMZ.Visibility = Visibility.Collapsed;
+            ScriptListAndSaveCDef.Width = new GridLength(0, GridUnitType.Star);
+
+            LEFTOpenFileButton.Visibility = Visibility.Visible;
+            LEFTSaveFileButton.Visibility = Visibility.Visible;
+        }
+
+        private void HideScriptListAndIO_Unchecked(object sender, RoutedEventArgs e)
+        {
+            LEFTOpenFileButton.Visibility = Visibility.Collapsed;
+            LEFTSaveFileButton.Visibility = Visibility.Collapsed;
+
+            ConfigHandler.SetConfigValue("hide_scriptlist", false);
+            ConfigHandler.hide_scriptlist = false;
+
+
+            ScriptListForMastersMZ.Visibility = Visibility.Visible;
+            ScriptListAndSaveCDef.Width = new GridLength(119, GridUnitType.Star);
+        }
+
+        private void HideBottomConsole_Checked(object sender, RoutedEventArgs e)
+        {
+            ConfigHandler.SetConfigValue("hide_internalconsole", true);
+            ConfigHandler.hide_internalconsole = true;
+            InternalConsole.Visibility = Visibility.Collapsed;
+            LaPeopleII.Height = new GridLength(5, GridUnitType.Star);
+        }
+
+        private void HideBottomConsole_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ConfigHandler.SetConfigValue("hide_internalconsole", false);
+            ConfigHandler.hide_internalconsole = false;
+            InternalConsole.Visibility = Visibility.Visible;
+            LaPeopleII.Height = new GridLength(89, GridUnitType.Star);
         }
 
         /// <summary>

@@ -16,6 +16,8 @@ namespace LInjector.Classes
         public static bool discord_rpc = false;
         public static bool save_tabs = false;
         public static bool websocket_mode = false;
+        public static bool hide_scriptlist = true;
+        public static bool hide_internalconsole = false;
 
         /// <summary>
         /// Reads the config and parse it to the bools of the <see cref="ConfigHandler"/> class.
@@ -30,7 +32,9 @@ namespace LInjector.Classes
                 { "topmost", false },
                 { "discord_rpc", false },
                 { "save_tabs", false },
-                { "websocket_mode", false }
+                { "websocket_mode", false },
+                { "hide_scriptlist", false },
+                { "hide_internalconsole", false }
             };
 
             if (!File.Exists(ConfigPath))
@@ -51,8 +55,10 @@ namespace LInjector.Classes
                 ConsoleManager.ShowConsole();
             });
             AssignConfigValue(config, "topmost", ref topmost);
-            AssignConfigValue(config, "discord_rpc", ref RPCManager.isEnabled, () => discord_rpc = true);
+            AssignConfigValue(config, "discord_rpc", ref RPCManager.isEnabled);
             AssignConfigValue(config, "save_tabs", ref save_tabs);
+            AssignConfigValue(config, "hide_scriptlist", ref hide_scriptlist);
+            AssignConfigValue(config, "hide_internalconsole", ref hide_internalconsole);
         }
 
         /// <summary>

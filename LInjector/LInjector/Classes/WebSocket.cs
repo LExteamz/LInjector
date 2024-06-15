@@ -217,7 +217,7 @@ namespace LInjector.Classes
             }
             if (argsArray[0] == "consolelog")
             {
-                LogToConsole.Log(argsArray[1]);
+                IntConsole.Log(argsArray[1]);
                 return;
             }
         }

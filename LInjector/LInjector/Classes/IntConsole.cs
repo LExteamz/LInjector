@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace LInjector.Classes
 {
-    public static class LogToConsole
+    public static class IntConsole
     {
         public static ListBox GetListBox = new ListBox();
 

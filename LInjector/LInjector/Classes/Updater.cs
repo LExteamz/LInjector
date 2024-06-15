@@ -101,7 +101,6 @@ namespace LInjector.Classes
                     if (string.IsNullOrEmpty(localFluxChecksum) || localFluxChecksum != newFluxChecksum ||
                        string.IsNullOrEmpty(localModuleChecksum) || localModuleChecksum != newModuleChecksum)
                     {
-                        CreateFiles.RedownloadModules();
 
                         RegistryHandler.SetValue("FluxVersion", newFluxChecksum);
                         RegistryHandler.SetValue("ModuleVersion", newModuleChecksum);
@@ -417,7 +416,6 @@ namespace LInjector.Classes
 
                         if (Directory.Exists("Resources\\libs"))
                         {
-                            DeleteFilesAndFoldersRecursively("Resources\\libs");
                             Directory.CreateDirectory("Resources\\libs");
                         }
                         else

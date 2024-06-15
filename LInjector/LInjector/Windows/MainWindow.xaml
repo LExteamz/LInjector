@@ -99,7 +99,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="276*"/>
                     <RowDefinition Height="0*"/>
-                    <RowDefinition Height="89*"/>
+                    <RowDefinition Height="89*" Name="LaPeopleII"/>
                 </Grid.RowDefinitions>
                 <Grid HorizontalAlignment="Left" Width="45" Background="Transparent" Grid.RowSpan="3" Margin="0,0,0,0">
                     <ListBox Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="Auto" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="5" Margin="1 0 0 0" Foreground="#FF0F0F0F">
@@ -151,8 +151,20 @@
                                 <Image Source="/Resources/Icons/Discord.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
+                        <Button Background="{DynamicResource TertiaryColor}" Click="OpenFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Load File to Editor" x:Name="LEFTOpenFileButton" Visibility="Collapsed">
+                            <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
+                            <Button.Content>
+                                <Label Content="&#xE8E5;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Background="{DynamicResource TertiaryColor}" Click="SaveToFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Save to File" x:Name="LEFTSaveFileButton" Visibility="Collapsed">
+                            <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
+                            <Button.Content>
+                                <Label Content="&#xEA35;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
+                            </Button.Content>
+                        </Button>
                     </ListBox>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0 0 0 7">
                         <Button Background="{DynamicResource PrimaryColor}" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 0 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
                             <Button.Content>
                                 <Image Source="/Resources/Icons/GitHub.png" Height="25" Width="25" HorizontalAlignment="Center"/>
@@ -220,6 +232,14 @@
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Checked="SaveTabsToggle_Checked" Unchecked="SaveTabsToggle_Unchecked" Width="30" Height="30" x:Name="SaveTabsToggle"/>
                                                                         <Label Content="Save Tabs" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <ToggleButton Checked="HideScriptListAndIO_Checked" Unchecked="HideScriptListAndIO_Unchecked" Width="30" Height="30" x:Name="HideScriptListAndIO"/>
+                                                                        <Label Content="Hide Script List Grid" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <ToggleButton Checked="HideBottomConsole_Checked" Unchecked="HideBottomConsole_Unchecked" Width="30" Height="30" x:Name="HideBottomConsole"/>
+                                                                        <Label Content="Hide Internal Console" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
                                                                     <Button Background="Transparent" Click="InfoButton_Click" BorderThickness="0" Padding="0" Margin="0">
                                                                         <StackPanel Orientation="Horizontal">
@@ -400,7 +420,7 @@
                 </Border>
                 <!-- EDITOR ENDS -->
                 <!-- GAME CONSOLE COMMUNICATION BEGANS -->
-                <Border Background="{DynamicResource TertiaryColor}" BorderThickness="1" Margin="46,2,6,10" CornerRadius="4" Padding="0" Grid.Row="2">
+                <Border Background="{DynamicResource TertiaryColor}" BorderThickness="1" Margin="46,2,6,10" CornerRadius="4" Padding="0" Grid.Row="2" Name="InternalConsole">
                     <StackPanel Orientation="Vertical">
                         <ListBox Background="Transparent" BorderThickness="0" Foreground="{DynamicResource Text}" FontFamily="Consolas" x:Name="ConsoleLogList" x:FieldModifier="public" Height="72" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False"
          materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True" materialDesign:ScrollViewerAssist.CornerRectangleVisibility="Collapsed">
@@ -421,7 +441,7 @@
                 </Border>
                 <!-- CONSOLE COMMUNICATION ENDS -->
                 <!-- SCRIPT LIST BEGANS -->
-                <Border Background="Transparent" Margin="1,10,7,10" CornerRadius="4" Grid.Column="1" Grid.RowSpan="3">
+                <Border Background="Transparent" Margin="1,10,7,10" CornerRadius="4" Grid.Column="1" Grid.RowSpan="3" Name="ScriptListForMastersMZ">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="27"/>
