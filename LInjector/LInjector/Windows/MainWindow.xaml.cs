@@ -916,7 +916,9 @@ namespace LInjector.Windows
         private void HandleColorChange(Button button)
         {
             var dialog = new ColorPickerDialog();
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             var result = dialog.ShowDialog();
+            dialog.Topmost = true;
 
             if (result.HasValue && result.Value)
             {
