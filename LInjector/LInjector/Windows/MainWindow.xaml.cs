@@ -55,11 +55,11 @@ namespace LInjector.Windows
 
             // RunAutoAttachTime
             // The function no longer works, this was used to interact with
-            //  the Solara DLL Interface and listen
+            //  the DLL Interface and listen
             //  when THE GAME process was launched and then check if
             //  ConfigHandler.autoattach was enabled.
             //
-            RunAutoAttachTimer();
+            // RunAutoAttachTimer();
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
