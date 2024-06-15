@@ -128,16 +128,28 @@ namespace LInjector.Windows
 
         private void randomizeTitleEvent(object sender, EventArgs e) => randomizeTitle();
 
-
         // ---------------------------- ATTENTION -------------------------------
         // ----------------------------------------------------------------------
         // THIS FUNCTION IS JUST A JOKE, IT'S NOT TO PRETEND TO BE OTHER PROGRAMS
         // ----------------------------------------------------------------------
         private async void randomizeTitle()
         {
-            string[] ArrayTitles = { "LInjector", "x64dbg", "IDA Freeware", "HxD Editor",
-                "Cheat Engine 7.5", "IDA Pro", "Ghidra", "Radare2", "Binary Ninja",
-                "ReClass.NET", "WinDbg", "PE Tools", "PE Explorer", "Dumping in Progress..." };
+            string[] ArrayTitles = {
+                "LInjector",
+                "x64dbg",
+                "IDA Freeware",
+                "HxD Editor",
+                "Cheat Engine 7.5",
+                "IDA Pro",
+                "Ghidra",
+                "Radare2",
+                "Binary Ninja",
+                "ReClass.NET",
+                "WinDbg",
+                "PE Tools",
+                "PE Explorer",
+                "Dumping in Progress..."
+            };
 
             Random random = new Random();
             int randomIndex = random.Next(0, ArrayTitles.Length);
@@ -148,7 +160,11 @@ namespace LInjector.Windows
 
         private void DragWindow(object sender, MouseButtonEventArgs e)
         {
-            try { DragMove(); } catch { }
+            try
+            {
+                DragMove();
+            }
+            catch { }
         }
 
         /// <summary>
@@ -180,11 +196,16 @@ namespace LInjector.Windows
             // Fade-out animation, pretty cool.
             Storyboard fadeOutStoryboard = new Storyboard();
             DoubleAnimation fadeOutAnimation =
-                new DoubleAnimation { From = 1, To = 0, Duration = TimeSpan.FromSeconds(0.10) };
+                new DoubleAnimation
+                {
+                    From = 1,
+                    To = 0,
+                    Duration = TimeSpan.FromSeconds(0.10)
+                };
             fadeOutStoryboard.Children.Add(fadeOutAnimation);
             Storyboard.SetTarget(fadeOutAnimation, this);
             Storyboard.SetTargetProperty(fadeOutAnimation,
-                                         new PropertyPath(Window.OpacityProperty));
+                new PropertyPath(Window.OpacityProperty));
             fadeOutStoryboard.Completed += OnCloseFadeoutCompleted;
             fadeOutStoryboard.Begin();
         }
@@ -196,7 +217,7 @@ namespace LInjector.Windows
         }
 
         private void MinimizeButton_Click(object sender,
-                                          RoutedEventArgs e) => WindowState = WindowState.Minimized;
+            RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
         /// <summary>
         /// Attach and Inject are the same, this was used to load LInjector into the GAME.
@@ -327,7 +348,7 @@ namespace LInjector.Windows
                 if (GetTextzzzz.Length > 1)
                 {
                     File.WriteAllText($"{Files.savedtabspath}\\{item.Header.ToString()}",
-                                      GetTextzzzz.ToString());
+                        GetTextzzzz.ToString());
                 }
             }
         }
@@ -389,7 +410,10 @@ namespace LInjector.Windows
                 {
                     var filePath = process.MainModule.FileName;
 
-                    if (ExploitDLL.IsAttached()) { return; }
+                    if (ExploitDLL.IsAttached())
+                    {
+                        return;
+                    }
                     ExploitDLL.Inject();
                 }
                 catch (Exception ex)
@@ -409,7 +433,7 @@ namespace LInjector.Windows
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SearchScriptsBox_TextChanged(object sender,
-                                                  System.Windows.Controls.TextChangedEventArgs e)
+            System.Windows.Controls.TextChangedEventArgs e)
         {
             RefreshScriptList();
         }
@@ -471,8 +495,8 @@ namespace LInjector.Windows
                             TabSystemz.ChangeCurrentTabTitle(selectedItem.ToString());
                             TabSystemz.current_monaco().SetText(
                                 File.ReadAllText(scriptfolder + "\\" +
-                                                 (selectedItem != null ? selectedItem.ToString()
-                                                  : (string)null)));
+                                    (selectedItem != null ? selectedItem.ToString() :
+                                        (string)null)));
                         }
                     }
                 }
@@ -482,8 +506,8 @@ namespace LInjector.Windows
                     object selectedItem = this.ScriptListHolder.SelectedItem;
                     TabSystemz.add_tab_with_text(
                         File.ReadAllText(scriptfolder + "\\" +
-                                         (selectedItem != null ? selectedItem.ToString()
-                                          : (string)null)),
+                            (selectedItem != null ? selectedItem.ToString() :
+                                (string)null)),
                         selectedItem.ToString());
                 }
             }
@@ -811,7 +835,6 @@ namespace LInjector.Windows
             ConfigHandler.SetConfigValue("hide_scriptlist", false);
             ConfigHandler.hide_scriptlist = false;
 
-
             ScriptListForMastersMZ.Visibility = Visibility.Visible;
             ScriptListAndSaveCDef.Width = new GridLength(119, GridUnitType.Star);
         }
@@ -858,7 +881,7 @@ namespace LInjector.Windows
                 catch (Exception ex)
                 {
                     MessageBox.Show("LInjector couldn't run the script.", "LInjector",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     CustomCw.Cw(
                         $"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}",
                         false, "error");
@@ -881,7 +904,7 @@ namespace LInjector.Windows
         /// <param name="sender">The object that raised the event.</param>
         /// <param name="e">The event arguments.</param>
         private void ColorChanged(object sender,
-                                  RoutedEventArgs e) => HandleColorChange((Button)sender);
+            RoutedEventArgs e) => HandleColorChange((Button)sender);
 
         /// <summary>
         /// Handles the color change operation for the specified button.
@@ -919,14 +942,10 @@ namespace LInjector.Windows
         /// </summary>
         private void ParseMyTheme()
         {
-            Resources[PrimaryColor.Tag.ToString()]
-            = ParseColor(Themes.GetColor("PrimaryColor"));
-            Resources[SecondaryColor.Tag.ToString()]
-            = ParseColor(Themes.GetColor("SecondaryColor"));
-            Resources[TertiaryColor.Tag.ToString()]
-            = ParseColor(Themes.GetColor("TertiaryColor"));
-            Resources[Text.Tag.ToString()]
-            = ParseColor(Themes.GetColor("Text"));
+            Resources[PrimaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("PrimaryColor"));
+            Resources[SecondaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("SecondaryColor"));
+            Resources[TertiaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("TertiaryColor"));
+            Resources[Text.Tag.ToString()] = ParseColor(Themes.GetColor("Text"));
         }
 
         /// <summary>
@@ -969,14 +988,10 @@ namespace LInjector.Windows
             CreateFiles.ResetTheme();
             ParseMyThemeSelectors();
 
-            Resources[PrimaryColor.Tag.ToString()]
-            = ParseColor(Themes.GetColor("PrimaryColor"));
-            Resources[SecondaryColor.Tag.ToString()]
-            = ParseColor(Themes.GetColor("SecondaryColor"));
-            Resources[TertiaryColor.Tag.ToString()]
-            = ParseColor(Themes.GetColor("TertiaryColor"));
-            Resources[Text.Tag.ToString()]
-            = ParseColor(Themes.GetColor("Text"));
+            Resources[PrimaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("PrimaryColor"));
+            Resources[SecondaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("SecondaryColor"));
+            Resources[TertiaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("TertiaryColor"));
+            Resources[Text.Tag.ToString()] = ParseColor(Themes.GetColor("Text"));
         }
 
         /// <summary>
@@ -992,7 +1007,7 @@ namespace LInjector.Windows
             if (srgb.Length != 8)
             {
                 throw new ArgumentException(
-                    $"sRGB must be 8 characters, got {srgb} : {srgb.Length}", nameof(srgb));
+                    $"aRGB must be 8 characters, got {srgb} : {srgb.Length}", nameof(srgb));
             }
 
             byte a = byte.Parse(srgb.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
