@@ -18,8 +18,7 @@ namespace LInjector.Windows
         DispatcherTimer RGBTime;
         Storyboard StoryBoard = new Storyboard();
 
-        private IEasingFunction Smooth { get; set; }
-        = new QuarticEase
+        private IEasingFunction Smooth { get; set; } = new QuarticEase
         {
             EasingMode = EasingMode.EaseInOut
         };
@@ -49,6 +48,19 @@ namespace LInjector.Windows
 
         public SplashScreen()
         {
+            string[] arguments = Environment.GetCommandLineArgs();
+            foreach (string arg in arguments)
+            {
+                if (arg == "--metalpipe" || arg == "-mp")
+                {
+                    PipeHandler.PlayPipe("metal");
+                }
+                else if (arg == "--bamboo" || arg == "-bp")
+                {
+                    PipeHandler.PlayPipe("bamboo");
+                }
+            }
+
             InitializeComponent();
 
             if (!(Themes.LookColor("SSC1") && Themes.LookColor("SSC2") && Themes.LookColor("PrimaryColor") && Themes.LookColor("SecondaryColor") && Themes.LookColor("TertiaryColor") && Themes.LookColor("Text")))

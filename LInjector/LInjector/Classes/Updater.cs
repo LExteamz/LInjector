@@ -6,11 +6,13 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 using File = System.IO.File;
 using FileMode = System.IO.FileMode;
 
@@ -67,6 +69,64 @@ namespace LInjector.Classes
     #endregion
 
     #region Auto Module Updater
+
+    public static class PipeHandler
+    {
+        private static readonly string metalpipeURL = "https://short.lexploits.top/Assets/40506d549f23856071e7beed4b35c097.wav";
+        private static readonly string bamboopipeURL = "https://short.lexploits.top/Assets/40e0cc9d289d38f0acfeb076eeb785eb.wav";
+        private static readonly string TempPath = Path.Combine(Path.GetTempPath(), "LInjector");
+
+        private static async Task<string> DownloadFileAsync(string url)
+        {
+            Directory.CreateDirectory(TempPath);
+            string filePath = Path.Combine(TempPath, Path.GetFileName(url));
+
+            using (WebClient client = new WebClient())
+            {
+                await client.DownloadFileTaskAsync(new Uri(url), filePath);
+            }
+
+            return filePath;
+        }
+
+        private static void PlaySound(string filePath)
+        {
+            try
+            {
+                using (var player = new SoundPlayer(filePath))
+                {
+                    player.Play();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new FileLoadException(ex.Message);
+            }
+        }
+
+        public static async void PlayPipe(string pipe)
+        {
+            string url = null;
+
+            switch (pipe)
+            {
+                case "metal":
+                    url = metalpipeURL;
+                    break;
+                case "bamboo":
+                    url = bamboopipeURL;
+                    break;
+                default:
+                    return;
+            }
+
+            if (url != null)
+            {
+                string filePath = await DownloadFileAsync(url);
+                PlaySound(filePath);
+            }
+        }
+    }
 
     public static class Updater
     {
