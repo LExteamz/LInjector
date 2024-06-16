@@ -64,7 +64,7 @@ namespace LInjector.Windows
                 }
                 else if (arg == "--windows" || arg == "-win")
                 {
-                    StartupHandler.PlayStartupSound(soundEvents[0]);
+                    StartupHandler.PlayStartupSound(soundEvents[2]);
                 }
             }
 
