@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace LInjector.Windows
 {

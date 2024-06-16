@@ -1,13 +1,9 @@
-﻿using LInjector.Classes;
-using LInjector.Windows;
-using System;
-using System.Windows;
-using SplashScreen = LInjector.Windows.SplashScreen;
+﻿using System.Windows;
 
 namespace LInjector
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application  { }
+    public partial class App : Application { }
 }

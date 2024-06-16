@@ -12,7 +12,6 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Media;
 using File = System.IO.File;
 using FileMode = System.IO.FileMode;
 
