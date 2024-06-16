@@ -54,6 +54,7 @@ To edit the Forms, first compile. For any reason, forms can't load if not compil
 Well, here are some reasons:
 - It's an open-source project, which ensures the program does not contain malware.
 - Transparency about the state and code of LInjector. I can ensure you'll get a response about LInjector every time.
+- The UI is beautiful and sigma.
 
 <hr/>
 
