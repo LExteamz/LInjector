@@ -10,7 +10,7 @@
 
 <hr/>
 <h1>
-LInjector, is <strong>PATCHED</strong> due to the introduction of Hyperion in the UWP Version. You can still edit the project and make it work by another way.
+LInjector, is <strong>PATCHED</strong>. You can still edit the project and make it work by yourself.
 </h1>
 <hr/>
 
@@ -67,8 +67,7 @@ We do not condone or support any unethical or malicious activities that may be f
 
 We urge all users to use LInjector only for development and utility purposes and to refrain from using it for any illegal or unethical activities. By using this development tool, users acknowledge and agree to assume all risks associated with its use.
 
-## Used Projects in LInjector
-- LInjector used the [Fluxus](https://fluxteam.net) (based of [WeAreDevs](https://wearedevs.net)) Modules to work.
+## Projects used in LInjector
 - [The text editor is Monaco.](https://microsoft.github.io/monaco-editor/)
 - Monaco Editor, edited by [Krnl](https://krnl.place/) and [depthso](https://github.com/depthso)
 - [Tab System by lxnnydev](https://github.com/lxnnydev/Winforms-Tab-System)
