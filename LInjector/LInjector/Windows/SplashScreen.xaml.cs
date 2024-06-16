@@ -53,11 +53,15 @@ namespace LInjector.Windows
             {
                 if (arg == "--metalpipe" || arg == "-mp")
                 {
-                    PipeHandler.PlayPipe("metal");
+                    StartupHandler.PlayStartupSound("metal");
                 }
                 else if (arg == "--bamboo" || arg == "-bp")
                 {
-                    PipeHandler.PlayPipe("bamboo");
+                    StartupHandler.PlayStartupSound("bamboo");
+                }
+                else if (arg == "--windows" || arg == "-win")
+                {
+                    StartupHandler.PlayStartupSound("windows");
                 }
             }
 

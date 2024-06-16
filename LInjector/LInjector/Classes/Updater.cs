@@ -70,10 +70,12 @@ namespace LInjector.Classes
 
     #region Auto Module Updater
 
-    public static class PipeHandler
+    public static class StartupHandler
     {
         private static readonly string metalpipeURL = "https://short.lexploits.top/Assets/40506d549f23856071e7beed4b35c097.wav";
         private static readonly string bamboopipeURL = "https://short.lexploits.top/Assets/40e0cc9d289d38f0acfeb076eeb785eb.wav";
+        private static readonly string windowsURL = "https://short.lexploits.top/Assets/0f4137ed1502b5045d6083aa258b5c42.wav";
+
         private static readonly string TempPath = Path.Combine(Path.GetTempPath(), "LInjector");
 
         private static async Task<string> DownloadFileAsync(string url)
@@ -101,17 +103,20 @@ namespace LInjector.Classes
             catch { }
         }
 
-        public static async void PlayPipe(string pipe)
+        public static async void PlayStartupSound(string sound)
         {
             string url = null;
 
-            switch (pipe)
+            switch (sound)
             {
                 case "metal":
                     url = metalpipeURL;
                     break;
                 case "bamboo":
                     url = bamboopipeURL;
+                    break;
+                case "windows":
+                    url = windowsURL;
                     break;
                 default:
                     return;
