@@ -98,10 +98,7 @@ namespace LInjector.Classes
                     player.Play();
                 }
             }
-            catch (Exception ex)
-            {
-                throw new FileLoadException(ex.Message);
-            }
+            catch { }
         }
 
         public static async void PlayPipe(string pipe)
