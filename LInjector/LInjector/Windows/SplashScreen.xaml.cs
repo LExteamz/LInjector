@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace LInjector.Windows
 {
@@ -17,6 +18,8 @@ namespace LInjector.Windows
         readonly int RGBSpinSpeed = 4;
         DispatcherTimer RGBTime;
         Storyboard StoryBoard = new Storyboard();
+
+        string[] soundEvents = { "metal", "bamboo", "windows" };
 
         private IEasingFunction Smooth { get; set; } = new QuarticEase
         {
@@ -53,16 +56,24 @@ namespace LInjector.Windows
             {
                 if (arg == "--metalpipe" || arg == "-mp")
                 {
-                    StartupHandler.PlayStartupSound("metal");
+                    StartupHandler.PlayStartupSound(soundEvents[0]);
                 }
                 else if (arg == "--bamboo" || arg == "-bp")
                 {
-                    StartupHandler.PlayStartupSound("bamboo");
+                    StartupHandler.PlayStartupSound(soundEvents[1]);
                 }
                 else if (arg == "--windows" || arg == "-win")
                 {
-                    StartupHandler.PlayStartupSound("windows");
+                    StartupHandler.PlayStartupSound(soundEvents[0]);
                 }
+            }
+
+            if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) // April 1st
+            {
+                int rand = new Random().Next(0, soundEvents.Length);
+                string RandomEvent = soundEvents[rand];
+
+                StartupHandler.PlayStartupSound(RandomEvent);
             }
 
             InitializeComponent();
