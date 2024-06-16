@@ -17,7 +17,7 @@ LInjector, is <strong>PATCHED</strong>. You can still edit the project and make 
 LInjector is an open-source interface for developers, designed to be minimal and easily customizable. <br>
 We currently **DON'T SUPPORT ANY VERSION**. [Learn more about Hyperion Byfron](https://docs.google.com/document/d/1FRWTMnPZ-6fuyKjaT_YDU8tT1DrmLSw63YKtc2CfiMI/edit?usp=sharing).<br>
 If you have a working Dynamic-Link Library (DLL), you can edit the source code of LInjector and make it work by yourself in any other way. <br>
-LInjector uses the Monaco editor, the same one that powers Visual Studio Code, with syntax highlighting, [developed by Krnl](https://krnl.place/) [and edited by Depso](https://github.com/depthso).
+LInjector uses the Monaco editor, the same one that powers Visual Studio Code, with syntax highlighting, developed by Krnl [and edited by Depso](https://github.com/depthso).
 
 ## Screenshots
 <table>
@@ -69,7 +69,7 @@ We urge all users to use LInjector only for development and utility purposes and
 
 ## Projects used in LInjector
 - [The text editor is Monaco.](https://microsoft.github.io/monaco-editor/)
-- Monaco Editor, edited by [Krnl](https://krnl.place/) and [depthso](https://github.com/depthso)
+- Monaco Editor, edited by Krnl and [depthso](https://github.com/depthso)
 - [Tab System by lxnnydev](https://github.com/lxnnydev/Winforms-Tab-System)
 - [Depso's UNC Patches](https://github.com/depthso/Roblox-UNC-Patches)
 - [MastersMZ Scripts API](https://mastersmzscripts.com)
