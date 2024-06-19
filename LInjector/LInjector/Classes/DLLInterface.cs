@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace LInjector.Classes
 {
-    public static class ExploitDLL
+    public static class DLLInterface
     {
         private const string DLL_PATH = "Resources\\libs\\Module.dll"; // Change this if you need
 

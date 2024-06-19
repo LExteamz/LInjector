@@ -341,7 +341,7 @@
     <Compile Include="Classes\ConfigHandler.cs" />
     <Compile Include="Classes\ConsoleManager.cs" />
     <Compile Include="Classes\CustomCw.cs" />
-    <Compile Include="Classes\ExploitDLL.cs" />
+    <Compile Include="Classes\DLLInterface.cs" />
     <Compile Include="Classes\FunctionWatch.cs" />
     <Compile Include="Classes\IntConsole.cs" />
     <Compile Include="Classes\Themes.cs" />

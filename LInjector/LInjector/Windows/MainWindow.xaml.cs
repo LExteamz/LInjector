@@ -222,7 +222,7 @@ namespace LInjector.Windows
         /// <summary>
         /// Attach and Inject are the same, this was used to load LInjector into the GAME.
         /// </summary>
-        private void AttachButton_Click(object sender, RoutedEventArgs e) => ExploitDLL.Inject();
+        private void AttachButton_Click(object sender, RoutedEventArgs e) => DLLInterface.Inject();
 
         private void ConsoleDebugButton_Click(object sender, RoutedEventArgs e) =>
             ConsoleManager.ToggleConsoleVisibility();
@@ -256,18 +256,18 @@ namespace LInjector.Windows
                 try
                 {
                     // Check if Fluxus is not injected
-                    var flag = !ExploitDLL.IsAttached();
+                    var flag = !DLLInterface.IsAttached();
                     if (!flag)
                     {
                         // Run the script if Injected
-                        ExploitDLL.RunScript(scriptString);
+                        DLLInterface.RunScript(scriptString);
                     }
                     else
                     {
                         // Inject the process and then run the script
-                        ExploitDLL.Inject();
+                        DLLInterface.Inject();
                         await Task.Delay(500); // Task.Delay to ensure proper injection (bad practice)
-                        ExploitDLL.RunScript(scriptString);
+                        DLLInterface.RunScript(scriptString);
                     }
                 }
                 catch (Exception ex)
@@ -410,11 +410,11 @@ namespace LInjector.Windows
                 {
                     var filePath = process.MainModule.FileName;
 
-                    if (ExploitDLL.IsAttached())
+                    if (DLLInterface.IsAttached())
                     {
                         return;
                     }
-                    ExploitDLL.Inject();
+                    DLLInterface.Inject();
                 }
                 catch (Exception ex)
                 {
