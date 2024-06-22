@@ -28,8 +28,7 @@ namespace LInjector.Classes
 
         public static readonly string currentVersion = "v20.06.2024";
         public static readonly string AccountName = "LExteamz";
-        public
-        const string AccountNamee = "LExteamz";
+        public static readonly string ApplicationName = "LInjector";
 
         public static readonly string localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         public static readonly string localPackagesFolder = Path.Combine(localAppDataFolder, "Packages");
@@ -60,7 +59,7 @@ namespace LInjector.Classes
                 }
             }
 
-            // MessageBox.Show("Game was not found at \"AppData\\Local\\Packages\\ROBLOXCORPORATION.ROBLOX\"\nYour temporary default location is your user TEMP folder.", "LInjector", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            // MessageBox.Show("Game was not found at \"AppData\\Local\\Packages\\ROBLOXCORPORATION.ROBLOX\"\nYour temporary default location is your user TEMP folder.", $"{Files.ApplicationName}", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return Environment.GetEnvironmentVariable("TEMP");
         }
     }
@@ -75,7 +74,7 @@ namespace LInjector.Classes
         private static readonly string bamboopipeURL = "https://short.lexploits.top/Assets/40e0cc9d289d38f0acfeb076eeb785eb.wav";
         private static readonly string windowsURL = "https://short.lexploits.top/Assets/0f4137ed1502b5045d6083aa258b5c42.wav";
 
-        private static readonly string TempPath = Path.Combine(Path.GetTempPath(), "LInjector");
+        private static readonly string TempPath = Path.Combine(Path.GetTempPath(), Files.ApplicationName);
 
         private static async Task<string> DownloadFileAsync(string url)
         {
@@ -377,7 +376,7 @@ namespace LInjector.Classes
                 {
                     Directory.SetCurrentDirectory(Files.desiredDirectory);
 
-                    MessageBox.Show("Friendly reminder to run LInjector from the root folder.", "LInjector", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Friendly reminder to run LInjector from the root folder.", Files.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch
                 {
@@ -539,7 +538,7 @@ namespace LInjector.Classes
         public static void CreateVersionFile(string content, string fileName)
         {
             var tempPath = Path.GetTempPath();
-            var linjectorFolderPath = Path.Combine(tempPath, "LInjector");
+            var linjectorFolderPath = Path.Combine(tempPath, Files.ApplicationName);
             var versionFilePath = Path.Combine(linjectorFolderPath, fileName);
 
             if (!Directory.Exists(linjectorFolderPath))
@@ -562,7 +561,7 @@ namespace LInjector.Classes
         public static string Version { get; set; }
 
         static string appName = "ROBLOXCORPORATION.ROBLOX";
-        static string outputDirectory = Path.Combine(Path.GetTempPath(), "LInjector");
+        static string outputDirectory = Path.Combine(Path.GetTempPath(), Files.ApplicationName);
         static string versionFilePath = Path.Combine(outputDirectory, "uwpversion");
 
         // This PowerShell scripts saves the current installed Roblox Version in Temp/LInjector/uwpversion
@@ -680,8 +679,6 @@ namespace LInjector.Classes
 
     public class CheckLatest
     {
-        private const string owner = Files.AccountNamee;
-        private const string repo = "LInjector";
 
         /// <summary>
         /// Checks if the current version of LInjector matches with the latest GitHub Release, see: <see cref="Files.currentVersion"/>
@@ -692,9 +689,9 @@ namespace LInjector.Classes
         {
             try
             {
-                var client = new GitHubClient(new ProductHeaderValue("CheckGitHubRelease"));
+                var client = new GitHubClient(new ProductHeaderValue($"{Files.ApplicationName} App/{Files.currentVersion}"));
 
-                var releases = client.Repository.Release.GetAll(owner, repo).Result;
+                var releases = client.Repository.Release.GetAll(Files.AccountName, Files.ApplicationName).Result;
 
                 var latestRelease = releases
                    .Where(r => r.TagName.StartsWith("v"))

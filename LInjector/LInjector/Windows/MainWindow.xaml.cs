@@ -135,7 +135,7 @@ namespace LInjector.Windows
         private async void randomizeTitle()
         {
             string[] ArrayTitles = {
-                "LInjector",
+                Files.ApplicationName,
                 "x64dbg",
                 "IDA Freeware",
                 "HxD Editor",
@@ -539,7 +539,7 @@ namespace LInjector.Windows
                     string fileContent = File.ReadAllText(openFileDialog.FileName);
 
                     var dialogResult = System.Windows.Forms.MessageBox.Show(
-                        "Open file in new tab?", "LInjector", MessageBoxButtons.YesNo,
+                        "Open file in new tab?", Files.ApplicationName, MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
                     if (dialogResult == System.Windows.Forms.DialogResult.Yes)
                     {
@@ -880,7 +880,7 @@ namespace LInjector.Windows
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("LInjector couldn't run the script.", "LInjector",
+                    MessageBox.Show("LInjector couldn't run the script.", Files.ApplicationName,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     CustomCw.Cw(
                         $"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}",

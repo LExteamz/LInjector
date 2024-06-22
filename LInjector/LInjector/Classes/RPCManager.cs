@@ -33,7 +33,7 @@ namespace LInjector.Classes
                 Assets = new Assets
                 {
                     LargeImageKey = "https://lexploits.top/Assets/LInjector%20Raw.png",
-                    LargeImageText = "LInjector"
+                    LargeImageText = Files.ApplicationName
                 },
                 Buttons = new[]
                 {
