@@ -113,7 +113,7 @@ namespace LInjector.Classes
     {
         static WebClient webClient = new WebClient();
 
-        
+
         internal static async Task CheckForUpdates()
         {
             /*
