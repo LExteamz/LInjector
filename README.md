@@ -7,6 +7,8 @@
 	</a>
 </p>
 <h3 align="center">LInjector | Open-source Lua Script Executor.</h3>
+<hr/>
+<h5 align="center">Yes, the name includes the word "Injector", it is not, LInjector is an executor and Lua<i>u</i> editor.</h3>
 
 <hr/>
 <h1>
