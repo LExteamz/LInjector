@@ -41,16 +41,15 @@ It was created out of the necessity for a secure and open-source executor withou
 
 ## About the Structure of LInjector
 A legitimate development tool.\
-Designed using Windows Presentation Foundation (WPF).\
+Designed using Windows Presentation Foundation (WPF) by [Excel](https://github.com/ItzzExcel).\
 Written in C#, with .NET Framework 4.8, you can use any build architecture.\
-I apologize for the uncommented code. If you have any questions, you can contact me via my Discord Server.
 
 ## How to Build?
 To edit the Interface, first compile. For any reason, forms can't load if not compiled. If you opened the UI Editor before compiling, restart Visual Studio, and your problem should be fixed.
 - Clone the repository :  `gh repo clone LExteamz/LInjector`
 - Open LInjector.sln in Visual Studio 2022.
-- Set Release x86 or x64
-- Build Solution (CTRL + SHIFT + B)
+- Set Build Configuration to Release and your desired platform. (x64 or x86)
+- Build the Solution, reload the Project and Build again.
 
 ## Why LInjector?
 Well, here are some reasons:
@@ -71,7 +70,7 @@ We urge all users to use LInjector only for development and utility purposes and
 
 ## Projects used in LInjector
 - [The text editor is Monaco.](https://microsoft.github.io/monaco-editor/)
-- Monaco Editor, edited by Krnl and [depthso](https://github.com/depthso)
+- Monaco Editor, edited by [depthso](https://github.com/depthso)
 - [Tab System by lxnnydev](https://github.com/lxnnydev/Winforms-Tab-System)
 - [Depso's UNC Patches](https://github.com/depthso/Roblox-UNC-Patches)
 - [MastersMZ Scripts API](https://mastersmzscripts.com)
