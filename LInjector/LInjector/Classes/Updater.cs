@@ -1,6 +1,5 @@
 ﻿using IWshRuntimeLibrary;
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
 using Octokit;
 using System;
 using System.Diagnostics;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Media;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -32,36 +32,17 @@ namespace LInjector.Classes
 
         public static readonly string localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         public static readonly string localPackagesFolder = Path.Combine(localAppDataFolder, "Packages");
-        public static readonly string RobloxACFolder = GetRobloxACFolder();
+        public static readonly string AssemblyLocation = Path.Combine(Path.GetFullPath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
+        public static readonly string RobloxACFolder = AssemblyLocation;
         public static readonly string workspaceFolder = Path.Combine(RobloxACFolder, "workspace");
         public static readonly string autoexecFolder = Path.Combine(RobloxACFolder, "autoexec");
         public static readonly string exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
         public static readonly string exeDirectory = Path.GetDirectoryName(exeLocation);
         public static readonly string desiredDirectory = Path.GetFullPath(exeDirectory);
-        public static readonly string savedtabspath = "Resources\\savedtabs";
+        public static readonly string savedtabspath = Path.Combine(AssemblyLocation, "Resources", "savedtabs");
         public static readonly string DLLSURl = $"https://raw.githubusercontent.com/{AccountName}/LInjector/master/Redistributables/DLLs";
-        public static readonly string FluxusAPI = $"{DLLSURl}/FluxteamAPI.dll";
-        public static readonly string ModuleAPI = $"{DLLSURl}/Module.dll";
         public static readonly string InitLua = $"https://raw.githubusercontent.com/{AccountName}/LInjector/master/LInjector/LInjector/Resources/Internal/Init.lua";
-        public static readonly string InitLuaPath = Path.Combine(autoexecFolder, "LInjector.lua");
         public static readonly string DLLsJSON = $"{DLLSURl}/Modules.json";
-
-        /// <returns>Path of the Game Folder "AC"</returns>
-        public static string GetRobloxACFolder()
-        {
-            string[] packageFolders = Directory.GetDirectories(Files.localPackagesFolder);
-
-            foreach (string packageFolder in packageFolders)
-            {
-                if (packageFolder.Contains("ROBLOXCORPORATION.ROBLOX"))
-                {
-                    return Path.Combine(packageFolder, "AC");
-                }
-            }
-
-            // MessageBox.Show("Game was not found at \"AppData\\Local\\Packages\\ROBLOXCORPORATION.ROBLOX\"\nYour temporary default location is your user TEMP folder.", $"{Files.ApplicationName}", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return Environment.GetEnvironmentVariable("TEMP");
-        }
     }
 
     #endregion
@@ -132,15 +113,10 @@ namespace LInjector.Classes
     {
         static WebClient webClient = new WebClient();
 
-        /// <summary>
-        /// Fetches a JSON from any content delivery network, reads the
-        ///  content of it which are file hashes, if the
-        ///  local file hashes mismatch, the application downloads the
-        /// latest files provided in the JSON.
-        /// </summary>
-        /// <returns></returns>
+        
         internal static async Task CheckForUpdates()
         {
+            /*
             try
             {
                 string jsonContent = await webClient.DownloadStringTaskAsync(Files.DLLsJSON);
@@ -165,14 +141,6 @@ namespace LInjector.Classes
                         RegistryHandler.SetValue("FluxVersion", newFluxChecksum);
                         RegistryHandler.SetValue("ModuleVersion", newModuleChecksum);
                     }
-
-                    /*
-                        MessageBox.Show(
-                            $"Local FluxteamAPI.dll SHA1: {localFluxChecksum}\n" +
-                            $"Extrn FluxteamAPI.dll SHA1: {newFluxChecksum}\n" +
-                            $"Local Module.dll      SHA1: {localModuleChecksum}\n" +
-                            $"Extrn Module.dll      SHA1: {newModuleChecksum}", FluxFiles.Executor);
-                    */
                 }
                 else
                 {
@@ -182,6 +150,13 @@ namespace LInjector.Classes
             catch (Exception ex)
             {
                 Console.WriteLine("Error in CheckForUpdates: " + ex.InnerException?.Message);
+            }
+           */
+
+            using (HttpClient client = new HttpClient())
+            {
+                string hi = await client.GetStringAsync("https://lexploits.top/version");
+                Console.WriteLine(hi);
             }
         }
 
@@ -389,6 +364,7 @@ namespace LInjector.Classes
                 Directory.CreateDirectory(".\\scripts");
             }
 
+            /*
             if (!File.Exists(".\\workspace.lnk"))
             {
                 var shortcut = (IWshShortcut)wsh.CreateShortcut(".\\workspace.lnk");
@@ -402,6 +378,7 @@ namespace LInjector.Classes
                 shortcut.TargetPath = Files.autoexecFolder;
                 shortcut.Save();
             }
+            */
 
             if (!Directory.Exists(".\\Resources\\libs"))
             {
@@ -454,6 +431,8 @@ namespace LInjector.Classes
 
         #region Module / DLL Redownloader
 
+
+        /*
         /// <summary>
         /// Deletes and replaces the old DLLs with the new ones.
         /// </summary>
@@ -494,6 +473,7 @@ namespace LInjector.Classes
             }
             catch { }
         }
+        */
 
         /// <summary>
         /// Self-explained
@@ -568,14 +548,14 @@ namespace LInjector.Classes
         // If it's not installed, It will return a message saying "The app is not installed".
 
         public static string script = @"
-            $appxPackage = Get-AppxPackage | Where-Object { $_.Name -eq '" + appName + @"' }
-            if ($appxPackage) {
-                $appVersion = $appxPackage.Version
-            } else {
-                $appVersion = 'The application " + appName + @" it''s not installed.'
-            }
-            $appVersion | Out-File -FilePath '" + versionFilePath + @"'
-        ";
+    $appxPackage = Get-AppxPackage | Where-Object { $_.Name -eq '" + appName + @"' }
+    if ($appxPackage) {
+        $appVersion = $appxPackage.Version
+    } else {
+        $appVersion = 'The application " + appName + @" it''s not installed.'
+    }
+    $appVersion | Out-File -FilePath '" + versionFilePath + @"'
+";
 
         #endregion
 
@@ -689,7 +669,7 @@ namespace LInjector.Classes
         {
             try
             {
-                var client = new GitHubClient(new ProductHeaderValue($"{Files.ApplicationName} App/{Files.currentVersion}"));
+                var client = new GitHubClient(new ProductHeaderValue("CheckGitHubRelease"));
 
                 var releases = client.Repository.Release.GetAll(Files.AccountName, Files.ApplicationName).Result;
 
