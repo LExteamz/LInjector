@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,6 +46,11 @@ namespace LInjector.Windows
         internal string ScriptListPath = ".\\scripts\\";
 
         WebComs ws = new WebComs();
+
+        /// <summary>
+        /// Ignores
+        /// </summary>
+        Action Nothing = () => { };
 
         #endregion
 
@@ -99,6 +105,7 @@ namespace LInjector.Windows
             LoadSavedTabs();
             ParseConfig();
             ParseMyTheme();
+            RegisterHotKeys();
 
             // Converts the MainWindow ListBox to a Static Item, this is used to easy-call the item
             // because it is needed from other sources.
@@ -518,53 +525,23 @@ namespace LInjector.Windows
 
         #region Open and Save File
 
-        /// <summary>
-        /// Button to open a file and load it into the current Monaco Editor instance.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void OpenFileButton_Click(object sender, RoutedEventArgs e)
+        public void RegisterHotKeys()
         {
-            try
-            {
-                var openFileDialog = new System.Windows.Forms.OpenFileDialog
-                {
-                    Title = "Open Script Files | LInjector",
-                    Filter =
-                        "Script Files (*.txt;*.lua;*.luau)|*.txt;*.lua;*.luau|All files (*.*)|*.*",
-                    Multiselect = false
-                };
-                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    string fileContent = File.ReadAllText(openFileDialog.FileName);
+            CommandBinding SaveFile_BINDING = new CommandBinding(ApplicationCommands.Save,
+                (sender, e) => Show_SaveToFileDialog(),
+                (sender, e) => e.CanExecute = true);
+            this.CommandBindings.Add(SaveFile_BINDING);
 
-                    var dialogResult = System.Windows.Forms.MessageBox.Show(
-                        "Open file in new tab?", Files.ApplicationName, MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-                    if (dialogResult == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        TabSystemz.add_tab_with_text(fileContent, openFileDialog.SafeFileName);
-                    }
-                    else
-                    {
-                        TabSystemz.current_monaco().SetText(fileContent);
-                        TabSystemz.ChangeCurrentTabTitle(openFileDialog.SafeFileName);
-                    }
-                }
+            CommandBinding OpenFile_BINDING = new CommandBinding(ApplicationCommands.Open,
+                (sender, e) => Show_OpenFileDialog(),
+                (sender, e) => e.CanExecute = true);
+            this.CommandBindings.Add(OpenFile_BINDING);
 
-            }
-            catch
-            {
-                await Notifications.Fire("Error while opening the file.");
-            }
+            this.InputBindings.Add(new KeyBinding(ApplicationCommands.Save, new KeyGesture(Key.S, ModifierKeys.Control)));
+            this.InputBindings.Add(new KeyBinding(ApplicationCommands.Open, new KeyGesture(Key.O, ModifierKeys.Control)));
         }
 
-        /// <summary>
-        /// Button to save the current Monaco Editor instance content into a file.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void SaveToFileButton_Click(object sender, RoutedEventArgs e)
+        public async void Show_SaveToFileDialog()
         {
             var saveFileDialog = new System.Windows.Forms.SaveFileDialog
             {
@@ -609,6 +586,61 @@ namespace LInjector.Windows
                 }
             }
         }
+
+        public async void Show_OpenFileDialog()
+        {
+            try
+            {
+                var openFileDialog = new System.Windows.Forms.OpenFileDialog
+                {
+                    Title = "Open Script Files | LInjector",
+                    Filter =
+                        "Script Files (*.txt;*.lua;*.luau)|*.txt;*.lua;*.luau|All files (*.*)|*.*",
+                    Multiselect = false
+                };
+
+                if (Directory.Exists(ScriptListPath))
+                    openFileDialog.InitialDirectory = ScriptListPath;
+
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string fileContent = File.ReadAllText(openFileDialog.FileName);
+
+                    var dialogResult = System.Windows.Forms.MessageBox.Show(
+                        "Open file in new tab?", Files.ApplicationName, MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                    if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        TabSystemz.add_tab_with_text(fileContent, openFileDialog.SafeFileName);
+                    }
+                    else
+                    {
+                        TabSystemz.current_monaco().SetText(fileContent);
+                        TabSystemz.ChangeCurrentTabTitle(openFileDialog.SafeFileName);
+                    }
+                }
+
+            }
+            catch
+            {
+                await Notifications.Fire("Error while opening the file.");
+            }
+        }
+
+        /// <summary>
+        /// Button to open a file and load it into the current Monaco Editor instance.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OpenFileButton_Click(object sender, RoutedEventArgs e) => Show_OpenFileDialog();
+
+        /// <summary>
+        /// Button to save the current Monaco Editor instance content into a file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveToFileButton_Click(object sender, RoutedEventArgs e) => Show_SaveToFileDialog();
+
         #endregion
 
         #region Settings

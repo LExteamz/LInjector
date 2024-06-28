@@ -151,13 +151,13 @@
                                 <Image Source="/Resources/Icons/Discord.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="{DynamicResource TertiaryColor}" Click="OpenFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Load File to Editor" x:Name="LEFTOpenFileButton" Visibility="Collapsed">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="OpenFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Open File (CTRL + O)" x:Name="LEFTOpenFileButton" Visibility="Collapsed">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Label Content="&#xE8E5;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="{DynamicResource TertiaryColor}" Click="SaveToFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Save to File" x:Name="LEFTSaveFileButton" Visibility="Collapsed">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="SaveToFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Save to File (CTRL + S)" x:Name="LEFTSaveFileButton" Visibility="Collapsed">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Label Content="&#xEA35;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
@@ -463,10 +463,10 @@
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="115*"/>
                             </Grid.ColumnDefinitions>
-                            <Button ToolTip="Open File" Margin="0,6,0,0" materialDesign:RippleAssist.IsDisabled="True" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{DynamicResource TertiaryColor}" Padding="0 0 0 0" BorderBrush="#00744CE0" x:Name="OpenFileButton" Click="OpenFileButton_Click" Height="32">
+                            <Button ToolTip="Open File (CTRL + O)" Margin="0,6,0,0" materialDesign:RippleAssist.IsDisabled="True" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{DynamicResource TertiaryColor}" Padding="0 0 0 0" BorderBrush="#00744CE0" x:Name="OpenFileButton" Click="OpenFileButton_Click" Height="32">
                                 <Label Content="&#xE8E5;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets"/>
                             </Button>
-                            <Button ToolTip="Save to File" VerticalAlignment="Top" materialDesign:RippleAssist.IsDisabled="True" HorizontalAlignment="Stretch" Background="{DynamicResource TertiaryColor}" BorderBrush="#00744CE0" x:Name="SaveToFileButton" Click="SaveToFileButton_Click" Height="32" Grid.Column="2" Margin="0,6,0,0">
+                            <Button ToolTip="Save to File (CTRL + S)" VerticalAlignment="Top" materialDesign:RippleAssist.IsDisabled="True" HorizontalAlignment="Stretch" Background="{DynamicResource TertiaryColor}" BorderBrush="#00744CE0" x:Name="SaveToFileButton" Click="SaveToFileButton_Click" Height="32" Grid.Column="2" Margin="0,6,0,0">
                                 <Label Content="&#xEA35;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets"/>
                             </Button>
                         </Grid>
