@@ -16,8 +16,8 @@ namespace LInjector.Classes
         public static bool discord_rpc = false;
         public static bool save_tabs = false;
         public static bool websocket_mode = false;
-        public static bool hide_scriptlist = true;
-        public static bool hide_internalconsole = false;
+        public static bool hide_scriptlist = false;
+        public static bool hide_internalconsole = true;
 
         /// <summary>
         /// Reads the config and parse it to the bools of the <see cref="ConfigHandler"/> class.
@@ -34,7 +34,7 @@ namespace LInjector.Classes
                 { "save_tabs", false },
                 { "websocket_mode", false },
                 { "hide_scriptlist", false },
-                { "hide_internalconsole", false }
+                { "hide_internalconsole", true }
             };
 
             if (!File.Exists(ConfigPath))
