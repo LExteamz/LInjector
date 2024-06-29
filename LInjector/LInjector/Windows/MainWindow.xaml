@@ -101,8 +101,8 @@
                     <RowDefinition Height="0*"/>
                     <RowDefinition Height="89*" Name="LaPeopleII"/>
                 </Grid.RowDefinitions>
-                <Grid HorizontalAlignment="Left" Width="45" Background="Transparent" Grid.RowSpan="3" Margin="0,0,0,0">
-                    <ListBox Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="Auto" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="5" Margin="1 0 0 0" Foreground="#FF0F0F0F">
+                <Grid HorizontalAlignment="Left" Width="45" Background="{DynamicResource PrimaryColor}" Grid.RowSpan="3" Margin="0,0,0,0">
+                    <ListBox Background="{DynamicResource PrimaryColor}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="Auto" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="5" Margin="1 0 0 0" Foreground="{DynamicResource PrimaryColor}">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Template">
@@ -151,13 +151,13 @@
                                 <Image Source="/Resources/Icons/Discord.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="{DynamicResource TertiaryColor}" Click="OpenFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Open File (CTRL + O)" x:Name="LEFTOpenFileButton" Visibility="Collapsed">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="OpenFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Open File (CTRL + O)" x:Name="LEFTOpenFileButton" Visibility="Collapsed" materialDesign:RippleAssist.IsDisabled="False">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Label Content="&#xE8E5;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="{DynamicResource TertiaryColor}" Click="SaveToFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Save to File (CTRL + S)" x:Name="LEFTSaveFileButton" Visibility="Collapsed">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="SaveToFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Save to File (CTRL + S)" x:Name="LEFTSaveFileButton" Visibility="Collapsed" materialDesign:RippleAssist.IsDisabled="False">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Label Content="&#xEA35;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
@@ -165,7 +165,7 @@
                         </Button>
                     </ListBox>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0 0 0 7">
-                        <Button Background="{DynamicResource PrimaryColor}" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 0 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
+                        <Button Background="{DynamicResource SecondaryColor}" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 0 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
                             <Button.Content>
                                 <Image Source="/Resources/Icons/GitHub.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
@@ -257,7 +257,7 @@
                                                             </Border>
                                                         </TabItem>
                                                         <TabItem Header="Theme">
-                                                            <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" materialDesign:RippleAssist.IsDisabled="True" materialDesign:ListBoxItemAssist.ShowSelection="False">
+                                                            <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" materialDesign:RippleAssist.IsDisabled="True" materialDesign:ListBoxItemAssist.ShowSelection="False" >
                                                                 <StackPanel>
                                                                     <Label Content="Splash Screen" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource Text}"/>
                                                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,5">

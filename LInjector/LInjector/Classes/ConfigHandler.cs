@@ -9,103 +9,84 @@ namespace LInjector.Classes
     {
         private static readonly string ConfigPath = ".\\config.json";
 
-        public static bool topmost = false;
-        public static bool autoattach = false;
-        public static bool splashscreen = true;
-        public static bool debug = false;
-        public static bool discord_rpc = false;
-        public static bool save_tabs = false;
-        public static bool websocket_mode = false;
-        public static bool hide_scriptlist = false;
-        public static bool hide_internalconsole = true;
+        public static bool topmost { get; set; } = false;
+        public static bool autoattach { get; set; } = false;
+        public static bool splashscreen { get; set; } = true;
+        public static bool debug { get; set; } = false;
+        public static bool discord_rpc { get; set; } = false;
+        public static bool save_tabs { get; set; } = false;
+        public static bool websocket_mode { get; set; } = false;
+        public static bool hide_scriptlist { get; set; } = true;
+        public static bool hide_internalconsole { get; set; } = true;
 
-        /// <summary>
-        /// Reads the config and parse it to the bools of the <see cref="ConfigHandler"/> class.
-        /// </summary>
+        private static readonly Dictionary<string, Action<bool>> ConfigActions = new Dictionary<string, Action<bool>>()
+        {
+            { "autoattach", value => autoattach = value },
+            { "splashscreen", value => splashscreen = value },
+            { "debug", value =>
+                {
+                    debug = value;
+                    if (value)
+                    {
+                        ConsoleManager.Initialize();
+                        ConsoleManager.ShowConsole();
+                    }
+                }
+            },
+            { "topmost", value => topmost = value },
+            { "discord_rpc", value => discord_rpc = value },
+            { "save_tabs", value => save_tabs = value },
+            { "websocket_mode", value => websocket_mode = value },
+            { "hide_scriptlist", value => hide_scriptlist = value },
+            { "hide_internalconsole", value => hide_internalconsole = value }
+        };
+
         public static void DoConfig()
         {
             var defaultConfig = new Dictionary<string, bool>
             {
-                { "autoattach", false },
-                { "splashscreen", true },
-                { "debug", false },
-                { "topmost", false },
-                { "discord_rpc", false },
-                { "save_tabs", false },
-                { "websocket_mode", false },
-                { "hide_scriptlist", false },
-                { "hide_internalconsole", true }
+                { "autoattach", autoattach },
+                { "splashscreen", splashscreen },
+                { "debug", debug },
+                { "topmost", topmost },
+                { "discord_rpc", discord_rpc },
+                { "save_tabs", save_tabs },
+                { "websocket_mode", websocket_mode },
+                { "hide_scriptlist", hide_scriptlist },
+                { "hide_internalconsole", hide_internalconsole }
             };
 
             if (!File.Exists(ConfigPath))
             {
-                string jsonString = JsonConvert.SerializeObject(defaultConfig, Formatting.Indented);
-                File.WriteAllText(ConfigPath, jsonString);
+                File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(defaultConfig, Formatting.Indented));
             }
 
-            string fileContents = File.ReadAllText(ConfigPath);
-            var config = JsonConvert.DeserializeObject<Dictionary<string, bool>>(fileContents);
-
-            AssignConfigValue(config, "websocket_mode", ref websocket_mode);
-            AssignConfigValue(config, "autoattach", ref autoattach);
-            AssignConfigValue(config, "splashscreen", ref splashscreen);
-            AssignConfigValue(config, "debug", ref debug, () =>
+            var config = JsonConvert.DeserializeObject<Dictionary<string, bool>>(File.ReadAllText(ConfigPath));
+            foreach (var kvp in config)
             {
-                ConsoleManager.Initialize();
-                ConsoleManager.ShowConsole();
-            });
-            AssignConfigValue(config, "topmost", ref topmost);
-            AssignConfigValue(config, "discord_rpc", ref RPCManager.isEnabled);
-            AssignConfigValue(config, "save_tabs", ref save_tabs);
-            AssignConfigValue(config, "hide_scriptlist", ref hide_scriptlist);
-            AssignConfigValue(config, "hide_internalconsole", ref hide_internalconsole);
-        }
-
-        /// <summary>
-        /// Auxiliar function. See: <see cref="DoConfig"/>
-        /// </summary>
-        /// <param name="config"></param>
-        /// <param name="key"></param>
-        /// <param name="field"></param>
-        /// <param name="customAction"></param>
-        private static void AssignConfigValue(Dictionary<string, bool> config, string key, ref bool field, Action customAction = null)
-        {
-            if (config.TryGetValue(key, out bool value))
-            {
-                field = value;
-                if (customAction != null && value)
+                if (ConfigActions.TryGetValue(kvp.Key, out var action))
                 {
-                    customAction();
+                    action(kvp.Value);
                 }
             }
         }
 
-        /// <summary>
-        /// Writes config value into the config.json file.
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="Value"></param>
-        public static void SetConfigValue(string Name, bool Value)
+        public static void SetConfigValue(string name, bool value)
         {
             try
             {
-                string jsonContent = File.ReadAllText(ConfigPath);
-                var configDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonContent);
-
-                if (configDict.ContainsKey(Name))
+                var configDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(ConfigPath));
+                if (configDict.ContainsKey(name))
                 {
-                    configDict[Name] = Value;
+                    configDict[name] = value;
+                    File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(configDict, Formatting.Indented));
                 }
                 else
                 {
-                    CustomCw.Cw($"The value '{Name}' doesn't exist in the config", false, "error");
-                    return;
+                    CustomCw.Cw($"The value '{name}' doesn't exist in the config", false, "error");
                 }
-
-                string updatedJson = JsonConvert.SerializeObject(configDict, Formatting.Indented);
-                File.WriteAllText(ConfigPath, updatedJson);
             }
-            catch { }
+            catch (Exception) { }
         }
     }
 }

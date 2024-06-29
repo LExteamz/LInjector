@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -1049,6 +1048,7 @@ namespace LInjector.Windows
             return new System.Windows.Media.SolidColorBrush(
                 System.Windows.Media.Color.FromArgb(a, r, g, b));
         }
+
         #endregion
     }
 
