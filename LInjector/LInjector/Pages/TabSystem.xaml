@@ -1,15 +1,15 @@
 ﻿<UserControl x:Class="LInjector.Pages.TabSystem"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="LInjector.Pages"
-             mc:Ignorable="d" 
-             VerticalAlignment="Stretch"
-             HorizontalAlignment="Stretch"
-             xmlns:susdog="clr-namespace:LInjector.Windows"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             d:DesignHeight="450" d:DesignWidth="800">
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:local="LInjector.Pages"
+            mc:Ignorable="d" 
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            xmlns:susdog="clr-namespace:LInjector.Windows"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <Style
 				TargetType="{x:Type TextBox}"
