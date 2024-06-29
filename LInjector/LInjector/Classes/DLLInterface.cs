@@ -30,6 +30,7 @@ namespace LInjector.Classes
                     // Your Inject Logic
 
                     await Notifications.Fire("Injected");
+                    FunctionWatch.runFuncWatch();
                 }
             }
             catch (Exception ex)

@@ -12,6 +12,7 @@ namespace LInjector.Classes
         private static bool IsRunning = false;
         private static FileSystemWatcher watcher = new FileSystemWatcher();
         private static String WatchFolder = Path.Combine(Files.workspaceFolder, Files.ApplicationName);
+
         public static void runFuncWatch()
         {
             if (IsRunning == true)
@@ -71,7 +72,7 @@ namespace LInjector.Classes
         }
 
         #region Text Parser for the Internal Functions
-        private static void OnChanged(object sender, FileSystemEventArgs e)
+        private static async void OnChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType != WatcherChangeTypes.Changed || watcher.EnableRaisingEvents == false)
             {
@@ -85,7 +86,7 @@ namespace LInjector.Classes
 
                 while (!IsFileReady(functioncallfile)) { }
 
-                Task.Delay(60);
+                await Task.Delay(60);
 
                 string function = "";
 
@@ -95,7 +96,7 @@ namespace LInjector.Classes
                 }
                 catch
                 {
-                    CustomCw.Cw("Failed to capture data!", true, "error");
+                    await Notifications.Fire("Failed to capture data!");
                     return;
                 }
 
@@ -173,7 +174,7 @@ namespace LInjector.Classes
 
             finally
             {
-                Task.Delay(20);
+                await Task.Delay(20);
                 watcher.EnableRaisingEvents = true;
             }
         }
