@@ -713,10 +713,7 @@ namespace LInjector.Windows
         /// </summary>
         /// <param name="toggle"></param>
         /// <param name="value"></param>
-        private void SetToggle(System.Windows.Controls.Primitives.ToggleButton toggle, bool value)
-        {
-            toggle.IsChecked = value;
-        }
+        private void SetToggle(System.Windows.Controls.Primitives.ToggleButton toggle, bool value) => toggle.IsChecked = value;
 
         // AUTO ATTACH TOGGLE
 
