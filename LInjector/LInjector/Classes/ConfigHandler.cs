@@ -9,15 +9,16 @@ namespace LInjector.Classes
     {
         private static readonly string ConfigPath = ".\\config.json";
 
-        public static bool topmost { get; set; } = false;
-        public static bool autoattach { get; set; } = false;
-        public static bool splashscreen { get; set; } = true;
         public static bool debug { get; set; } = false;
-        public static bool discord_rpc { get; set; } = false;
+        public static bool topmost { get; set; } = false;
         public static bool save_tabs { get; set; } = false;
+        public static bool autoattach { get; set; } = false;
+        public static bool discord_rpc { get; set; } = false;
+        public static bool splashscreen { get; set; } = true;
         public static bool websocket_mode { get; set; } = false;
         public static bool hide_scriptlist { get; set; } = true;
         public static bool hide_internalconsole { get; set; } = true;
+        public static bool monaco_minipal_default {  get; set; } = true;
 
         private static readonly Dictionary<string, Action<bool>> ConfigActions = new Dictionary<string, Action<bool>>()
         {
@@ -38,7 +39,8 @@ namespace LInjector.Classes
             { "save_tabs", value => save_tabs = value },
             { "websocket_mode", value => websocket_mode = value },
             { "hide_scriptlist", value => hide_scriptlist = value },
-            { "hide_internalconsole", value => hide_internalconsole = value }
+            { "hide_internalconsole", value => hide_internalconsole = value },
+            { "monaco_minimap_default", value => monaco_minipal_default = value },
         };
 
         public static void DoConfig()
@@ -53,7 +55,8 @@ namespace LInjector.Classes
                 { "save_tabs", save_tabs },
                 { "websocket_mode", websocket_mode },
                 { "hide_scriptlist", hide_scriptlist },
-                { "hide_internalconsole", hide_internalconsole }
+                { "hide_internalconsole", hide_internalconsole },
+                { "monaco_minimap_default", monaco_minipal_default }
             };
 
             if (!File.Exists(ConfigPath))

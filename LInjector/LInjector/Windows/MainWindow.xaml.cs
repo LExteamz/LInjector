@@ -704,6 +704,7 @@ namespace LInjector.Windows
                 ScriptListAndSaveCDef.Width = new GridLength(0, GridUnitType.Star);
             }
             SetToggle(ToggleWebSocketMode, ConfigHandler.websocket_mode);
+            SetToggle(ShowMonacoToggle, ConfigHandler.monaco_minipal_default);
             ParseMyThemeSelectors();
         }
 
@@ -881,6 +882,30 @@ namespace LInjector.Windows
             ConfigHandler.hide_internalconsole = false;
             InternalConsole.Visibility = Visibility.Visible;
             LaPeopleII.Height = new GridLength(89, GridUnitType.Star);
+        }
+
+        private void ShowMonaco_Checked(object sender, RoutedEventArgs e)
+        {
+            ConfigHandler.SetConfigValue("monaco_minimap_default", true);
+            ConfigHandler.monaco_minipal_default = true;
+
+            foreach (TabItem item in TabSystemz.maintabs.Items)
+            {
+                monaco_api TabInstance = item.Content as monaco_api;
+                TabInstance.enable_minimap();
+            }
+        }
+
+        private void ShowMonaco_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ConfigHandler.SetConfigValue("monaco_minimap_default", false);
+            ConfigHandler.monaco_minipal_default = false;
+
+            foreach (TabItem item in TabSystemz.maintabs.Items)
+            {
+                monaco_api TabInstance = item.Content as monaco_api;
+                TabInstance.disable_minimap();
+            }
         }
 
         /// <summary>

@@ -1,4 +1,7 @@
-﻿using Microsoft.Web.WebView2.Wpf;
+﻿using LInjector.Classes;
+using LInjector.Pages;
+using Microsoft.Web.WebView2.Core;
+using Microsoft.Web.WebView2.Wpf;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
@@ -33,6 +36,11 @@ namespace LInjector.WPF.Classes
             EventHandler handler = EditorReady;
             if (handler != null)
                 handler(this, new EventArgs());
+
+            if (ConfigHandler.monaco_minipal_default)
+                this.enable_minimap();
+            else
+                this.disable_minimap();
 
         }
 

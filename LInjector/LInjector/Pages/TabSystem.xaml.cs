@@ -1,4 +1,9 @@
-﻿using LInjector.WPF.Classes;
+﻿using LInjector.Classes;
+using LInjector.WPF.Classes;
+using MaterialDesignColors;
+using Microsoft.Web.WebView2.Core;
+using System;
+using System.Drawing.Printing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,7 +42,6 @@ namespace LInjector.Pages
             }
 
             maintabs.Items.Add(CreateTab(text, title));
-
         }
 
         /// <summary>
@@ -70,7 +74,6 @@ namespace LInjector.Pages
             {
                 case "AddT":
                     maintabs.Items.Add(CreateTab("", "Script" + " " + (this.maintabs.Items.Count + 1).ToString()));
-                    current_monaco().enable_minimap();
                     break;
                 case "RemoveT":
                     try
