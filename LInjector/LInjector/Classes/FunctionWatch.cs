@@ -11,14 +11,11 @@ namespace LInjector.Classes
     {
         private static bool IsRunning = false;
         private static FileSystemWatcher watcher = new FileSystemWatcher();
-        private static String WatchFolder = Path.Combine(Files.workspaceFolder, Files.ApplicationName);
+        private static String WatchFolder = Path.Combine(Files.workspaceFolder);
 
         public static void runFuncWatch()
         {
-            if (IsRunning == true)
-            {
-                return;
-            }
+            if (IsRunning == true) return;
             FunctionWatch.IsRunning = true;
             try
             {
@@ -27,6 +24,12 @@ namespace LInjector.Classes
                     Directory.CreateDirectory(WatchFolder);
                     Task.Delay(200);
                 }
+
+                if (!Directory.Exists(WatchFolder))
+                    Directory.CreateDirectory(WatchFolder);
+
+                if (!File.Exists(Path.Combine(WatchFolder, "LINJECTOR.li")))
+                    File.Create(Path.Combine(WatchFolder, "LINJECTOR.li"));
 
                 watcher.Path = WatchFolder;
                 watcher.NotifyFilter = NotifyFilters.LastWrite;

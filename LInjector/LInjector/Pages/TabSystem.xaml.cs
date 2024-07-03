@@ -1,9 +1,4 @@
-﻿using LInjector.Classes;
-using LInjector.WPF.Classes;
-using MaterialDesignColors;
-using Microsoft.Web.WebView2.Core;
-using System;
-using System.Drawing.Printing;
+﻿using LInjector.WPF.Classes;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;

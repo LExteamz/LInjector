@@ -42,7 +42,7 @@ namespace LInjector.Windows
         private bool IsScriptsShown = false;
         private bool IsInfoShown = false;
 
-        internal string ScriptListPath = ".\\scripts\\";
+        internal string ScriptListPath = Path.Combine(Files.exeDirectory, "scripts");
 
         WebComs ws = new WebComs();
 
@@ -125,7 +125,7 @@ namespace LInjector.Windows
 
         private void TitleBarLabel_Loaded(object sender, RoutedEventArgs e)
         {
-            int seconds = 120;
+            int seconds = 60;
 
             TitleTimer.Interval = TimeSpan.FromSeconds(seconds);
             TitleTimer.Tick += randomizeTitleEvent;

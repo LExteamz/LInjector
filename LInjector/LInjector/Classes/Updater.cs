@@ -2,7 +2,6 @@
 using Microsoft.Win32;
 using Octokit;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -14,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using File = System.IO.File;
 using FileMode = System.IO.FileMode;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 /*
  * Hi, I'm sorry for the messy code.
@@ -26,7 +26,7 @@ namespace LInjector.Classes
     public static class Files
     {
 
-        public static readonly string currentVersion = "v20.06.2024";
+        public static readonly string currentVersion = "v01.07.2024";
         public static readonly string AccountName = "LExteamz";
         public static readonly string ApplicationName = "LInjector";
 
@@ -34,7 +34,7 @@ namespace LInjector.Classes
         public static readonly string localPackagesFolder = Path.Combine(localAppDataFolder, "Packages");
         public static readonly string AssemblyLocation = Path.Combine(Path.GetFullPath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
         public static readonly string RobloxACFolder = AssemblyLocation;
-        public static readonly string workspaceFolder = Path.Combine(RobloxACFolder, "workspace");
+        public static readonly string workspaceFolder = Path.Combine(Path.Combine(Path.GetTempPath(), "celery", "workspace"));
         public static readonly string autoexecFolder = Path.Combine(RobloxACFolder, "autoexec");
         public static readonly string exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
         public static readonly string exeDirectory = Path.GetDirectoryName(exeLocation);
@@ -364,13 +364,14 @@ namespace LInjector.Classes
                 Directory.CreateDirectory(".\\scripts");
             }
 
-            /*
             if (!File.Exists(".\\workspace.lnk"))
             {
                 var shortcut = (IWshShortcut)wsh.CreateShortcut(".\\workspace.lnk");
                 shortcut.TargetPath = Files.workspaceFolder;
                 shortcut.Save();
             }
+
+            /*
 
             if (!File.Exists(".\\autoexec.lnk"))
             {
@@ -445,7 +446,7 @@ namespace LInjector.Classes
                     string jsonData = webClient.DownloadString(Files.DLLsJSON);
                     JObject jsonObject = JObject.Parse(jsonData);
 
-                    string fluxteamAPI = jsonObject["FluxteamAPI"].ToString();
+                    string fluxteamAPI = jsonObject["Interface"].ToString();
                     string module = jsonObject["Module"].ToString();
 
                     if (!string.IsNullOrEmpty(fluxteamAPI) && !string.IsNullOrEmpty(module))
@@ -506,7 +507,7 @@ namespace LInjector.Classes
         #endregion
     }
 
-    #region Log Creator that saves files in user % temp %
+    #region Log Creator that saves files in user %temp%
 
     public static class TempLog
     {
@@ -534,126 +535,6 @@ namespace LInjector.Classes
     }
 
     #endregion
-
-    #region VERSION CHECKER MADE WITH POWERSHELL SCRIPTING
-    public static class VersionChecker
-    {
-        public static string Version { get; set; }
-
-        static string appName = "ROBLOXCORPORATION.ROBLOX";
-        static string outputDirectory = Path.Combine(Path.GetTempPath(), Files.ApplicationName);
-        static string versionFilePath = Path.Combine(outputDirectory, "uwpversion");
-
-        // This PowerShell scripts saves the current installed Roblox Version in Temp/LInjector/uwpversion
-        // If it's not installed, It will return a message saying "The app is not installed".
-
-        public static string script = @"
-    $appxPackage = Get-AppxPackage | Where-Object { $_.Name -eq '" + appName + @"' }
-    if ($appxPackage) {
-        $appVersion = $appxPackage.Version
-    } else {
-        $appVersion = 'The application " + appName + @" it''s not installed.'
-    }
-    $appVersion | Out-File -FilePath '" + versionFilePath + @"'
-";
-
-        #endregion
-
-        #region WEB VERSION CHECKER
-
-        /// <summary>
-        /// Checks the folder name in local computer, and compares it with the string provided.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task DlRbxVersion()
-        {
-            var rbxverurl = "http://setup.roblox.com/version";
-
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    var content = await client.GetStringAsync(rbxverurl);
-                    CustomCw.Cw($"Saving the Game Client (Hyperion Release) version: {content}", false, "debug");
-                    Version = content;
-                    TempLog.CreateVersionFile(content, "latestrbx");
-                }
-                catch (HttpRequestException ex)
-                {
-                    CustomCw.Cw($"Exception:\n{ex.Message}\nStack Trace:\n{ex.StackTrace}");
-                }
-            }
-        }
-
-        private static string Extract(this string input, int len)
-        {
-            if (string.IsNullOrEmpty(input) || input.Length < len)
-            {
-                return input;
-            };
-
-            return input.Substring(0, len);
-        }
-
-        /// <summary>
-        /// Self-explainatory
-        /// </summary>
-        /// <param name="script"></param>
-        public static void ExecutePowerShellScript(string script)
-        {
-            using (Process process = new Process())
-            {
-                process.StartInfo.FileName = "powershell.exe";
-                process.StartInfo.Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"{script}\"";
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.CreateNoWindow = true;
-
-                process.Start();
-                process.WaitForExit();
-
-                string output = process.StandardOutput.ReadToEnd();
-            }
-        }
-
-        #endregion
-
-        #region UWP VERSION CHECKER
-        /// <summary>
-        /// Checks the folder name in local computer, and compares it with the string provided.
-        /// </summary>
-        /// <returns></returns>
-
-        public static async Task CheckVersionUWP()
-        {
-            var rbxverurl = "https://lexploits.top/version";
-            var client = new HttpClient();
-            var asyncedstring = await client.GetStringAsync(rbxverurl);
-            string content = asyncedstring.ToString().Extract(5);
-
-            if (!Directory.Exists(outputDirectory))
-            {
-                Directory.CreateDirectory(outputDirectory);
-            }
-
-            ExecutePowerShellScript(script);
-
-            if (File.Exists(versionFilePath))
-            {
-                Version = File.ReadAllText(versionFilePath).Extract(5);
-            }
-
-            if (Directory.Exists(outputDirectory))
-            {
-                if (!Version.Contains(content))
-                {
-                    MessageBox.Show($"Your version of UWP version mismatched. LInjector is only working for version {asyncedstring}, you have {Version}. Update or downgrade Roblox.", "LInjector | Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-        }
-
-        #endregion
-    }
 
     #region GITHUB RELEASE VERSION CHECKER
 
@@ -683,19 +564,15 @@ namespace LInjector.Classes
                     return false;
                 }
 
-                if (latestRelease != null)
-                {
-                    var latestVersion = latestRelease.TagName.TrimStart('v');
+                var latestVersion = latestRelease.TagName.TrimStart('v');
 
-                    Version current = null;
-                    if (Version.TryParse(currentVersion.TrimStart('v'), out current))
-                    {
-                        Version latest;
-                        if (Version.TryParse(latestVersion, out latest))
-                        {
-                            return current < latest;
-                        }
-                    }
+                DateTime currentDate;
+                DateTime latestDate;
+
+                if (DateTime.TryParseExact(currentVersion.TrimStart('v'), "dd.MM.yyyy", null, System.Globalization.DateTimeStyles.None, out currentDate) &&
+                    DateTime.TryParseExact(latestVersion, "dd.MM.yyyy", null, System.Globalization.DateTimeStyles.None, out latestDate))
+                {
+                    return currentDate < latestDate;
                 }
             }
             catch (RateLimitExceededException)

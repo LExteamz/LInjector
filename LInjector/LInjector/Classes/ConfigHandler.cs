@@ -18,7 +18,7 @@ namespace LInjector.Classes
         public static bool websocket_mode { get; set; } = false;
         public static bool hide_scriptlist { get; set; } = true;
         public static bool hide_internalconsole { get; set; } = true;
-        public static bool monaco_minipal_default {  get; set; } = true;
+        public static bool monaco_minipal_default { get; set; } = true;
 
         private static readonly Dictionary<string, Action<bool>> ConfigActions = new Dictionary<string, Action<bool>>()
         {

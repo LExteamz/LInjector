@@ -1,5 +1,4 @@
 ﻿using LInjector.Classes;
-using LInjector.Pages;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using Newtonsoft.Json;
