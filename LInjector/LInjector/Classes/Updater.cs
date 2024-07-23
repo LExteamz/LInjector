@@ -25,25 +25,32 @@ namespace LInjector.Classes
     #region Collection of Files and Paths used in LInjector
     public static class Files
     {
-
-        public static readonly string currentVersion = "v01.07.2024";
+        public static readonly string CurrentVersion = "v01.07.2024";
         public static readonly string AccountName = "LExteamz";
         public static readonly string ApplicationName = "LInjector";
 
-        public static readonly string localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        public static readonly string localPackagesFolder = Path.Combine(localAppDataFolder, "Packages");
-        public static readonly string AssemblyLocation = Path.Combine(Path.GetFullPath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
+        private static readonly string localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        public static readonly string LocalPackagesFolder = Path.Combine(localAppDataFolder, "Packages");
+
+        private static readonly string assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
+        public static readonly string AssemblyLocation = Path.GetFullPath(assemblyLocation);
         public static readonly string RobloxACFolder = AssemblyLocation;
-        public static readonly string workspaceFolder = Path.Combine(RobloxACFolder, "workspace");
-        public static readonly string autoexecFolder = Path.Combine(RobloxACFolder, "autoexec");
-        public static readonly string exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
-        public static readonly string exeDirectory = Path.GetDirectoryName(exeLocation);
-        public static readonly string desiredDirectory = Path.GetFullPath(exeDirectory);
-        public static readonly string savedtabspath = Path.Combine(AssemblyLocation, "Resources", "savedtabs");
-        public static readonly string DLLSURl = $"https://raw.githubusercontent.com/{AccountName}/LInjector/master/Redistributables/DLLs";
+
+        public static readonly string WorkspaceFolder = Path.Combine(RobloxACFolder, "workspace");
+        public static readonly string AutoexecFolder = Path.Combine(RobloxACFolder, "autoexec");
+
+        private static readonly string exeLocation = Assembly.GetExecutingAssembly().Location;
+        public static readonly string exeDirectory = Path.GetDirectoryName(exeLocation) ?? string.Empty;
+        public static readonly string DesiredDirectory = Path.GetFullPath(exeDirectory);
+
+        public static readonly string SavedTabsPath = Path.Combine(AssemblyLocation, "Resources", "savedtabs");
+
+        private static readonly string dllBaseUrl = $"https://raw.githubusercontent.com/{AccountName}/LInjector/master/Redistributables/DLLs";
+        public static readonly string DLLSURl = dllBaseUrl;
         public static readonly string InitLua = $"https://raw.githubusercontent.com/{AccountName}/LInjector/master/LInjector/LInjector/Resources/Internal/Init.lua";
-        public static readonly string DLLsJSON = $"{DLLSURl}/Modules.json";
+        public static readonly string DLLsJSON = $"{dllBaseUrl}/Modules.json";
     }
+
 
     #endregion
 
@@ -345,17 +352,17 @@ namespace LInjector.Classes
         /// </summary>
         public static void Create()
         {
-            if (!string.Equals(Directory.GetCurrentDirectory(), Files.desiredDirectory, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(Directory.GetCurrentDirectory(), Files.DesiredDirectory, StringComparison.OrdinalIgnoreCase))
             {
                 try
                 {
-                    Directory.SetCurrentDirectory(Files.desiredDirectory);
+                    Directory.SetCurrentDirectory(Files.DesiredDirectory);
 
                     MessageBox.Show("Friendly reminder to run LInjector from the root folder.", Files.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch
                 {
-                    MessageBox.Show($"Looks like you ran LInjector from another location that is not the LInjector folder. Try opening it from {Files.desiredDirectory}", "LInjector | ERROR", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    MessageBox.Show($"Looks like you ran LInjector from another location that is not the LInjector folder. Try opening it from {Files.DesiredDirectory}", "LInjector | ERROR", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 }
             }
 
@@ -367,7 +374,7 @@ namespace LInjector.Classes
             if (!File.Exists(".\\workspace.lnk"))
             {
                 var shortcut = (IWshShortcut)wsh.CreateShortcut(".\\workspace.lnk");
-                shortcut.TargetPath = Files.workspaceFolder;
+                shortcut.TargetPath = Files.WorkspaceFolder;
                 shortcut.Save();
             }
 
@@ -386,19 +393,19 @@ namespace LInjector.Classes
                 Directory.CreateDirectory(".\\Resources\\libs");
             }
 
-            if (!Directory.Exists(Files.workspaceFolder))
+            if (!Directory.Exists(Files.WorkspaceFolder))
             {
-                Directory.CreateDirectory(Files.workspaceFolder);
+                Directory.CreateDirectory(Files.WorkspaceFolder);
             }
 
-            if (!Directory.Exists(Files.autoexecFolder))
+            if (!Directory.Exists(Files.AutoexecFolder))
             {
-                Directory.CreateDirectory(Files.autoexecFolder);
+                Directory.CreateDirectory(Files.AutoexecFolder);
             }
 
-            if (!Directory.Exists(Files.savedtabspath))
+            if (!Directory.Exists(Files.SavedTabsPath))
             {
-                Directory.CreateDirectory(Files.savedtabspath);
+                Directory.CreateDirectory(Files.SavedTabsPath);
             }
 
             if (RegistryHandler.LookValue("ScriptListPath") == false)
@@ -406,9 +413,9 @@ namespace LInjector.Classes
                 RegistryHandler.SetValue("ScriptListPath", ".\\scripts\\");
             }
 
-            if (!File.Exists($"{Files.autoexecFolder}\\LInjector.lua"))
+            if (!File.Exists($"{Files.AutoexecFolder}\\LInjector.lua"))
             {
-                webClient.DownloadFileAsync(new Uri(Files.InitLua), $"{Files.autoexecFolder}\\LInjector.lua");
+                webClient.DownloadFileAsync(new Uri(Files.InitLua), $"{Files.AutoexecFolder}\\LInjector.lua");
             }
         }
 

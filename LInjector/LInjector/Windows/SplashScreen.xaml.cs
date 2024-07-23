@@ -89,7 +89,7 @@ namespace LInjector.Windows
                 Themes.SetColor("Text", "#FFFFFFFF");
             }
             CreateFiles.Create();
-            if (CheckLatest.IsOutdatedVersion(Files.currentVersion))
+            if (CheckLatest.IsOutdatedVersion(Files.CurrentVersion))
             {
                 var outDatedResult = System.Windows.Forms.MessageBox.Show(
                     "LInjector is outdated, please, re-download LInjector via GitHub or LInjector Website.\n" +
@@ -101,7 +101,7 @@ namespace LInjector.Windows
                     CustomCw.Cw("LInjector is outdated", false, "warning");
                 }
             }
-            TempLog.CreateVersionFile(Files.currentVersion, "version");
+            TempLog.CreateVersionFile(Files.CurrentVersion, "version");
             ConfigHandler.DoConfig();
             ConsoleManager.Initialize();
             RPCManager.InitRPC();

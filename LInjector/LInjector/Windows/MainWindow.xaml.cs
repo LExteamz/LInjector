@@ -353,7 +353,7 @@ namespace LInjector.Windows
                 var GetTextzzzz = await (item.Content as monaco_api).GetText();
                 if (GetTextzzzz.Length > 1)
                 {
-                    File.WriteAllText($"{Files.savedtabspath}\\{item.Header.ToString()}",
+                    File.WriteAllText($"{Files.SavedTabsPath}\\{item.Header.ToString()}",
                         GetTextzzzz.ToString());
                 }
             }
@@ -370,7 +370,7 @@ namespace LInjector.Windows
                 return;
             }
 
-            foreach (string file in Directory.EnumerateFiles(Files.savedtabspath))
+            foreach (string file in Directory.EnumerateFiles(Files.SavedTabsPath))
             {
                 TabSystemz.add_tab_with_text(File.ReadAllText(file), Path.GetFileName(file));
             }
@@ -384,7 +384,7 @@ namespace LInjector.Windows
         /// </summary>
         private void DeleteSavedTabs()
         {
-            foreach (var item in Directory.EnumerateFiles(Files.savedtabspath))
+            foreach (var item in Directory.EnumerateFiles(Files.SavedTabsPath))
             {
                 File.Delete(item);
             }

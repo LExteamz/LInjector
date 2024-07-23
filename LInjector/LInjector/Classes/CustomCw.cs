@@ -5,161 +5,99 @@ namespace LInjector.Classes
 {
     public static class CustomCw
     {
-        private static ConsoleColor OriginalForeColor = Console.ForegroundColor;
+        private static readonly ConsoleColor OriginalForeColor = Console.ForegroundColor;
+        private static readonly StreamWriter Writer;
 
-        /// <summary>
-        /// Writes text to the Windows CMD Console, this is LInjector-used.
-        /// </summary>
+        static CustomCw()
+        {
+            Writer = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
+            Console.SetOut(Writer);
+        }
+
         public static void Cw(string content, bool timestamp = false, string type = "")
         {
-            var writer = new StreamWriter(Console.OpenStandardOutput());
-            writer.AutoFlush = true;
-            Console.SetOut(writer);
+            string prefix = timestamp ? $"{GetTimestamp()} " : string.Empty;
+            string message = prefix + GetFormattedMessage(type, content);
 
-            if (timestamp == true)
-            {
-                switch (type)
-                {
-                    case "error":
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{ts()} [ERROR] {content}");
-                        break;
-                    case "warning":
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"{ts()} [WARNING] {content}");
-                        break;
-                    case "debug":
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"{ts()} [DEBUG] {content}");
-                        break;
-                    case "info":
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"{ts()} [INFO] {content}");
-                        break;
-                    case "roblox":
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{ts()} [ROBLOX] {content}");
-                        break;
-                    default:
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine($"{ts()}{content}");
-                        break;
-                }
-
-                rscolor();
-            }
-            else
-            {
-                switch (type)
-                {
-                    case "error":
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"[ERROR] {content}");
-                        break;
-                    case "warning":
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"[WARNING] {content}");
-                        break;
-                    case "info":
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"[INFO] {content}");
-                        break;
-                    case "debug":
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"[DEBUG] {content}");
-                        break;
-                    case "roblox":
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"[ROBLOX] {content}");
-                        break;
-                    default:
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine($"{content}");
-                        break;
-                }
-
-                rscolor();
-            }
+            Console.ForegroundColor = GetConsoleColor(type);
+            Console.WriteLine(message);
+            ResetConsoleColor();
         }
 
-        /// <summary>
-        /// Writes text to the Windows CMD console in rconsole format. This is script-used.
-        /// </summary>
         public static void rconsoleprint(string content, string color = "lgray")
         {
-            var writer = new StreamWriter(Console.OpenStandardOutput());
-            writer.AutoFlush = true;
-            Console.SetOut(writer);
             ConsoleManager.ToFront();
+            Console.ForegroundColor = GetConsoleColor(color);
+            Console.WriteLine(content);
+            ResetConsoleColor();
+        }
 
-            switch (color)
+        private static string GetFormattedMessage(string type, string content)
+        {
+            switch (type.ToLower())
+            {
+                case "error":
+                    return $"[ERROR] {content}";
+                case "warning":
+                    return $"[WARNING] {content}";
+                case "debug":
+                    return $"[DEBUG] {content}";
+                case "info":
+                    return $"[INFO] {content}";
+                case "roblox":
+                    return $"[ROBLOX] {content}";
+                default:
+                    return content;
+            }
+        }
+
+        private static ConsoleColor GetConsoleColor(string type)
+        {
+            switch (type.ToLower())
             {
                 case "black":
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    break;
+                    return ConsoleColor.Black;
                 case "blue":
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    break;
+                    return ConsoleColor.Blue;
                 case "dblue":
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    break;
+                    return ConsoleColor.DarkBlue;
                 case "green":
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    break;
+                    return ConsoleColor.Green;
                 case "cyan":
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    break;
+                    return ConsoleColor.Cyan;
                 case "red":
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
+                    return ConsoleColor.Red;
                 case "magenta":
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    break;
+                    return ConsoleColor.Magenta;
                 case "brown":
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    break;
+                    return ConsoleColor.DarkYellow;
                 case "lgray":
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    break;
+                    return ConsoleColor.Gray;
                 case "dgray":
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    break;
+                    return ConsoleColor.DarkGray;
                 case "white":
-                    Console.ForegroundColor = ConsoleColor.White;
-                    break;
+                    return ConsoleColor.White;
                 case "info":
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    break;
+                    return ConsoleColor.Blue;
                 case "warn":
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    break;
+                    return ConsoleColor.Yellow;
                 case "err":
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
+                    return ConsoleColor.Red;
+                case "error":
+                    return ConsoleColor.Red;
+                case "warning":
+                    return ConsoleColor.Yellow;
+                case "debug":
+                    return ConsoleColor.DarkGray;
+                case "roblox":
+                    return ConsoleColor.Red;
                 default:
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    break;
+                    return ConsoleColor.Gray;
             }
-
-            Console.WriteLine(content);
-            rscolor();
         }
 
-        /// <summary>
-        /// Restarts the console color
-        /// </summary>
-        private static void rscolor()
-        {
-            Console.ForegroundColor = OriginalForeColor;
-        }
+        private static void ResetConsoleColor() => Console.ForegroundColor = OriginalForeColor;
 
-        /// <summary>
-        /// Returns timestamp in [HH:mm:ss] format
-        /// </summary>
-        /// <returns></returns>
-        private static string ts()
-        {
-            return "[ " + DateTime.Now.ToString("HH:mm:ss") + " ]";
-        }
+        private static string GetTimestamp() => $"[{DateTime.Now:HH:mm:ss}]";
     }
 }
