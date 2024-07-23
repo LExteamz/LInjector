@@ -34,7 +34,7 @@ namespace LInjector.Classes
         public static readonly string localPackagesFolder = Path.Combine(localAppDataFolder, "Packages");
         public static readonly string AssemblyLocation = Path.Combine(Path.GetFullPath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
         public static readonly string RobloxACFolder = AssemblyLocation;
-        public static readonly string workspaceFolder = Path.Combine(Path.Combine(Path.GetTempPath(), "celery", "workspace"));
+        public static readonly string workspaceFolder = Path.Combine(RobloxACFolder, "workspace");
         public static readonly string autoexecFolder = Path.Combine(RobloxACFolder, "autoexec");
         public static readonly string exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
         public static readonly string exeDirectory = Path.GetDirectoryName(exeLocation);
