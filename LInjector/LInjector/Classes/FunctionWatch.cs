@@ -11,7 +11,7 @@ namespace LInjector.Classes
     {
         private static bool IsRunning = false;
         private static FileSystemWatcher watcher = new FileSystemWatcher();
-        private static String WatchFolder = Path.Combine(Files.WorkspaceFolder);
+        private static String WatchFolder = Files.WorkspaceFolder;
 
         public static void runFuncWatch()
         {

@@ -7,15 +7,9 @@ namespace LInjector.Classes
 {
     public static class DLLInterface
     {
-        private const string DLL_PATH = "Resources\\libs\\Module.dll"; // Change this if you need
-
         public static async void Inject()
         {
-            if (!File.Exists(DLL_PATH))
-            {
-                MessageBox.Show("DLL was not found!", "LInjector | Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                // throw new FileNotFoundException();
-            }
+            // Add checks
 
             try
             {
