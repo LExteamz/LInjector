@@ -19,9 +19,7 @@ namespace LInjector.Classes
 
             try
             {
-                Process RBXInstance = Process.GetProcessesByName("RobloxPlayerBeta")[0];
-
-                if (RBXInstance.Id <= 0)
+                if (Process.GetProcessesByName("RobloxPlayerBeta").Length <= 0)
                 {
                     await Notifications.Fire("Please, open Roblox");
                 }
