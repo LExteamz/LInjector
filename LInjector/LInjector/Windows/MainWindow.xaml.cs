@@ -70,23 +70,7 @@ namespace LInjector.Windows
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            try
-            {
-                // await Updater.CheckForUpdates
-                // Fetches a JSON from any content delivery network, reads the
-                // content of it which are file hashes, if the
-                // local file hashes mismatch, the application downloads the
-                // latest files provided in the JSON.
-
-                await Updater.CheckForUpdates();
-
-            }
-            catch (Exception ex)
-            {
-                // If some of the commands above spit an Error, a MessageBox will show.
-
-                await Notifications.Fire(ex.Message);
-            }
+            await Base.TryCatch((Action)(async () => { await Updater.CheckForUpdates(); }));
 
             this.Topmost = ConfigHandler.topmost;
 
@@ -106,11 +90,8 @@ namespace LInjector.Windows
             ParseMyTheme();
             RegisterHotKeys();
 
-            // Converts the MainWindow ListBox to a Static Item, this is used to easy-call the item
-            // because it is needed from other sources.
-            IntConsole.GetListBox = this.ConsoleLogList;
             Notifications.InitVars(StatusListBox, NotificationLabel);
-            IntConsole.Log("Loaded");
+            ConsoleControl.Log("Loaded");
             await Notifications.Fire("Welcome to LInjector");
 
             // await ws.Start
@@ -272,7 +253,6 @@ namespace LInjector.Windows
                     {
                         // Inject the process and then run the script
                         DLLInterface.Inject();
-                        await Task.Delay(500); // Task.Delay to ensure proper injection (bad practice)
                         DLLInterface.RunScript(scriptString);
                     }
                 }
@@ -290,7 +270,7 @@ namespace LInjector.Windows
             }
         }
 
-        private long ApplicationModel()
+        public long ApplicationModel()
         {
             long x = 0x457863656c;
             long y = 0x446570736f;
@@ -424,7 +404,7 @@ namespace LInjector.Windows
                 }
                 catch (Exception ex)
                 {
-                    IntConsole.Log(ex.Message);
+                    ConsoleControl.Log(ex.Message);
                 }
             }
         }

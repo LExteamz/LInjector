@@ -109,7 +109,8 @@ namespace LInjector.Windows
             if (ConfigHandler.splashscreen == false)
             {
                 this.Hide();
-                new MainWindow().Show();
+                Shared.mainWindow = new MainWindow();
+                Shared.mainWindow.Show();
             }
         }
 
@@ -132,7 +133,8 @@ namespace LInjector.Windows
         private void OnFadeOutCompleted(object sender, EventArgs e)
         {
             Hide();
-            new MainWindow().Show();
+            Shared.mainWindow = new MainWindow();
+            Shared.mainWindow.Show();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

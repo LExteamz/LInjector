@@ -305,7 +305,7 @@
     <Compile Include="Classes\CustomCw.cs" />
     <Compile Include="Classes\DLLInterface.cs" />
     <Compile Include="Classes\FunctionWatch.cs" />
-    <Compile Include="Classes\IntConsole.cs" />
+    <Compile Include="Classes\Shared.cs" />
     <Compile Include="Classes\Themes.cs" />
     <Compile Include="Classes\Updater.cs" />
     <Compile Include="Classes\WebSocket.cs" />

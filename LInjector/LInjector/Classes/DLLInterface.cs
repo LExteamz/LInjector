@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace LInjector.Classes
 {
     public static class DLLInterface
     {
-        public static async void Inject()
+        public static async Task Inject()
         {
-            // Add checks
-
             try
             {
                 if (Process.GetProcessesByName("RobloxPlayerBeta").Length <= 0)
@@ -31,6 +30,7 @@ namespace LInjector.Classes
                 await Notifications.Fire("Exception copied to clipboard");
             }
         }
+
 
         public static bool IsAttached()
         {
