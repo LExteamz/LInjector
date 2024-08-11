@@ -284,6 +284,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Pages\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\TabSystem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -312,6 +316,9 @@
     <Compile Include="Classes\MonacoInterfacer.cs" />
     <Compile Include="Classes\Notifications.cs" />
     <Compile Include="Classes\RPCManager.cs" />
+    <Compile Include="Pages\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TabSystem.xaml.cs">
       <DependentUpon>TabSystem.xaml</DependentUpon>
     </Compile>
