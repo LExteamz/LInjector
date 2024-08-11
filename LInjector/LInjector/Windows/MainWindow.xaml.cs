@@ -209,7 +209,7 @@ namespace LInjector.Windows
         /// <summary>
         /// Attach and Inject are the same, this was used to load LInjector into the GAME.
         /// </summary>
-        private void AttachButton_Click(object sender, RoutedEventArgs e) => DLLInterface.Inject();
+        private async void AttachButton_Click(object sender, RoutedEventArgs e) => await DLLInterface.Inject();
 
         private void ConsoleDebugButton_Click(object sender, RoutedEventArgs e) =>
             ConsoleManager.ToggleConsoleVisibility();
@@ -252,7 +252,7 @@ namespace LInjector.Windows
                     else
                     {
                         // Inject the process and then run the script
-                        DLLInterface.Inject();
+                        await DLLInterface.Inject();
                         DLLInterface.RunScript(scriptString);
                     }
                 }
@@ -385,7 +385,7 @@ namespace LInjector.Windows
             timer.Start();
         }
 
-        internal void AttachedDetectorTick(object sender, EventArgs e)
+        internal async void AttachedDetectorTick(object sender, EventArgs e)
         {
             if (!ConfigHandler.autoattach) return;
 
@@ -400,7 +400,7 @@ namespace LInjector.Windows
                     {
                         return;
                     }
-                    DLLInterface.Inject();
+                    await DLLInterface.Inject();
                 }
                 catch (Exception ex)
                 {
