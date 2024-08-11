@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Threading;
 using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -63,7 +64,6 @@ namespace LInjector.Pages
         {
             InitializeComponent();
 
-            if (DesignerProperties.GetIsInDesignMode(this)) { return; }
 
             // RunAutoAttachTimer
             // The function no longer works, this was used to interact with
@@ -74,9 +74,32 @@ namespace LInjector.Pages
             // RunAutoAttachTimer();
         }
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            BeginAttachDetection();
+        }
+
         // Very useless function but it's interesting
 
         DispatcherTimer TitleTimer = new DispatcherTimer();
+        DispatcherTimer bozoTimer = new DispatcherTimer();
+
+        public void BeginAttachDetection()
+        {
+            bozoTimer.Interval = TimeSpan.FromSeconds(3);
+            bozoTimer.Tick += bozoTick;
+            bozoTimer.Start();
+        }
+
+        public void bozoTick(object sender, EventArgs e)
+        {
+            if (DesignerProperties.GetIsInDesignMode(this)) return;
+
+            bool isAttached = DLLInterface.IsAttached();
+
+            AnimateColor(HarderBetterFasterStronger, ParseColor(isAttached ? "#FF7B68EE" : "#FF000000").Color);
+            AnimateBlur(HarderBetterFasterStronger, isAttached ? 30 : 15);
+        }
 
         public void TitleBarLabel_Loaded(object sender, RoutedEventArgs e)
         {
@@ -1032,6 +1055,40 @@ namespace LInjector.Pages
             return new System.Windows.Media.SolidColorBrush(
                 System.Windows.Media.Color.FromArgb(a, r, g, b));
         }
+
+        public void AnimateColor(DropShadowEffect element, Color final, double duration = 1)
+        {
+            var currentColor = element.Color;
+            if (currentColor.Equals(final)) return;
+
+
+            var colorAnim = new ColorAnimation
+            {
+                From = currentColor,
+                To = final,
+                Duration = new Duration(TimeSpan.FromSeconds(duration)),
+                FillBehavior = FillBehavior.HoldEnd
+            };
+
+            element.BeginAnimation(DropShadowEffect.ColorProperty, colorAnim);
+            
+        }
+
+
+        public void AnimateBlur(DropShadowEffect element, double target, double duration = 1)
+        {
+            if (Math.Abs(target - element.BlurRadius) < 0.01) return;
+
+            var blurRadiusAnim = new DoubleAnimation
+            {
+                To = target,
+                Duration = new Duration(TimeSpan.FromSeconds(duration)),
+                FillBehavior = FillBehavior.HoldEnd
+            };
+
+            element.BeginAnimation(DropShadowEffect.BlurRadiusProperty, blurRadiusAnim);
+        }
+
 
         #endregion
     }

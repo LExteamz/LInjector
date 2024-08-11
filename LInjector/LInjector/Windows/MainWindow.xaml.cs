@@ -1,4 +1,5 @@
 ﻿using LInjector.Classes;
+using LInjector.Pages;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -24,6 +25,18 @@ namespace LInjector.Windows
         {
             InitializeComponent();
 
+            Shared.mainView = new MainView
+            {
+                Name = "MainViewz",
+                Visibility = Visibility.Visible,
+                IsEnabled = false,
+                Padding = new Thickness(50),
+                MinWidth = 650,
+                MinHeight = 450,
+            };
+
+            HolderGrid.Children.Add(Shared.mainView);
+
             // RunAutoAttachTime
             // The function no longer works, this was used to interact with
             //  the DLL Interface and listen
@@ -35,28 +48,28 @@ namespace LInjector.Windows
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MainViewz.IsEnabled = true;
+            Shared.mainView.IsEnabled = true;
             await Base.TryCatch((Action)(async () => { await Updater.CheckForUpdates(); }));
 
             Shared.mainWindow.Topmost = ConfigHandler.topmost;
 
             // The TabSystem (Editor) Grid is hidden by default for Design Purposes
-            MainViewz.TabSystemz.Visibility = Visibility.Visible;
+            Shared.mainView.TabSystemz.Visibility = Visibility.Visible;
 
             // The Script List path is saved in a Registry Key, if the Key contains anything
             //  it is fetched from it and set into ScriptListPath
             if (RegistryHandler.GetValue("ScriptListPath", "0").Length != 0)
             {
-                MainViewz.ScriptListPath = RegistryHandler.GetValue("ScriptListPath", "0");
+                Shared.mainView.ScriptListPath = RegistryHandler.GetValue("ScriptListPath", "0");
             }
 
-            MainViewz.RefreshScriptList();
-            MainViewz.LoadSavedTabs();
-            MainViewz.ParseConfig();
-            MainViewz.ParseMyTheme();
-            MainViewz.RegisterHotKeys();
+            Shared.mainView.RefreshScriptList();
+            Shared.mainView.LoadSavedTabs();
+            Shared.mainView.ParseConfig();
+            Shared.mainView.ParseMyTheme();
+            Shared.mainView.RegisterHotKeys();
 
-            Notifications.InitVars(MainViewz.StatusListBox, MainViewz.NotificationLabel);
+            Notifications.InitVars(Shared.mainView.StatusListBox, Shared.mainView.NotificationLabel);
             ConsoleControl.Log("Loaded");
             await Notifications.Fire("Welcome to LInjector");
 
@@ -65,11 +78,12 @@ namespace LInjector.Windows
             IntPtr hWnd = wih.Handle;
 
             ConsoleManager.SetForegroundWindow(hWnd);
+            this.Activate();
 
             // await ws.Start
             // Starts a WebSocket used to run simple LInjector functions, such as Log, rconsole, etc.
 
-            await MainViewz.ws.Start();
+            await Shared.mainView.ws.Start();
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e)

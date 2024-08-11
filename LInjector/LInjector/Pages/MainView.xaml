@@ -6,7 +6,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:LInjector.Pages"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             Loaded="UserControl_Loaded"
+             MinHeight="400" MinWidth="600"
              d:DesignHeight="400" d:DesignWidth="600">
     <UserControl.Resources>
         <SolidColorBrush Color="#FF0F0F0F" x:Key="PrimaryColor"/>
@@ -16,7 +18,7 @@
     </UserControl.Resources>
     <Border ClipToBounds="False">
         <Border.Effect>
-            <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="0" Opacity="1"/>
+            <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="0" Opacity="1" x:Name="HarderBetterFasterStronger"/>
         </Border.Effect>
         <Grid ClipToBounds="True" Background="{DynamicResource PrimaryColor}">
             <Grid.RowDefinitions>

@@ -11,10 +11,11 @@
     xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
     x:Class="LInjector.Windows.MainWindow"
     mc:Ignorable="d"
-    MinHeight="400"
-    MinWidth="600"
-    Height="400" Width="600" ShowInTaskbar="True" WindowStartupLocation="CenterScreen"
+    MinHeight="450"
+    MinWidth="650"
+    Height="450" Width="650" ShowInTaskbar="True" WindowStartupLocation="CenterScreen"
     Icon="\LInjector.ico"
+    d:DesignHeight="450" d:DesignWidth="650"
     ResizeMode="CanResize"
     WindowStyle="None"
     AllowsTransparency="True"
@@ -23,10 +24,10 @@
     Loaded="Window_Loaded">
 
     <shell:WindowChrome.WindowChrome>
-        <shell:WindowChrome CaptionHeight="0" UseAeroCaptionButtons="True" NonClientFrameEdges="None" ResizeBorderThickness="10" />
+        <shell:WindowChrome CaptionHeight="0" UseAeroCaptionButtons="True" NonClientFrameEdges="None" ResizeBorderThickness="50" />
     </shell:WindowChrome.WindowChrome>
 
-    <Grid Margin="10">
-        <controls:MainView x:Name="MainViewz" Visibility="Visible" IsEnabled="False"/>
+    <Grid x:Name="HolderGrid" MinWidth="450" MinHeight="450">
+        
     </Grid>
 </Window>

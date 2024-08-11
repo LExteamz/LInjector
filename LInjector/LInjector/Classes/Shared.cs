@@ -1,4 +1,5 @@
-﻿using LInjector.Windows;
+﻿using LInjector.Pages;
+using LInjector.Windows;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -19,13 +20,14 @@ namespace LInjector.Classes
             string FormattedMessage = $"[{localTime.ToString("HH:mm")}] {message}";
             toLog.Content = FormattedMessage;
             toLog.Visibility = System.Windows.Visibility.Visible;
-            Shared.mainWindow.MainViewz.ConsoleLogList.Items.Add(toLog);
+            Shared.mainView.ConsoleLogList.Items.Add(toLog);
         }
     }
 
     public static class Shared
     {
         public static MainWindow mainWindow = null;
+        public static MainView mainView = null;
     }
 
     public static class Base
