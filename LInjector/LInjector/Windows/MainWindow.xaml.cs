@@ -35,7 +35,7 @@ namespace LInjector.Windows
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            MainViewz.IsEnabled = true;
             await Base.TryCatch((Action)(async () => { await Updater.CheckForUpdates(); }));
 
             Shared.mainWindow.Topmost = ConfigHandler.topmost;

@@ -1,8 +1,13 @@
-﻿using Dsafa.WpfColorPicker;
+﻿#if DEBUG
+    if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
+#endif
+
+using Dsafa.WpfColorPicker;
 using LInjector.Classes;
 using LInjector.WPF.Classes;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -58,7 +63,9 @@ namespace LInjector.Pages
         {
             InitializeComponent();
 
-            // RunAutoAttachTime
+            if (DesignerProperties.GetIsInDesignMode(this)) { return; }
+
+            // RunAutoAttachTimer
             // The function no longer works, this was used to interact with
             //  the DLL Interface and listen
             //  when THE GAME process was launched and then check if
@@ -73,6 +80,8 @@ namespace LInjector.Pages
 
         public void TitleBarLabel_Loaded(object sender, RoutedEventArgs e)
         {
+            if (DesignerProperties.GetIsInDesignMode(this)) { return; }
+
             int seconds = 60;
 
             TitleTimer.Interval = TimeSpan.FromSeconds(seconds);
@@ -399,11 +408,14 @@ namespace LInjector.Pages
         /// <param name="e"></param>
         public void ScriptListHolder_Loaded(object sender, RoutedEventArgs e)
         {
-            DirectoryInfo ScriptsFolder = new DirectoryInfo(ScriptListPath);
-            FileInfo[] Files = ScriptsFolder.GetFiles("*.*");
-            foreach (FileInfo Script in Files)
+            if (Directory.Exists(ScriptListPath))
             {
-                ScriptListHolder.Items.Add(Script.Name);
+                DirectoryInfo ScriptsFolder = new DirectoryInfo(ScriptListPath);
+                FileInfo[] Files = ScriptsFolder.GetFiles("*.*");
+                foreach (FileInfo Script in Files)
+                {
+                    ScriptListHolder.Items.Add(Script.Name);
+                }
             }
         }
 

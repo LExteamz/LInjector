@@ -446,7 +446,7 @@
                                 </TextBox>
                             </Grid>
                         </Border>
-                        <ListBox SelectionChanged="SearchScriptsBox_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Hidden" Background="{DynamicResource TertiaryColor}" BorderThickness="0" Foreground="{DynamicResource Text}" FontFamily="Segoe UI Semilight" x:Name="ScriptListHolder" Padding="5 5 5 5" Height="Auto" Margin="0,1,0,0" Loaded="ScriptListHolder_Loaded" Grid.Row="2" materialDesign:RippleAssist.IsDisabled="True"/>
+                        <ListBox SelectionChanged="SearchScriptsBox_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Hidden" Background="{DynamicResource TertiaryColor}" BorderThickness="0" Foreground="{DynamicResource Text}" FontFamily="Segoe UI Semilight" x:Name="ScriptListHolder" Padding="5 5 5 5" Height="Auto" Margin="0,1,0,0" Loaded="ScriptListHolder_Loaded" Grid.Row="2" materialDesign:RippleAssist.IsDisabled="True" d:ItemsSource="{d:SampleData ItemCount=3}"/>
                         <Grid Background="{DynamicResource PrimaryColor}" Grid.Row="3" VerticalAlignment="Top" Height="40">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="115*"/>

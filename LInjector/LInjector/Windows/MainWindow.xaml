@@ -27,6 +27,6 @@
     </shell:WindowChrome.WindowChrome>
 
     <Grid Margin="10">
-        <controls:MainView x:Name="MainViewz" Visibility="Visible"/>
+        <controls:MainView x:Name="MainViewz" Visibility="Visible" IsEnabled="False"/>
     </Grid>
 </Window>
