@@ -19,7 +19,7 @@ namespace LInjector.Classes
             string FormattedMessage = $"[{localTime.ToString("HH:mm")}] {message}";
             toLog.Content = FormattedMessage;
             toLog.Visibility = System.Windows.Visibility.Visible;
-            Shared.mainWindow.ConsoleLogList.Items.Add(toLog);
+            Shared.mainWindow.MainViewz.ConsoleLogList.Items.Add(toLog);
         }
     }
 

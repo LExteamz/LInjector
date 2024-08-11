@@ -5,17 +5,19 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:local="clr-namespace:LInjector.Windows"
         mc:Ignorable="d"
-        Height="450" Width="800" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         Loaded="Window_Loaded"
+        ClipToBounds="False"
         Icon="\LInjector.ico"
+        Height="1100" Width="1100" 
         WindowStyle="None"
         Background="Transparent">
-	<Grid ClipToBounds="true">
+    <Grid ClipToBounds="False" Height="450" Width="800" >
 		<!-- THIS BORDER EFFECT IS PART FROM COMET UPDATING SYSTEM (https://github.com/MarsQQ/Comet-Updating-System-) -->
 		<Border x:Name="SpinningBorder" Margin="-1,410,-1,0" CornerRadius="5" VerticalAlignment="Top" Height="40" Panel.ZIndex="1" ClipToBounds="False">
 			<Border.Effect>
-				<BlurEffect Radius="100"/>
+				<BlurEffect Radius="120"/>
 			</Border.Effect>
 			<Border.Background>
 				<LinearGradientBrush EndPoint="1,1" StartPoint="0,1">
@@ -32,7 +34,7 @@
 				</LinearGradientBrush>
 			</Border.Background>
 		</Border>
-		<Rectangle RadiusX="8" RadiusY="8" Stroke="#202020" StrokeThickness="5" x:Name="GradientRectangle">
+		<Rectangle RadiusX="8" RadiusY="8" Stroke="#202020" StrokeThickness="3" x:Name="GradientRectangle">
 			<Rectangle.Fill>
 				<LinearGradientBrush>
 					<LinearGradientBrush.Transform>
