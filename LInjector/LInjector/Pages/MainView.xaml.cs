@@ -247,14 +247,14 @@ namespace LInjector.Pages
                     if (!flag)
                     {
                         // Run the script if Injected
-                        await DLLInterface.RunScript(scriptString);
+                        DLLInterface.RunScript(scriptString);
                     }
                     else
                     {
                         // Inject the process and then run the script
                         await DLLInterface.Inject();
                         await Task.Delay(500);
-                        await DLLInterface.RunScript(scriptString);
+                        DLLInterface.RunScript(scriptString);
                     }
                 }
                 catch (Exception ex)
