@@ -8,7 +8,6 @@
              xmlns:local="clr-namespace:LInjector.Pages"
              mc:Ignorable="d"
              Loaded="UserControl_Loaded"
-             MinHeight="400" MinWidth="600"
              d:DesignHeight="400" d:DesignWidth="600">
     <UserControl.Resources>
         <SolidColorBrush Color="#FF0F0F0F" x:Key="PrimaryColor"/>
