@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -71,7 +72,7 @@ namespace LInjector.Pages
             //  when THE GAME process was launched and then check if
             //  ConfigHandler.autoattach was enabled.
             //
-            // RunAutoAttachTimer();
+            RunAutoAttachTimer();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -86,7 +87,7 @@ namespace LInjector.Pages
 
         public void BeginAttachDetection()
         {
-            bozoTimer.Interval = TimeSpan.FromSeconds(3);
+            bozoTimer.Interval = TimeSpan.FromSeconds(1);
             bozoTimer.Tick += bozoTick;
             bozoTimer.Start();
         }
@@ -246,13 +247,14 @@ namespace LInjector.Pages
                     if (!flag)
                     {
                         // Run the script if Injected
-                        DLLInterface.RunScript(scriptString);
+                        await DLLInterface.RunScript(scriptString);
                     }
                     else
                     {
                         // Inject the process and then run the script
                         await DLLInterface.Inject();
-                        DLLInterface.RunScript(scriptString);
+                        await Task.Delay(500);
+                        await DLLInterface.RunScript(scriptString);
                     }
                 }
                 catch (Exception ex)
@@ -380,7 +382,7 @@ namespace LInjector.Pages
         {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Tick += AttachedDetectorTick;
-            timer.Interval = TimeSpan.FromSeconds(5);
+            timer.Interval = TimeSpan.FromSeconds(1);
             timer.Start();
         }
 
@@ -1071,7 +1073,7 @@ namespace LInjector.Pages
             };
 
             element.BeginAnimation(DropShadowEffect.ColorProperty, colorAnim);
-            
+
         }
 
 

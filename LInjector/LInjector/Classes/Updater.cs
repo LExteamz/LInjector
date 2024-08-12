@@ -371,14 +371,13 @@ namespace LInjector.Classes
                 Directory.CreateDirectory(".\\scripts");
             }
 
+            /*
             if (!File.Exists(".\\workspace.lnk"))
             {
                 var shortcut = (IWshShortcut)wsh.CreateShortcut(".\\workspace.lnk");
                 shortcut.TargetPath = Files.WorkspaceFolder;
                 shortcut.Save();
             }
-
-            /*
 
             if (!File.Exists(".\\autoexec.lnk"))
             {
