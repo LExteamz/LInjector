@@ -1,91 +1,58 @@
-﻿<UserControl x:Class="LInjector.Pages.TabSystem"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-            xmlns:local="LInjector.Pages"
-            mc:Ignorable="d" 
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch"
-            xmlns:susdog="clr-namespace:LInjector.Windows"
-            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-            Background="Transparent"
-            d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+      x:Class="LInjector.Pages.TabSystem"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="LInjector.Pages"
+      mc:Ignorable="d"
+      VerticalAlignment="Stretch"
+      HorizontalAlignment="Stretch"
+      xmlns:susdog="clr-namespace:LInjector.Windows"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="Transparent"
+      d:DesignHeight="450"
+      d:DesignWidth="800">
     <UserControl.Resources>
-        <Style
-				TargetType="{x:Type TextBox}"
-				x:Key="InvisibleTextBox">
-            <Setter
-					Property="Background"
-					Value="Transparent" />
-            <Setter
-					Property="BorderBrush"
-					Value="Transparent" />
-            <Setter
-					Property="FrameworkElement.ContextMenu"
-					Value="{x:Null}" />
-            <Setter
-					Property="TextBoxBase.CaretBrush"
-					Value="Transparent" />
-            <Setter
-					Property="Foreground"
-					Value="White" />
-            <Setter
-					Property="BorderThickness"
-					Value="0" />
-            <Setter
-					Property="KeyboardNavigation.TabNavigation"
-					Value="None" />
-            <Setter
-					Property="HorizontalContentAlignment"
-					Value="Left" />
-            <Setter
-					Property="FrameworkElement.FocusVisualStyle"
-					Value="{x:Null}" />
-            <Setter
-					Property="UIElement.AllowDrop"
-					Value="True" />
-            <Setter
-					Property="ScrollViewer.PanningMode"
-					Value="VerticalFirst" />
-            <Setter
-					Property="Stylus.IsFlicksEnabled"
-					Value="False" />
-            <Setter
-					Property="Padding"
-					Value="0" />
-            <Setter
-					Property="Template">
+        <Style TargetType="{x:Type TextBox}" x:Key="InvisibleTextBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="FrameworkElement.ContextMenu" Value="{x:Null}"/>
+            <Setter Property="TextBoxBase.CaretBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="UIElement.AllowDrop" Value="True"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="True"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate
-							TargetType="{x:Type TextBox}">
+                    <ControlTemplate TargetType="{x:Type TextBox}">
                         <Border
-                                
-								Name="border"
-								BorderBrush="{TemplateBinding BorderBrush}"
-								BorderThickness="{TemplateBinding BorderThickness}"
-								Background="{TemplateBinding Background}"
-								SnapsToDevicePixels="True">
+                  Name="border"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  Background="{TemplateBinding Background}"
+                  SnapsToDevicePixels="True">
                             <Grid>
                                 <ScrollViewer
-									Name="PART_ContentHost"
-									Focusable="False"
-									HorizontalScrollBarVisibility="Hidden"
-									VerticalScrollBarVisibility="Hidden" />
+                      Name="PART_ContentHost"
+                      Focusable="True"
+                      HorizontalScrollBarVisibility="Hidden"
+                      VerticalScrollBarVisibility="Hidden"/>
                             </Grid>
                         </Border>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
-                        <Condition
-								Property="TextBoxBase.IsInactiveSelectionHighlightEnabled"
-								Value="True" />
+                        <Condition Property="TextBoxBase.IsInactiveSelectionHighlightEnabled" Value="True"/>
                     </MultiTrigger.Conditions>
-
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
@@ -131,21 +98,41 @@
                                 <RowDefinition x:Name="RDefinition0" Height="Auto"/>
                                 <RowDefinition x:Name="RDefinition1" Height="*"/>
                             </Grid.RowDefinitions>
-                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" ForceCursor="True" Style="{DynamicResource MaterialDesignScrollViewer}" Foreground="#00000000">
+                            <ScrollViewer
+                    Grid.Row="0"
+                    HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Disabled"
+                    ForceCursor="True"
+                    Style="{DynamicResource MaterialDesignScrollViewer}"
+                    Foreground="#00000000">
                                 <materialDesign:ScrollViewerAssist.BubbleVerticalScroll>true</materialDesign:ScrollViewerAssist.BubbleVerticalScroll>
                                 <materialDesign:ScrollViewerAssist.CornerRectangleVisibility>Hidden</materialDesign:ScrollViewerAssist.CornerRectangleVisibility>
                                 <materialDesign:ScrollViewerAssist.SupportHorizontalScroll>true</materialDesign:ScrollViewerAssist.SupportHorizontalScroll>
                                 <materialDesign:ScrollViewerAssist.IsAutoHideEnabled>true</materialDesign:ScrollViewerAssist.IsAutoHideEnabled>
                                 <materialDesign:ScrollViewerAssist.ShowSeparators>false</materialDesign:ScrollViewerAssist.ShowSeparators>
                                 <DockPanel Margin="0,1">
-                                    <TabPanel IsItemsHost="True" Margin="0,1" />
-                                    <Button Name="AddT" Style="{DynamicResource ButtonG}" Click="ButtonTabs" HorizontalAlignment="Left" Background="Transparent" Foreground="White" FontSize="18" FontFamily="Arial" Width="23">
-                                        <Path Fill="White" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" Height="10.834" Stretch="Fill" Width="10.417" />
+                                    <TabPanel IsItemsHost="True" Margin="0,1"/>
+                                    <Button
+                        Name="AddT"
+                        Style="{DynamicResource ButtonG}"
+                        Click="ButtonTabs"
+                        HorizontalAlignment="Left"
+                        Background="Transparent"
+                        Foreground="White"
+                        FontSize="18"
+                        FontFamily="Arial"
+                        Width="23">
+                                        <Path Fill="White" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" Height="10.834" Stretch="Fill" Width="10.417"/>
                                     </Button>
                                 </DockPanel>
                             </ScrollViewer>
-                            <Border Background="#141414" KeyboardNavigation.TabIndex="2" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1">
-                                <ContentPresenter ContentSource="SelectedContent"  />
+                            <Border
+                    Background="#141414"
+                    KeyboardNavigation.TabIndex="2"
+                    Grid.Column="0"
+                    KeyboardNavigation.DirectionalNavigation="Contained"
+                    Grid.Row="1">
+                                <ContentPresenter ContentSource="SelectedContent"/>
                             </Border>
                         </Grid>
                     </ControlTemplate>
@@ -192,7 +179,7 @@
         </Storyboard>
         <Storyboard x:Key="hoverhigh">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Width)" Storyboard.TargetName="Hoverborder">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.60" Value="88">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.60" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <CircleEase EasingMode="EaseInOut"/>
                     </EasingDoubleKeyFrame.EasingFunction>
@@ -231,17 +218,57 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
                         <Grid x:Name="maingrid" Margin="0,0,5,0">
-                            <Border CornerRadius="3 3 3 3" Name="Mainn" Width="Auto" Height="26" BorderThickness="0" Background="{TemplateBinding Background}" Margin="0,0,0,0">
+                            <Border
+                    CornerRadius="3 3 3 3"
+                    Name="Mainn"
+                    Width="Auto"
+                    Height="26"
+                    BorderThickness="0"
+                    Background="{TemplateBinding Background}"
+                    Margin="0,0,0,0">
                                 <Grid>
-                                    <Border x:Name="Blueee" CornerRadius="5" Height="1" VerticalAlignment="Bottom" BorderThickness="0" Background="#CC1E1E1E"/>
-                                    <Border x:Name="Hoverborder" CornerRadius="5" Height="2" VerticalAlignment="Bottom" BorderThickness="0" Background="#CC1E1E1E"/>
+                                    <Border
+                        x:Name="Blueee"
+                        CornerRadius="5"
+                        Height="1"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="0"
+                        Background="Transparent"/>
+                                    <Border
+                        x:Name="Hoverborder"
+                        CornerRadius="5"
+                        Height="2"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="0"
+                        Background="Transparent"/>
                                 </Grid>
                             </Border>
-
-                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="Left" Margin="5,6,40,0" RecognizesAccessKey="True"/>
-                            <Button Name="RemoveT" Width="20.5" Height="20.5" Style="{DynamicResource ButtonA}" Click="ButtonTabs" HorizontalAlignment="Right" Background="Transparent" Margin="0 0 5 0" Foreground="White" FontSize="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <ContentPresenter
+                    x:Name="contentPresenter"
+                    ContentSource="Header"
+                    Focusable="False"
+                    HorizontalAlignment="Left"
+                    Margin="5,6,40,0"
+                    RecognizesAccessKey="True"/>
+                            <Button
+                    Name="RemoveT"
+                    Width="20.5"
+                    Height="20.5"
+                    Style="{DynamicResource ButtonA}"
+                    Click="ButtonTabs"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    Margin="0 0 5 0"
+                    Foreground="White"
+                    FontSize="11"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center">
                                 <Grid Width="20.5" Height="20.5">
-                                    <Path Fill="White" Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" Margin="6.5,6.251,5.812,6.25" Stretch="Fill"/>
+                                    <Path
+                        Fill="White"
+                        Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                        Margin="6.5,6.251,5.812,6.25"
+                        Stretch="Fill"/>
                                 </Grid>
                             </Button>
                         </Grid>
