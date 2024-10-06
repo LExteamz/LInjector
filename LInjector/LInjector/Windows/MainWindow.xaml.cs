@@ -1,6 +1,7 @@
 ﻿using LInjector.Classes;
 using LInjector.Pages;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -56,7 +57,8 @@ namespace LInjector.Windows
 
             // The Script List path is saved in a Registry Key, if the Key contains anything
             //  it is fetched from it and set into ScriptListPath
-            if (RegistryHandler.GetValue("ScriptListPath", "0").Length != 0)
+            string quickvar = RegistryHandler.GetValue("ScriptListPath", "0");
+            if (quickvar.Length != 0 && Directory.Exists(quickvar))
             {
                 Shared.mainView.ScriptListPath = RegistryHandler.GetValue("ScriptListPath", "0");
             }
