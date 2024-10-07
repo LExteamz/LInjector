@@ -122,7 +122,7 @@
                         FontSize="18"
                         FontFamily="Arial"
                         Width="23">
-                                        <Path Fill="White" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" Height="10.834" Stretch="Fill" Width="10.417"/>
+                                        <Path Fill="White" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" Height="10.834" Stretch="Fill" Width="10"/>
                                     </Button>
                                 </DockPanel>
                             </ScrollViewer>
