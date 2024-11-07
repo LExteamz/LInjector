@@ -121,7 +121,7 @@ namespace LInjector.Classes
         static WebClient webClient = new WebClient();
 
 
-        internal static async Task CheckForUpdates()
+        internal static Task CheckForUpdates()
         {
             /*
             try
@@ -160,11 +160,15 @@ namespace LInjector.Classes
             }
            */
 
+            /*
             using (HttpClient client = new HttpClient())
             {
                 string hi = await client.GetStringAsync("https://lexploits.top/version");
                 Console.WriteLine(hi);
             }
+             */
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
