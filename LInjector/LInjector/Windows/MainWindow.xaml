@@ -24,10 +24,10 @@
     Loaded="Window_Loaded">
 
     <shell:WindowChrome.WindowChrome>
-        <shell:WindowChrome CaptionHeight="0" UseAeroCaptionButtons="True" NonClientFrameEdges="None" ResizeBorderThickness="30" />
+        <shell:WindowChrome CaptionHeight="0" UseAeroCaptionButtons="True" NonClientFrameEdges="None" ResizeBorderThickness="30"/>
     </shell:WindowChrome.WindowChrome>
 
-    <Grid x:Name="HolderGrid" MinWidth="650" MinHeight="450">
+    <Grid x:Name="HolderGrid" MinWidth="655" MinHeight="455" Margin="0">
         
     </Grid>
 </Window>

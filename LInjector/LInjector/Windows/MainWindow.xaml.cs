@@ -31,7 +31,7 @@ namespace LInjector.Windows
                 Name = "MainView__",
                 Visibility = Visibility.Visible,
                 IsEnabled = false,
-                Padding = new Thickness(30),
+                Padding = new Thickness(30, 25, 25, 30)
             };
 
             HolderGrid.Children.Add(Shared.mainView);

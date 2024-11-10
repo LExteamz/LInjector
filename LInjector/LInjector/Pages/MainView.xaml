@@ -17,7 +17,7 @@
     </UserControl.Resources>
     <Border ClipToBounds="False">
         <Border.Effect>
-            <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="0" Opacity="1" x:Name="HarderBetterFasterStronger"/>
+            <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="0" Opacity="1" x:Name="HarderBetterFasterStronger" Direction="0" RenderingBias="Quality"/>
         </Border.Effect>
         <Grid ClipToBounds="True" Background="{DynamicResource PrimaryColor}">
             <Grid.RowDefinitions>
