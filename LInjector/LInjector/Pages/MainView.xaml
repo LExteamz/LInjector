@@ -76,7 +76,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Background="Transparent" BorderBrush="Transparent" Content="&#xE921;" Foreground="#FFFFFFFF" FontSize="10" FontFamily="Segoe MDL2 Assets" Click="MinimizeButton_Click" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
                         <Button x:Name="MaximizeButton" Background="Transparent" BorderBrush="Transparent" Content="&#xE922;" Foreground="#FFFFFFFF" FontSize="10" FontFamily="Segoe MDL2 Assets" Click="MaximizeButton_Click" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" IsEnabled="False" />
-                        <Button Background="Transparent" BorderBrush="Transparent" Content="&#xE8BB;" Foreground="#FFFFFFFF" FontSize="10" FontFamily="Segoe MDL2 Assets" Click="ExitButton_Click"     HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
+                        <Button Background="Transparent" BorderBrush="Transparent" Content="&#xE8BB;" Foreground="#FFFFFFFF" FontSize="10" FontFamily="Segoe MDL2 Assets" Click="ExitButton_Click" HorizontalAlignment="Right" VerticalAlignment="Stretch" materialDesign:RippleAssist.IsDisabled="True" />
                     </StackPanel>
                 </Grid>
             </Border>
