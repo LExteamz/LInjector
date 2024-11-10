@@ -32,7 +32,7 @@ namespace LInjector.Classes
 
                 Assets = new Assets
                 {
-                    LargeImageKey = "https://lexploits.top/Assets/LInjector%20Raw.png",
+                    LargeImageKey = "https://lexploits.top/Assets/linj_shadow.png",
                     LargeImageText = Files.ApplicationName
                 },
                 Buttons = new[]
