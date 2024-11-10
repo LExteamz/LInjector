@@ -28,7 +28,7 @@ namespace LInjector.Windows
 
             Shared.mainView = new MainView
             {
-                Name = "MainViewz",
+                Name = "MainView__",
                 Visibility = Visibility.Visible,
                 IsEnabled = false,
                 Padding = new Thickness(30),
@@ -53,7 +53,7 @@ namespace LInjector.Windows
             Shared.mainWindow.Topmost = ConfigHandler.topmost;
 
             // The TabSystem (Editor) Grid is hidden by default for Design Purposes
-            Shared.mainView.TabSystemz.Visibility = Visibility.Visible;
+            Shared.mainView.TabSystem__.Visibility = Visibility.Visible;
 
             // The Script List path is saved in a Registry Key, if the Key contains anything
             //  it is fetched from it and set into ScriptListPath

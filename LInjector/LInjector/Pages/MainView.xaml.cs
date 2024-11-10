@@ -178,7 +178,7 @@ namespace LInjector.Pages
             await ws.SendMessage("LINJECTOR_DISCONNECT");
 
             // Had to do this because UserControls in WPF are sus they act like an overlayed Window.
-            TabSystemz.Visibility = Visibility.Hidden;
+            TabSystem__.Visibility = Visibility.Hidden;
 
             // Fade-out animation, pretty cool.
             Storyboard fadeOutStoryboard = new Storyboard();
@@ -222,7 +222,7 @@ namespace LInjector.Pages
         public void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             IsSettingsShown = !IsSettingsShown;
-            TabSystemz.Visibility = IsSettingsShown ? Visibility.Collapsed : Visibility.Visible;
+            TabSystem__.Visibility = IsSettingsShown ? Visibility.Collapsed : Visibility.Visible;
             SettingsGrid.Visibility = IsSettingsShown ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -235,7 +235,7 @@ namespace LInjector.Pages
             try
             {
                 // Get the current Monaco Editor instance
-                var cm = TabSystemz.current_monaco();
+                var cm = TabSystem__.current_monaco();
 
                 // Get the script text from the Monaco Editor instance
                 string scriptString = await cm.GetText();
@@ -329,7 +329,7 @@ namespace LInjector.Pages
                 return;
             }
 
-            foreach (TabItem item in TabSystemz.maintabs.Items)
+            foreach (TabItem item in TabSystem__.maintabs.Items)
             {
                 var GetTextzzzz = await (item.Content as monaco_api).GetText();
                 if (GetTextzzzz.Length > 1)
@@ -353,7 +353,7 @@ namespace LInjector.Pages
 
             foreach (string file in Directory.EnumerateFiles(Files.SavedTabsPath))
             {
-                TabSystemz.add_tab_with_text(File.ReadAllText(file), Path.GetFileName(file));
+                TabSystem__.add_tab_with_text(File.ReadAllText(file), Path.GetFileName(file));
             }
 
             DeleteSavedTabs();
@@ -474,7 +474,7 @@ namespace LInjector.Pages
         {
             try
             {
-                if (TabSystemz.maintabs.Items.Count != 0)
+                if (TabSystem__.maintabs.Items.Count != 0)
                 {
                     if (this.ScriptListHolder.SelectedIndex != -1)
                     {
@@ -482,8 +482,8 @@ namespace LInjector.Pages
                         object selectedItem = this.ScriptListHolder.SelectedItem;
                         if (this.ScriptListHolder.Items.Count != 0)
                         {
-                            TabSystemz.ChangeCurrentTabTitle(selectedItem.ToString());
-                            TabSystemz.current_monaco().SetText(
+                            TabSystem__.ChangeCurrentTabTitle(selectedItem.ToString());
+                            TabSystem__.current_monaco().SetText(
                                 File.ReadAllText(scriptfolder + "\\" +
                                     (selectedItem != null ? selectedItem.ToString() :
                                         (string)null)));
@@ -494,7 +494,7 @@ namespace LInjector.Pages
                 {
                     string scriptfolder = ScriptListPath;
                     object selectedItem = this.ScriptListHolder.SelectedItem;
-                    TabSystemz.add_tab_with_text(
+                    TabSystem__.add_tab_with_text(
                         File.ReadAllText(scriptfolder + "\\" +
                             (selectedItem != null ? selectedItem.ToString() :
                                 (string)null)),
@@ -528,7 +528,7 @@ namespace LInjector.Pages
         {
             var saveFileDialog = new System.Windows.Forms.SaveFileDialog
             {
-                FileName = await TabSystemz.GetCurrentTabTitle(),
+                FileName = await TabSystem__.GetCurrentTabTitle(),
                 Title = "Save to File | LInjector",
                 Filter = "Script Files (*.txt;*.lua;*.luau)|*.txt;*.lua;*.luau|All files (*.*)|*.*",
             };
@@ -539,7 +539,7 @@ namespace LInjector.Pages
 
                 try
                 {
-                    var cm = TabSystemz.current_monaco();
+                    var cm = TabSystem__.current_monaco();
                     string text = await cm.GetText();
                     string result = text;
 
@@ -554,7 +554,7 @@ namespace LInjector.Pages
                             File.WriteAllText(filePath, result);
                             string savedFileName = Path.GetFileName(saveFileDialog.FileName);
                             await Notifications.Fire($"{savedFileName} saved");
-                            TabSystemz.ChangeCurrentTabTitle(savedFileName);
+                            TabSystem__.ChangeCurrentTabTitle(savedFileName);
                         }
                         catch (Exception)
                         {
@@ -594,12 +594,12 @@ namespace LInjector.Pages
                         MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
                     if (dialogResult == System.Windows.Forms.DialogResult.Yes)
                     {
-                        TabSystemz.add_tab_with_text(fileContent, openFileDialog.SafeFileName);
+                        TabSystem__.add_tab_with_text(fileContent, openFileDialog.SafeFileName);
                     }
                     else
                     {
-                        TabSystemz.current_monaco().SetText(fileContent);
-                        TabSystemz.ChangeCurrentTabTitle(openFileDialog.SafeFileName);
+                        TabSystem__.current_monaco().SetText(fileContent);
+                        TabSystem__.ChangeCurrentTabTitle(openFileDialog.SafeFileName);
                     }
                 }
 
@@ -873,7 +873,7 @@ namespace LInjector.Pages
             ConfigHandler.SetConfigValue("monaco_minimap_default", true);
             ConfigHandler.monaco_minipal_default = true;
 
-            foreach (TabItem item in TabSystemz.maintabs.Items)
+            foreach (TabItem item in TabSystem__.maintabs.Items)
             {
                 monaco_api TabInstance = item.Content as monaco_api;
                 TabInstance.enable_minimap();
@@ -885,7 +885,7 @@ namespace LInjector.Pages
             ConfigHandler.SetConfigValue("monaco_minimap_default", false);
             ConfigHandler.monaco_minipal_default = false;
 
-            foreach (TabItem item in TabSystemz.maintabs.Items)
+            foreach (TabItem item in TabSystem__.maintabs.Items)
             {
                 monaco_api TabInstance = item.Content as monaco_api;
                 TabInstance.disable_minimap();
@@ -899,7 +899,7 @@ namespace LInjector.Pages
         {
             try
             {
-                var cm = TabSystemz.current_monaco();
+                var cm = TabSystem__.current_monaco();
                 string scriptString = await cm.GetText();
 
                 try
