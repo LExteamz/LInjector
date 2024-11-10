@@ -342,7 +342,7 @@
                                                             <Grid x:Name="InformationGrid" Background="Transparent" Panel.ZIndex="1" Visibility="Visible" Margin="7,0,0,0" Grid.Column="1" materialDesign:RippleAssist.IsDisabled="True">
                                                                 <Border Background="Transparent">
                                                                     <Grid Margin="10 10 0 0">
-                                                                        <StackPanel>
+                                                                        <StackPanel Orientation="Vertical">
                                                                             <Grid x:Name="DepsoGrid">
                                                                                 <Grid>
                                                                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
