@@ -10,7 +10,7 @@
         Loaded="Window_Loaded"
         ClipToBounds="False"
         Icon="\LInjector.ico"
-        Height="1100" Width="1100" 
+        Height="800" Width="1000" 
         WindowStyle="None"
         Background="Transparent">
     <Grid ClipToBounds="False" Height="450" Width="800" >
