@@ -35,7 +35,12 @@ namespace LInjector.Classes
                 }
             },
             { "topmost", value => topmost = value },
-            { "discord_rpc", value =>  RPCManager.isEnabled = value },
+            { "discord_rpc", value => 
+                {
+                    discord_rpc = value;
+                    RPCManager.isEnabled = value;
+                }
+            },
             { "save_tabs", value => save_tabs = value },
             { "websocket_mode", value => websocket_mode = value },
             { "hide_scriptlist", value => hide_scriptlist = value },
