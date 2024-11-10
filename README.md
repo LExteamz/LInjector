@@ -25,10 +25,10 @@ LInjector uses the Monaco editor, the same one that powers Visual Studio Code, w
 <table>
 	<tr>
 		<td width="600">
-			<img src="https://github.com/LExteamz/LInjector/assets/98148217/ec726092-c282-4570-80dd-d7e061215cb0" height="100%">
+			<img src="https://github.com/user-attachments/assets/2ae957ed-ed0c-4e2b-8cc4-c6113c9e2cc3" height="100%">
 		</td>
 		<td width="600">
-			<img src="https://github.com/user-attachments/assets/87619d67-2196-4c2e-80c1-bd5a49a622c7" height="100%">
+			<img src="https://github.com/user-attachments/assets/18ac17d6-daf9-4b6f-85f8-767e17078334" height="100%">
 		</td>
 	</tr>
 </table>
