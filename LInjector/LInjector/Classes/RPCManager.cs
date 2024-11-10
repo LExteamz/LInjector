@@ -76,7 +76,7 @@ namespace LInjector.Classes
             {
                 client.Initialize();
             }
-            SetRPCDetails("Using LInjector");
+            SetRPCDetails($"Using LInjector {Files.CurrentVersion}");
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace LInjector.Classes
             {
                 try
                 {
-                    SetRPCDetails("Using LInjector");
+                    SetRPCDetails($"Using LInjector {Files.CurrentVersion}");
                 }
                 catch (Exception ex)
                 {

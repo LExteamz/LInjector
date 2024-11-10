@@ -25,7 +25,7 @@ namespace LInjector.Classes
     #region Collection of Files and Paths used in LInjector
     public static class Files
     {
-        public static readonly string CurrentVersion = "v01.07.2024";
+        public static readonly string CurrentVersion = "v25.12.2024";
         public static readonly string AccountName = "LExteamz";
         public static readonly string ApplicationName = "LInjector";
 
@@ -433,7 +433,7 @@ namespace LInjector.Classes
             Themes.SetColor("PrimaryColor", "#FF0F0F0F");
             Themes.SetColor("SecondaryColor", "#FF111111");
             Themes.SetColor("TertiaryColor", "#FF141414");
-            Themes.SetColor("QuaternaryColor", "#FF161616");
+            // unused: Themes.SetColor("QuaternaryColor", "#FF161616");
 
             Themes.SetColor("Text", "#FFFFFFFF");
         }

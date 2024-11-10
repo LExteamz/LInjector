@@ -235,16 +235,16 @@
                                                                         <ToggleButton Checked="HideBottomConsole_Checked" Unchecked="HideBottomConsole_Unchecked" Width="30" Height="30" x:Name="HideBottomConsole"/>
                                                                         <Label Content="Hide Internal Console" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
-                                                                    <Button Background="Transparent" Click="InfoButton_Click" BorderThickness="0" Padding="0" Margin="0">
-                                                                        <StackPanel Orientation="Horizontal">
-                                                                            <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xF167;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" BorderThickness="1,1,1,1"/>
-                                                                            <Label Content="About" Foreground="LightGray" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
-                                                                        </StackPanel>
-                                                                    </Button>
                                                                     <Button Background="Transparent" Click="ChangeScriptsFolder_Click" BorderThickness="0" Padding="0" Margin="0">
                                                                         <StackPanel Orientation="Horizontal">
                                                                             <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xE8DE;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" Name="ChangeScriptsFolder" BorderThickness="1,1,1,1"/>
                                                                             <Label Content="Change script folder location." Foreground="LightGray" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
+                                                                        </StackPanel>
+                                                                    </Button>
+                                                                    <Button Background="Transparent" Click="InfoButton_Click" BorderThickness="0" Padding="0" Margin="0">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xF167;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" BorderThickness="1,1,1,1"/>
+                                                                            <Label Content="About" Foreground="LightGray" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
                                                                         </StackPanel>
                                                                     </Button>
                                                                 </ListBox>
