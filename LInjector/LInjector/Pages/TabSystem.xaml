@@ -283,7 +283,7 @@
                                 <Trigger.EnterActions>
                                     <BeginStoryboard x:Name="Storyboard3_BeginStoryboard" Storyboard="{StaticResource Storyboard3}"/>
                                 </Trigger.EnterActions>
-                                <Setter Property="Background" Value="#141414"/>
+                                <Setter Property="Background" Value="Transparent"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="False">
                                 <Trigger.ExitActions>
@@ -292,7 +292,7 @@
                                 <Trigger.EnterActions>
                                     <BeginStoryboard x:Name="ok" Storyboard="{StaticResource widthlow}"/>
                                 </Trigger.EnterActions>
-                                <Setter Property="Background" Value="#141414"/>
+                                <Setter Property="Background" Value="Transparent"/>
                                 <Setter Property="Opacity" Value="0.7"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">

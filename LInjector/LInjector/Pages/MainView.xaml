@@ -93,7 +93,7 @@
                     <RowDefinition Height="89*" Name="LaPeopleII"/>
                 </Grid.RowDefinitions>
                 <Grid HorizontalAlignment="Left" Width="45" Background="{DynamicResource PrimaryColor}" Grid.RowSpan="3" Margin="0,0,0,0">
-                    <ListBox Background="{DynamicResource PrimaryColor}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="Auto" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="5" Margin="1 0 0 0" Foreground="{DynamicResource PrimaryColor}">
+                    <ListBox Background="{DynamicResource PrimaryColor}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="Auto" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="5 0" Margin="1 0 0 0" Foreground="{DynamicResource PrimaryColor}">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Template">
@@ -161,7 +161,7 @@
                         </Button>
                     </ListBox>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0 0 0 7">
-                        <Button Background="{DynamicResource SecondaryColor}" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
                             <Button.Content>
                                 <Image Source="/Resources/Icons/GitHub.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
@@ -253,12 +253,12 @@
                                                                     <Button Background="Transparent" Click="ChangeScriptsFolder_Click" BorderThickness="0" Padding="0" Margin="0">
                                                                         <StackPanel Orientation="Horizontal">
                                                                             <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xE8DE;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" Name="ChangeScriptsFolder" BorderThickness="1,1,1,1"/>
-                                                                            <Label Content="Change script folder location." Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
+                                                                            <Label Content="Change script folder location." Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="10,0,0,0" FontWeight="Regular" />
                                                                         </StackPanel>
                                                                     </Button>
                                                                     <Button Background="Transparent" Click="InfoButton_Click" BorderThickness="0" Padding="0" Margin="0">
                                                                         <StackPanel Orientation="Horizontal">
-                                                                            <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xF167;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" BorderThickness="1,1,1,1"/>
+                                                                            <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xF167;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" Margin="1,1,1,1"/>
                                                                             <Label Content="About" Foreground="LightGray" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
                                                                         </StackPanel>
                                                                     </Button>

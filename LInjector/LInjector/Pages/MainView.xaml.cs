@@ -707,6 +707,7 @@ namespace LInjector.Pages
                 ComboBoxTheme.Items.Add(comboBoxItem);
             }
 
+
             ParseMyThemeSelectors();
         }
 
