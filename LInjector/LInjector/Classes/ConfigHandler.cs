@@ -19,7 +19,7 @@ namespace LInjector.Classes
         public static dynamic hide_scriptlist { get; set; } = true;
         public static dynamic hide_internalconsole { get; set; } = true;
         public static dynamic monaco_minimap_default { get; set; } = true;
-        public static string monaco_theme { get; set; } = "LIDark";
+        public static string monaco_theme { get; set; } = "li-dark";
         public static dynamic monaco_blured { get; set; } = false;
 
         private static readonly Dictionary<string, Action<dynamic>> ConfigActions = new Dictionary<string, Action<dynamic>>()
