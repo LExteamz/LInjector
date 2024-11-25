@@ -99,7 +99,7 @@ namespace LInjector.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Clear_Editor(object sender, RoutedEventArgs e)
+        public void Clear_Editor(object sender, RoutedEventArgs e)
         {
             var x = maintabs.SelectedContent as monaco_api;
             try

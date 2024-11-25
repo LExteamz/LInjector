@@ -78,7 +78,6 @@ namespace LInjector.Windows
             IntPtr hWnd = wih.Handle;
 
             ConsoleManager.SetForegroundWindow(hWnd);
-            this.Activate();
 
             // await ws.Start
             // Starts a WebSocket used to run simple LInjector functions, such as Log, rconsole, etc.

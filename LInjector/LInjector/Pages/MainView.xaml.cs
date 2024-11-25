@@ -98,7 +98,7 @@ namespace LInjector.Pages
 
             bool isAttached = DLLInterface.IsAttached();
 
-            AnimateColor(HarderBetterFasterStronger, ParseColor(isAttached ? "#FF7B68EE" : "#FF000000").Color);
+            AnimateColor(HarderBetterFasterStronger, ConsoleControl.ParseColor(isAttached ? "#FF7B68EE" : "#FF000000").Color);
             AnimateBlur(HarderBetterFasterStronger, isAttached ? 30 : 15);
         }
 
@@ -270,6 +270,13 @@ namespace LInjector.Pages
                 await Notifications.Fire("Unknown error.");
             }
         }
+
+        /// <summary>
+        /// Clears the Text Editor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClearButton_Click(object sender, RoutedEventArgs e) => TabSystem__.Clear_Editor(null, null);
 
         public long ApplicationModel()
         {
@@ -688,7 +695,18 @@ namespace LInjector.Pages
                 ScriptListAndSaveCDef.Width = new GridLength(0, GridUnitType.Star);
             }
             SetToggle(ToggleWebSocketMode, ConfigHandler.websocket_mode);
-            SetToggle(ShowMonacoToggle, ConfigHandler.monaco_minipal_default);
+            SetToggle(ShowMonacoToggle, ConfigHandler.monaco_minimap_default);
+            SetToggle(BlurCodeEditor, ConfigHandler.monaco_blured);
+            foreach (string theme in new[] { "li-dark", "vs-dark", "vs-light" })
+            {
+                ComboBoxItem comboBoxItem = new ComboBoxItem() { Content = theme };
+
+                if (theme == ConfigHandler.monaco_theme)
+                    comboBoxItem.IsSelected = true;
+
+                ComboBoxTheme.Items.Add(comboBoxItem);
+            }
+
             ParseMyThemeSelectors();
         }
 
@@ -871,7 +889,7 @@ namespace LInjector.Pages
         public void ShowMonaco_Checked(object sender, RoutedEventArgs e)
         {
             ConfigHandler.SetConfigValue("monaco_minimap_default", true);
-            ConfigHandler.monaco_minipal_default = true;
+            ConfigHandler.monaco_minimap_default = true;
 
             foreach (TabItem item in TabSystem__.maintabs.Items)
             {
@@ -883,7 +901,7 @@ namespace LInjector.Pages
         public void ShowMonaco_Unchecked(object sender, RoutedEventArgs e)
         {
             ConfigHandler.SetConfigValue("monaco_minimap_default", false);
-            ConfigHandler.monaco_minipal_default = false;
+            ConfigHandler.monaco_minimap_default = false;
 
             foreach (TabItem item in TabSystem__.maintabs.Items)
             {
@@ -891,6 +909,21 @@ namespace LInjector.Pages
                 TabInstance.disable_minimap();
             }
         }
+
+        private void ComboBoxTheme_DropDownClosed(object sender, EventArgs e)
+        {
+            ConfigHandler.SetConfigValue("monaco_theme", ComboBoxTheme.Text);
+            ConfigHandler.monaco_theme = ComboBoxTheme.Text;
+
+            foreach (TabItem item in TabSystem__.maintabs.Items)
+            {
+                monaco_api TabInstance = item.Content as monaco_api;
+                TabInstance.SetTheme($"\"{ConfigHandler.monaco_theme}\"");
+            }
+
+            // MessageBox.Show($"{ConfigHandler.monaco_theme}\n{ComboBoxTheme.Text}\n");
+        }
+
 
         /// <summary>
         /// Changes the Execute function to make it compatible when the WebSocket server starts.
@@ -927,6 +960,30 @@ namespace LInjector.Pages
             catch
             {
                 await Notifications.Fire("Unknown error.");
+            }
+        }
+
+        private void BlurCodeEditor_Checked(object sender, RoutedEventArgs e)
+        {
+            ConfigHandler.SetConfigValue("monaco_blured", true);
+            ConfigHandler.monaco_blured = true;
+
+            foreach (TabItem item in TabSystem__.maintabs.Items)
+            {
+                monaco_api TabInstance = item.Content as monaco_api;
+                TabInstance.EnableBlur();
+            }
+        }
+
+        private void BlurCodeEditor_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ConfigHandler.SetConfigValue("monaco_blured", false);
+            ConfigHandler.monaco_blured = false;
+
+            foreach (TabItem item in TabSystem__.maintabs.Items)
+            {
+                monaco_api TabInstance = item.Content as monaco_api;
+                TabInstance.DisableBlur();
             }
         }
 
@@ -981,10 +1038,10 @@ namespace LInjector.Pages
         /// </summary>
         public void ParseMyTheme()
         {
-            Resources[PrimaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("PrimaryColor"));
-            Resources[SecondaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("SecondaryColor"));
-            Resources[TertiaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("TertiaryColor"));
-            Resources[Text.Tag.ToString()] = ParseColor(Themes.GetColor("Text"));
+            Resources[PrimaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("PrimaryColor"));
+            Resources[SecondaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryColor"));
+            Resources[TertiaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("TertiaryColor"));
+            Resources[Text.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("Text"));
         }
 
         /// <summary>
@@ -1027,35 +1084,10 @@ namespace LInjector.Pages
             CreateFiles.ResetTheme();
             ParseMyThemeSelectors();
 
-            Resources[PrimaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("PrimaryColor"));
-            Resources[SecondaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("SecondaryColor"));
-            Resources[TertiaryColor.Tag.ToString()] = ParseColor(Themes.GetColor("TertiaryColor"));
-            Resources[Text.Tag.ToString()] = ParseColor(Themes.GetColor("Text"));
-        }
-
-        /// <summary>
-        /// Color converter from aRGB to SolidColorBrush
-        /// </summary>
-        /// <param name="srgb">String in ARGB Fomat (#AABBCCDD)</param>
-        /// <returns>SolidColorBrush used in <see cref="ParseColor(string)"/></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public System.Windows.Media.SolidColorBrush ParseColor(string srgb)
-        {
-            if (srgb.Contains("#")) srgb = srgb.TrimStart('#');
-
-            if (srgb.Length != 8)
-            {
-                throw new ArgumentException(
-                    $"aRGB must be 8 characters, got {srgb} : {srgb.Length}", nameof(srgb));
-            }
-
-            byte a = byte.Parse(srgb.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
-            byte r = byte.Parse(srgb.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
-            byte g = byte.Parse(srgb.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
-            byte b = byte.Parse(srgb.Substring(6, 2), System.Globalization.NumberStyles.HexNumber);
-
-            return new System.Windows.Media.SolidColorBrush(
-                System.Windows.Media.Color.FromArgb(a, r, g, b));
+            Resources[PrimaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("PrimaryColor"));
+            Resources[SecondaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryColor"));
+            Resources[TertiaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("TertiaryColor"));
+            Resources[Text.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("Text"));
         }
 
         public void AnimateColor(DropShadowEffect element, Color final, double duration = 1)

@@ -111,6 +111,12 @@
                                 <Image Source="/Resources/Icons/Execute.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
+                        <Button Background="{DynamicResource TertiaryColor}" x:Name="ClearButton" Click="ClearButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Clear Editor" Visibility="Collapsed">
+                            <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
+                            <Button.Content>
+                                <Label Content="&#xE75C;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
+                            </Button.Content>
+                        </Button>
                         <Button Background="{DynamicResource TertiaryColor}" Click="AttachButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" Visibility="Collapsed">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
@@ -135,20 +141,19 @@
                                 <Image Source="/Resources/Icons/Settings.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
+
                         <Button Background="{DynamicResource TertiaryColor}" Click="DiscordButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Discord">
-                            <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
-                            <materialDesign:ShadowAssist.Darken>False</materialDesign:ShadowAssist.Darken>
                             <Button.Content>
                                 <Image Source="/Resources/Icons/Discord.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="{DynamicResource TertiaryColor}" Click="OpenFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Open File (CTRL + O)" x:Name="LEFTOpenFileButton" Visibility="Collapsed" materialDesign:RippleAssist.IsDisabled="False">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="OpenFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Open File (CTRL + O)" x:Name="LEFTOpenFileButton" Visibility="Collapsed" materialDesign:RippleAssist.IsDisabled="False">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Label Content="&#xE8E5;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
                             </Button.Content>
                         </Button>
-                        <Button Background="{DynamicResource TertiaryColor}" Click="SaveToFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 9 0 0" Padding="5" ToolTip="Save to File (CTRL + S)" x:Name="LEFTSaveFileButton" Visibility="Collapsed" materialDesign:RippleAssist.IsDisabled="False">
+                        <Button Background="{DynamicResource TertiaryColor}" Click="SaveToFileButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 0" Padding="5" ToolTip="Save to File (CTRL + S)" x:Name="LEFTSaveFileButton" Visibility="Collapsed" materialDesign:RippleAssist.IsDisabled="False">
                             <materialDesign:ButtonAssist.CornerRadius>6</materialDesign:ButtonAssist.CornerRadius>
                             <Button.Content>
                                 <Label Content="&#xEA35;" Foreground="{DynamicResource Text}" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
@@ -156,7 +161,7 @@
                         </Button>
                     </ListBox>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0 0 0 7">
-                        <Button Background="{DynamicResource SecondaryColor}" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 0 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
+                        <Button Background="{DynamicResource SecondaryColor}" Click="GitHubButton_Click" BorderBrush="Transparent" Height="35" Width="35" Margin="0 5 0 3.2" Padding="5" VerticalAlignment="Bottom" ToolTip="GitHub">
                             <Button.Content>
                                 <Image Source="/Resources/Icons/GitHub.png" Height="25" Width="25" HorizontalAlignment="Center"/>
                             </Button.Content>
@@ -171,7 +176,9 @@
                             <RowDefinition/>
                             <RowDefinition Height="0*"/>
                         </Grid.RowDefinitions>
-                        <controls:TabSystem Padding="5" x:Name="TabSystem__" Visibility="Hidden" Background="{DynamicResource TertiaryColor}"/>
+                        <controls:TabSystem Padding="5" x:Name="TabSystem__" Visibility="Hidden" Background="{DynamicResource TertiaryColor}">
+
+                        </controls:TabSystem>
                         <!-- SETTINGS GRID -->
                         <Grid x:Name="SettingsGrid" Background="{DynamicResource SecondaryColor}" Panel.ZIndex="2" Visibility="Collapsed" Grid.RowSpan="2">
                             <Border CornerRadius="0" Grid.RowSpan="2">
@@ -193,7 +200,7 @@
                                                                 </DataTemplate>
                                                             </TabItem.HeaderTemplate>
                                                             <Border>
-                                                                <ListBox ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="0,0,0,0" materialDesign:RippleAssist.IsDisabled="True" materialDesign:ListBoxItemAssist.ShowSelection="False">
+                                                                <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="0,0,0,0" materialDesign:RippleAssist.IsDisabled="True" materialDesign:ListBoxItemAssist.ShowSelection="False">
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Checked="AutoAttachToggle_Checked" Unchecked="AutoAttachToggle_Unchecked" Width="30" Height="30" x:Name="AutoAttachToggle"/>
                                                                         <Label Content="Auto Attach" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
@@ -235,10 +242,18 @@
                                                                         <ToggleButton Checked="HideBottomConsole_Checked" Unchecked="HideBottomConsole_Unchecked" Width="30" Height="30" x:Name="HideBottomConsole"/>
                                                                         <Label Content="Hide Internal Console" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <ToggleButton x:Name="BlurCodeEditor" Checked="BlurCodeEditor_Checked" Unchecked="BlurCodeEditor_Unchecked" Width="30"/>
+                                                                        <Label Content="Blur Text Editor" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center" />
+                                                                    </StackPanel>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <ComboBox x:Name="ComboBoxTheme" DropDownClosed="ComboBoxTheme_DropDownClosed" />
+                                                                        <Label Content="Text Editor theme" Foreground="{DynamicResource Text}" FontSize="13" />
+                                                                    </StackPanel>
                                                                     <Button Background="Transparent" Click="ChangeScriptsFolder_Click" BorderThickness="0" Padding="0" Margin="0">
                                                                         <StackPanel Orientation="Horizontal">
                                                                             <Button Padding="0" Background="Transparent" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderBrush="Transparent" Content="&#xE8DE;" Foreground="LightGray" FontSize="20" FontFamily="Segoe MDL2 Assets" Name="ChangeScriptsFolder" BorderThickness="1,1,1,1"/>
-                                                                            <Label Content="Change script folder location." Foreground="LightGray" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
+                                                                            <Label Content="Change script folder location." Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" BorderThickness="10,0,0,0"/>
                                                                         </StackPanel>
                                                                     </Button>
                                                                     <Button Background="Transparent" Click="InfoButton_Click" BorderThickness="0" Padding="0" Margin="0">
@@ -413,11 +428,12 @@
                 <!-- GAME CONSOLE COMMUNICATION BEGANS -->
                 <Border Background="{DynamicResource TertiaryColor}" BorderThickness="1" Margin="46,2,6,10" CornerRadius="4" Padding="0" Grid.Row="2" Name="InternalConsole">
                     <StackPanel Orientation="Vertical">
-                        <ListBox Background="Transparent" BorderThickness="0" Foreground="{DynamicResource Text}" FontFamily="Consolas" x:Name="ConsoleLogList" x:FieldModifier="public" Height="72" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False"
-        materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True" materialDesign:ScrollViewerAssist.CornerRectangleVisibility="Collapsed">
+                        <ListBox Background="Transparent" Padding="5 0 0 5" BorderThickness="0" Foreground="{DynamicResource Text}" FontFamily="Consolas" x:Name="ConsoleLogList" x:FieldModifier="public" Height="75" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"
+        materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True" materialDesign:ScrollViewerAssist.CornerRectangleVisibility="Collapsed" d:ItemsSource="{d:SampleData ItemCount=10}">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}">
                                     <Setter Property="Background" Value="{DynamicResource Text}" />
+                                    <Setter Property="FontSize" Value="12" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type ListBoxItem}">

@@ -32,14 +32,22 @@ namespace LInjector.WPF.Classes
 
         protected virtual void OnEditorReady()
         {
+
+            SetTheme($"\"{ConfigHandler.monaco_theme}\"");
+
             EventHandler handler = EditorReady;
             if (handler != null)
                 handler(this, new EventArgs());
 
-            if (ConfigHandler.monaco_minipal_default)
+            if (ConfigHandler.monaco_minimap_default)
                 this.enable_minimap();
             else
                 this.disable_minimap();
+
+            if (ConfigHandler.monaco_blured)
+                this.EnableBlur();
+            else
+                this.DisableBlur();
 
         }
 
@@ -47,6 +55,7 @@ namespace LInjector.WPF.Classes
         {
             this.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
             this.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
+
             this.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
             this.CoreWebView2.Settings.AreDevToolsEnabled = false;
             this.CoreWebView2.Settings.IsZoomControlEnabled = false;
@@ -92,6 +101,38 @@ namespace LInjector.WPF.Classes
                 this.ExecuteScriptAsync($"AddIntellisense({label}, {selectedType}, {description}, {insert});");
             }
         }
+
+        public string GetTheme()
+        {
+            if (isDOMLoaded)
+            {
+                var script = $"GetTheme();";
+                string result = CoreWebView2.ExecuteScriptAsync(script).Result;
+
+                return result;
+            }
+
+            return string.Empty;
+        }
+
+        public void EnableBlur()
+        {
+            if (isDOMLoaded)
+                this.ExecuteScriptAsync($"ToggleBlur(true)");
+        }
+
+        public void DisableBlur()
+        {
+            if (isDOMLoaded)
+                this.ExecuteScriptAsync($"ToggleBlur(false)");
+        }
+
+        public void SetTheme(string id)
+        {
+            if (isDOMLoaded)
+                this.ExecuteScriptAsync($"SetTheme({id});");
+        }
+
         public void refresh()
         {
             if (isDOMLoaded)
