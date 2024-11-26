@@ -1,22 +1,10 @@
 ﻿using LInjector.Classes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Markup.Localizer;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LInjector.Pages.Popups
 {
@@ -32,7 +20,7 @@ namespace LInjector.Pages.Popups
 
         private const int GWL_STYLE = -16;
         private const int WS_MAXIMIZEBOX = 0x10000;
-        
+
         public string Caption { get; set; }
         public string Text { get; set; }
 
@@ -70,7 +58,7 @@ namespace LInjector.Pages.Popups
             // try { this.DragMove(); } catch { }
         }
 
-        public void OnCloseFadeoutCompleted(object sender, EventArgs e) 
+        public void OnCloseFadeoutCompleted(object sender, EventArgs e)
         {
             this.Close();
         }

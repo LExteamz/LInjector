@@ -1,5 +1,4 @@
 ﻿using LInjector.Pages;
-using LInjector.Pages.Popups;
 using LInjector.Windows;
 using System;
 using System.Threading.Tasks;

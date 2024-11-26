@@ -138,7 +138,7 @@ namespace LInjector.Windows
         private void ShowWindow()
         {
             Shared.mainWindow = new MainWindow();
-            Shared.mainWindow.Show();   
+            Shared.mainWindow.Show();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

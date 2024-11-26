@@ -1,5 +1,4 @@
-﻿using LInjector.Classes;
-using LInjector.Pages.Popups;
+﻿using LInjector.Pages.Popups;
 using LInjector.WPF.Classes;
 using System;
 using System.Linq;
