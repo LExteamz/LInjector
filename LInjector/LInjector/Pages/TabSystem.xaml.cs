@@ -1,4 +1,8 @@
-﻿using LInjector.WPF.Classes;
+﻿using LInjector.Classes;
+using LInjector.Pages.Popups;
+using LInjector.WPF.Classes;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -108,6 +112,36 @@ namespace LInjector.Pages
                 this.ChangeCurrentTabTitle($"Script {maintabs.Items.Count}");
             }
             catch { }
+        }
+
+        private void maingrid_PreviewMouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var currentTabItem = FindAncestor<TabItem>((DependencyObject)sender);
+
+            if (currentTabItem != null)
+            {
+                string input = InputText.ShowInputDialog("Change Tab Header", "Write the new below.");
+                if (!string.IsNullOrWhiteSpace(input))
+                {
+                    // You can remove this if you want.
+                    if (!new[] { ".lua", ".luau", ".txt" }.Any(ext => input.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        input += ".lua";
+                    }
+
+                    currentTabItem.Header = input;
+                }
+            }
+        }
+
+
+        private T FindAncestor<T>(DependencyObject current) where T : DependencyObject
+        {
+            while (current != null && !(current is T))
+            {
+                current = VisualTreeHelper.GetParent(current);
+            }
+            return current as T;
         }
     }
 }

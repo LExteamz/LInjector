@@ -287,6 +287,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Popups\InputText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\TabSystem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -317,6 +321,9 @@
     <Compile Include="Classes\RPCManager.cs" />
     <Compile Include="Pages\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Popups\InputText.xaml.cs">
+      <DependentUpon>InputText.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\TabSystem.xaml.cs">
       <DependentUpon>TabSystem.xaml</DependentUpon>
