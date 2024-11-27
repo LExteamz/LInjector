@@ -98,7 +98,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock Text="sus dog is a bozo blah blah blah your text" Foreground="{DynamicResource Text}" Grid.Row="0" Padding="25 0 25 0" TextTrimming="None" Height="Auto" TextWrapping="WrapWithOverflow" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Microsoft YaHei UI" x:Name="TuUltimaCancion" />
                             <Border Background="{DynamicResource TertiaryColor}" Grid.Row="1" Height="30" VerticalAlignment="Center" Margin="25 0 25 0" CornerRadius="3" BorderThickness="1" BorderBrush="{DynamicResource SecondaryColor}" Padding="5 0 5 0">
-                                <TextBox Foreground="{DynamicResource Text}" Background="Transparent" BorderThickness="0" TextAlignment="Left" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" x:Name="ContentReturn" x:FieldModifier="public"/>
+                                <TextBox Foreground="{DynamicResource Text}" Background="Transparent" BorderThickness="0" TextAlignment="Left" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" x:Name="ContentReturn" x:FieldModifier="public" PreviewKeyUp="ContentReturn_PreviewKeyUp"/>
                             </Border>
                         </Grid>
                     </Grid>

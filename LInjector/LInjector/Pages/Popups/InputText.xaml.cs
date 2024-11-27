@@ -100,5 +100,10 @@ namespace LInjector.Pages.Popups
             ExitButton_Click(null, null);
         }
 
+        private void ContentReturn_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                Button_Click(null, null);
+        }
     }
 }
