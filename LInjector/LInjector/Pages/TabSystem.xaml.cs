@@ -133,7 +133,7 @@ namespace LInjector.Pages
             {
                 var options = new[]
                 {
-                    new LIContextMenuStrip.MenuItemOption("Run this Tab", "\uF5B0", async (s, ev) =>
+                    new LIContextMenuStrip.MenuItemOption("Run", "\uF5B0", async (s, ev) =>
                     {
                         DLLInterface.RunScript(await (clickedTabItem.Content as monaco_api).GetText());
                     }),
@@ -152,7 +152,7 @@ namespace LInjector.Pages
                         }
                     }),
 
-                    new LIContextMenuStrip.MenuItemOption("Toggle Blur for this Tab", "\uE727", (s, ev) =>
+                    new LIContextMenuStrip.MenuItemOption("Toggle Editor Blur", "\uE727", (s, ev) =>
                     {
                         (clickedTabItem.Content as monaco_api)?.ToggleLocalBlur();
                     }),
