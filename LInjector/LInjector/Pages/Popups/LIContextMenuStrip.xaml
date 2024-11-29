@@ -1,0 +1,42 @@
+﻿<Window x:Class="LInjector.Pages.Popups.LIContextMenuStrip"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LInjector.Pages.Popups"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Height="150" Width="210"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        
+        Title="">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="0" UseAeroCaptionButtons="True" NonClientFrameEdges="None" ResizeBorderThickness="0"/>
+    </shell:WindowChrome.WindowChrome>
+    <Grid>
+        <Grid Margin="0" Background="Transparent">
+            <Border ClipToBounds="False" Background="Transparent" CornerRadius="5" x:Name="MainBorder">
+                <Grid>
+                    <StackPanel Orientation="Vertical" Background="Transparent" x:Name="xdddddlol">
+                        <Button x:Name="TemplateButton" HorizontalAlignment="Stretch" Height="Auto" HorizontalContentAlignment="Left" Foreground="{DynamicResource Text}" Background="{DynamicResource PrimaryColor}" BorderThickness="0" materialDesign:ShadowAssist.Darken="False">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="" FontFamily="Segoe MDL2 Assets" FontSize="9" Width="20" Height="20" Foreground="{DynamicResource Text}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                    <TextBlock Text="" TextAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource Text}" Margin="0 0 0 0" FontSize="8" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

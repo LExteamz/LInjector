@@ -127,6 +127,12 @@ namespace LInjector.WPF.Classes
                 this.ExecuteScriptAsync($"ToggleBlur(false)");
         }
 
+        public void ToggleLocalBlur()
+        {
+            if (isDOMLoaded)
+                this.ExecuteScriptAsync($"EnableDisableBlur()");
+        }
+
         public void SetTheme(string id)
         {
             if (isDOMLoaded)

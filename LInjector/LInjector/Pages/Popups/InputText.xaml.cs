@@ -70,7 +70,7 @@ namespace LInjector.Pages.Popups
             DoubleAnimation fadeOutAnimation =
                 new DoubleAnimation
                 {
-                    From = 1,
+                    From = this.Opacity,
                     To = 0,
                     Duration = TimeSpan.FromSeconds(0.10)
                 };

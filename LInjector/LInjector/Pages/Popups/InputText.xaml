@@ -12,7 +12,6 @@
         WindowStyle="None"
         MinWidth="425" MinHeight="275"
         Height="275" Width="425"
-        Opacity="0.7"
         SourceInitialized="Window_SourceInitialized"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
@@ -21,7 +20,7 @@
         <shell:WindowChrome CaptionHeight="0" UseAeroCaptionButtons="True" NonClientFrameEdges="None" ResizeBorderThickness="30"/>
     </shell:WindowChrome.WindowChrome>
 
-    <Grid MinHeight="280" MinWidth="430">
+    <Grid>
         <Border Padding="35 20 25 30">
             <Border ClipToBounds="False">
                 <Border.Effect>
