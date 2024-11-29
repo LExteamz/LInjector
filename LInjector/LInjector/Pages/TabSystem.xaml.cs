@@ -1,16 +1,28 @@
-﻿using LInjector.Pages.Popups;
+﻿using CommonWin32.API;
+using LInjector.Classes;
+using LInjector.Pages.Popups;
 using LInjector.WPF.Classes;
+using MaterialDesignColors;
 using System;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Media;
+using Brushes = System.Windows.Media.Brushes;
+using MessageBox = System.Windows.MessageBox;
+using Point = System.Drawing.Point;
 
 namespace LInjector.Pages
 {
-    public partial class TabSystem : UserControl
+    public partial class TabSystem : System.Windows.Controls.UserControl
     {
+
+        [DllImport("user32.dll")]
+        static extern bool GetCursorPos(ref System.Drawing.Point lpPoint);
 
         public TabSystem()
         {
@@ -68,7 +80,7 @@ namespace LInjector.Pages
 
         public void ButtonTabs(object sender, RoutedEventArgs e)
         {
-            switch (((Button)sender).Name)
+            switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "AddT":
                     maintabs.Items.Add(CreateTab("", "Script" + " " + (this.maintabs.Items.Count + 1).ToString()));
@@ -108,28 +120,54 @@ namespace LInjector.Pages
             try
             {
                 x.SetText("");
-                this.ChangeCurrentTabTitle($"Script {maintabs.Items.Count}");
+                this.ChangeCurrentTabTitle($"Script {maintabs.Items.Count}.lua");
             }
             catch { }
         }
 
         private void maingrid_PreviewMouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var currentTabItem = FindAncestor<TabItem>((DependencyObject)sender);
+            var clickedTabItem = FindAncestor<TabItem>((DependencyObject)sender);
 
-            if (currentTabItem != null)
+            if (clickedTabItem != null)
             {
-                string input = InputText.ShowInputDialog("Change Tab Header", "Write the new below.");
-                if (!string.IsNullOrWhiteSpace(input))
+                var options = new[]
                 {
-                    // You can remove this if you want.
-                    if (!new[] { ".lua", ".luau", ".txt" }.Any(ext => input.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                    new LIContextMenuStrip.MenuItemOption("Run this Tab", "\uF5B0", async (s, ev) =>
                     {
-                        input += ".lua";
-                    }
+                        DLLInterface.RunScript(await (clickedTabItem.Content as monaco_api).GetText());
+                    }),
 
-                    currentTabItem.Header = input;
-                }
+                    new LIContextMenuStrip.MenuItemOption("Rename", "\uE8AC", (s, ev) =>
+                    {
+                        string input = InputText.ShowInputDialog("Change Tab Header", "Write the new below.");
+                        if (!string.IsNullOrWhiteSpace(input))
+                        {
+                            if (!new[] { ".lua", ".luau", ".txt" }.Any(ext => input.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                            {
+                                input += ".lua";
+                            }
+
+                            clickedTabItem.Header = input;
+                        }
+                    }),
+
+                    new LIContextMenuStrip.MenuItemOption("Toggle Blur for this Tab", "\uE727", (s, ev) =>
+                    {
+                        (clickedTabItem.Content as monaco_api)?.ToggleLocalBlur();
+                    }),
+
+                    /*
+                    new LIContextMenuStrip.MenuItemOption("Close", "\uE8BB", (s, ev) => {
+                        maintabs.Items.Remove(clickedTabItem);
+                    })
+                    */
+                };
+
+                Point defPnt = new Point();
+                GetCursorPos(ref defPnt);
+
+                string selectedOption = LIContextMenuStrip.ShowMenu(defPnt, options);
             }
         }
 

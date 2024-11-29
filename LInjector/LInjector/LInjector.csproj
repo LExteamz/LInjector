@@ -291,6 +291,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Popups\LIContextMenuStrip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\TabSystem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -324,6 +328,9 @@
     </Compile>
     <Compile Include="Pages\Popups\InputText.xaml.cs">
       <DependentUpon>InputText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Popups\LIContextMenuStrip.xaml.cs">
+      <DependentUpon>LIContextMenuStrip.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\TabSystem.xaml.cs">
       <DependentUpon>TabSystem.xaml</DependentUpon>
