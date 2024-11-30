@@ -1,19 +1,14 @@
-﻿using CommonWin32.API;
-using LInjector.Classes;
+﻿using LInjector.Classes;
 using LInjector.Pages.Popups;
 using LInjector.WPF.Classes;
-using MaterialDesignColors;
 using System;
-using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Media;
 using Brushes = System.Windows.Media.Brushes;
-using MessageBox = System.Windows.MessageBox;
 using Point = System.Drawing.Point;
 
 namespace LInjector.Pages

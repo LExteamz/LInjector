@@ -1,9 +1,8 @@
-﻿using System;
+﻿using LInjector.Classes;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows;
-using LInjector.Classes;
 
 namespace LInjector.Pages.Popups
 {
