@@ -1,10 +1,10 @@
-﻿using LInjector.Classes;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
+using LInjector.Classes;
 
 namespace LInjector.Pages.Popups
 {

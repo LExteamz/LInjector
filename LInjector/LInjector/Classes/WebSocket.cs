@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.WebSockets;
@@ -13,14 +15,17 @@ namespace LInjector.Classes
     {
         private static readonly object lockObject = new object();
         private static WebComs instance;
+
+        private static ConcurrentDictionary<string, WebSocket> connectedClients = new ConcurrentDictionary<string, WebSocket>();
+
         private WebSocket webSocket;
 
         public WebComs() { }
 
         /// <summary>
-        /// 
+        /// Retrieves a singleton instance of the WebComs class.
         /// </summary>
-        /// <returns>WebComs class instance</returns>
+        /// <returns>Instance of WebComs</returns>
         public static WebComs GetInstance()
         {
             if (instance == null)
@@ -37,7 +42,13 @@ namespace LInjector.Classes
         }
 
         /// <summary>
-        /// Initializes the WebSocket server in localhost:5343
+        /// Returns the number of devices currently connected to the WebSocket server.
+        /// </summary>
+        /// <returns>Number of connected devices</returns>
+        public int GetDevicesConnected() => connectedClients.Count;
+
+        /// <summary>
+        /// Starts the WebSocket server on localhost:5343.
         /// </summary>
         /// <returns></returns>
         public async Task Start()
@@ -68,40 +79,18 @@ namespace LInjector.Classes
         }
 
         /// <summary>
-        /// Sends a message to all the clients connected to the WebSocket
+        /// Processes WebSocket client requests and manages connections.
         /// </summary>
-        /// <param name="message">Message that will be sent to the clients connected</param>
-        /// <returns></returns>
-        public async Task SendMessage(string message)
-        {
-            WebSocket socket = webSocket;
-
-            try
-            {
-                if (socket != null && socket.State == WebSocketState.Open)
-                {
-                    byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
-                    await socket.SendAsync(new ArraySegment<byte>(messageBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-                }
-            }
-            catch (WebSocketException ex)
-            {
-                MessageBox.Show($"WebSocket Error (2): {ex.Message}", "LInjector | Error", MessageBoxButton.OK);
-            }
-        }
-
-        /// <summary>
-        /// "Parse" the WebSocket request received from a client.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
+        /// <param name="context">HTTP request context</param>
         private async Task ProcessWebSocketRequest(HttpListenerContext context)
         {
             var wsContext = await context.AcceptWebSocketAsync(null);
+            string clientId = Guid.NewGuid().ToString(); // Unique identifier for each client
 
             using (WebSocket socket = wsContext.WebSocket)
             {
                 this.webSocket = socket;
+                connectedClients.TryAdd(clientId, socket);
 
                 try
                 {
@@ -115,7 +104,7 @@ namespace LInjector.Classes
                         if (result.MessageType == WebSocketMessageType.Text)
                         {
                             string receivedMessage = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                            if (ConfigHandler.websocket_mode == true)
+                            if (ConfigHandler.websocket_mode)
                             {
                                 WebSocketFunctions.Parse(receivedMessage);
                             }
@@ -133,7 +122,33 @@ namespace LInjector.Classes
                 }
                 finally
                 {
+                    // Remove client from the list when disconnected
+                    connectedClients.TryRemove(clientId, out _);
                     socket.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sends a message to all connected clients.
+        /// </summary>
+        /// <param name="message">Message to be sent</param>
+        /// <returns></returns>
+        public async Task SendMessage(string message)
+        {
+            foreach (var client in connectedClients.Values)
+            {
+                try
+                {
+                    if (client != null && client.State == WebSocketState.Open)
+                    {
+                        byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
+                        await client.SendAsync(new ArraySegment<byte>(messageBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                    }
+                }
+                catch (WebSocketException ex)
+                {
+                    MessageBox.Show($"WebSocket Error (2): {ex.Message}", "LInjector | Error", MessageBoxButton.OK);
                 }
             }
         }
@@ -148,77 +163,28 @@ namespace LInjector.Classes
         public static void Parse(string arguments)
         {
             string[] argsArray = arguments.Split(new[] { "|||" }, StringSplitOptions.None).Select(value => value.Trim()).ToArray();
+            if (argsArray.Length == 0) return;
 
-            if (argsArray[0] == "messagebox")
+            var commandActions = new Dictionary<string, Action>
             {
-                MessageBox.Show(argsArray[1], argsArray[2]);
-                return;
-            }
-            if (argsArray[0] == "welcome")
-            {
-                FunctionWatch.CreateLog($"Hello, {arguments[1]}!\nSuccessfully loaded at {arguments[2]}");
+                { "messagebox", () => MessageBox.Show(argsArray[1], argsArray[2]) },
+                { "welcome", () => FunctionWatch.CreateLog($"Hello, {argsArray[1]}!\nSuccessfully loaded at {argsArray[2]}") },
+                { "toclipboard", () => FunctionWatch.clipboardSetText(argsArray[1]) },
+                { "rconsoleclose", ConsoleManager.HideConsole },
+                { "rconsoleshow", ConsoleManager.ShowConsole },
+                { "rconsoleprint", () => { ConsoleManager.ShowConsole(); CustomCw.rconsoleprint(argsArray[1], "white"); } },
+                { "rconsoleinfo", () => { ConsoleManager.ShowConsole(); CustomCw.rconsoleprint(argsArray[1], "info"); } },
+                { "rconsolewarn", () => { ConsoleManager.ShowConsole(); CustomCw.rconsoleprint(argsArray[1], "warn"); } },
+                { "rconsoleerr", () => { ConsoleManager.ShowConsole(); CustomCw.rconsoleprint(argsArray[1], "err"); } },
+                { "rconsolename", () => { ConsoleManager.ShowConsole(); Console.Title = argsArray[1]; } },
+                { "rconsoleclear", () => { try { Console.Clear(); } catch { } } },
+                { "setDiscordRPC", () => RPCManager.SetRPCDetails(argsArray[1]) },
+                { "consolelog", () => ConsoleControl.Log(argsArray[1]) }
+            };
 
-                return;
-            }
-            if (argsArray[0] == "toclipboard")
+            if (commandActions.TryGetValue(argsArray[0], out var action))
             {
-                FunctionWatch.clipboardSetText(arguments[1].ToString());
-                return;
-            }
-            if (argsArray[0] == "rconsoleclose")
-            {
-                ConsoleManager.HideConsole();
-                return;
-            }
-            if (argsArray[0] == "rconsoleshow")
-            {
-                ConsoleManager.ShowConsole();
-                return;
-            }
-            if (argsArray[0] == "rconsoleprint")
-            {
-                ConsoleManager.ShowConsole();
-                CustomCw.rconsoleprint($"{argsArray[1]}", "white");
-                return;
-            }
-            if (argsArray[0] == "rconsoleinfo")
-            {
-                ConsoleManager.ShowConsole();
-                CustomCw.rconsoleprint($"{argsArray[1]}", "info");
-                return;
-            }
-            if (argsArray[0] == "rconsolewarn")
-            {
-                ConsoleManager.ShowConsole();
-                CustomCw.rconsoleprint($"{argsArray[1]}", "warn");
-                return;
-            }
-            if (argsArray[0] == "rconsoleerr")
-            {
-                ConsoleManager.ShowConsole();
-                CustomCw.rconsoleprint($"{argsArray[1]}", "err");
-                return;
-            }
-            if (argsArray[0] == "rconsolename")
-            {
-                ConsoleManager.ShowConsole();
-                Console.Title = argsArray[1];
-                return;
-            }
-            if (argsArray[0] == "rconsoleclear")
-            {
-                try { Console.Clear(); } catch { }
-                return;
-            }
-            if (argsArray[0] == "setDiscordRPC")
-            {
-                RPCManager.SetRPCDetails($"{argsArray[1]}");
-                return;
-            }
-            if (argsArray[0] == "consolelog")
-            {
-                ConsoleControl.Log(argsArray[1]);
-                return;
+                action.Invoke();
             }
         }
     }

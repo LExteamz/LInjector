@@ -1,9 +1,9 @@
-﻿using LInjector.Classes;
+﻿using System;
+using System.Threading.Tasks;
+using LInjector.Classes;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 
 namespace LInjector.WPF.Classes
 {

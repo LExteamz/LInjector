@@ -1,7 +1,4 @@
-﻿using IWshRuntimeLibrary;
-using Microsoft.Win32;
-using Octokit;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -11,6 +8,9 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using IWshRuntimeLibrary;
+using Microsoft.Win32;
+using Octokit;
 using File = System.IO.File;
 using FileMode = System.IO.FileMode;
 using MessageBox = System.Windows.Forms.MessageBox;

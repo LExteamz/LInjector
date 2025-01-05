@@ -1,13 +1,13 @@
-﻿using LInjector.Classes;
-using LInjector.Pages.Popups;
-using LInjector.WPF.Classes;
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using LInjector.Classes;
+using LInjector.Pages.Popups;
+using LInjector.WPF.Classes;
 using Brushes = System.Windows.Media.Brushes;
 using Point = System.Drawing.Point;
 

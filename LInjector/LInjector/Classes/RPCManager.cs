@@ -1,6 +1,6 @@
-﻿using DiscordRPC;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using DiscordRPC;
 using Button = DiscordRPC.Button;
 
 namespace LInjector.Classes

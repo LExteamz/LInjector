@@ -1,10 +1,10 @@
-﻿using LInjector.Classes;
-using LInjector.Pages;
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using LInjector.Classes;
+using LInjector.Pages;
 using Window = System.Windows.Window;
 
 namespace LInjector.Windows
@@ -82,7 +82,7 @@ namespace LInjector.Windows
             // await ws.Start
             // Starts a WebSocket used to run simple LInjector functions, such as Log, rconsole, etc.
 
-            await Shared.mainView.ws.Start();
+            await Shared.ws.Start();
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e)

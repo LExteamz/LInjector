@@ -2,10 +2,6 @@
     if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
 #endif
 
-using Dsafa.WpfColorPicker;
-using LInjector.Classes;
-using LInjector.WPF.Classes;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -20,6 +16,10 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
+using Dsafa.WpfColorPicker;
+using LInjector.Classes;
+using LInjector.WPF.Classes;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.Forms.MessageBox;
 using Path = System.IO.Path;
@@ -50,8 +50,6 @@ namespace LInjector.Pages
         public bool IsInfoShown = false;
 
         internal string ScriptListPath = Path.Combine(Files.exeDirectory, "scripts");
-
-        public WebComs ws = new WebComs();
 
         /// <summary>
         /// Ignores
@@ -96,7 +94,7 @@ namespace LInjector.Pages
         {
             if (DesignerProperties.GetIsInDesignMode(this)) return;
 
-            bool isAttached = DLLInterface.IsAttached();
+            bool isAttached = DLLInterface.IsAttached() || Shared.ws.GetDevicesConnected() > 0;
 
             AnimateColor(HarderBetterFasterStronger, ConsoleControl.ParseColor(isAttached ? "#FF7B68EE" : "#FF000000").Color);
             AnimateBlur(HarderBetterFasterStronger, isAttached ? 30 : 15);
@@ -175,7 +173,7 @@ namespace LInjector.Pages
 
             // Useful to make GAME clients don't crash when the WebSocket shutdowns, so they receive
             // a message before the WebSocket Server shutdowns.
-            await ws.SendMessage("LINJECTOR_DISCONNECT");
+            await Shared.ws.SendMessage("LINJECTOR_DISCONNECT");
 
             // Had to do this because UserControls in WPF are sus they act like an overlayed Window.
             TabSystem__.Visibility = Visibility.Hidden;
@@ -940,7 +938,7 @@ namespace LInjector.Pages
                 {
                     try
                     {
-                        await ws.SendMessage(scriptString);
+                        await Shared.ws.SendMessage(scriptString);
                     }
                     catch (Exception ex)
                     {

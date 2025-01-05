@@ -1,8 +1,8 @@
-﻿using LInjector.Pages;
-using LInjector.Windows;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using LInjector.Pages;
+using LInjector.Windows;
 
 namespace LInjector.Classes
 {
@@ -96,6 +96,7 @@ namespace LInjector.Classes
     {
         public static MainWindow mainWindow = null;
         public static MainView mainView = null;
+        public static WebComs ws = new WebComs();
     }
 
     public static class Base
