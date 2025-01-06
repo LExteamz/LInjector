@@ -1,8 +1,4 @@
-﻿#if DEBUG
-    if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
-#endif
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -660,20 +656,17 @@ namespace LInjector.Pages
         ///  Reads a JSON called config.json, and applies the value of it to a class, see: <see
         ///  cref="ConfigHandler"/>. WPF is not a Immediate mode GUI, so we have to do all of this!
         /// </summary>
-        public void ParseConfig()
+        public async void ParseConfig()
         {
             SetToggle(AutoAttachToggle, ConfigHandler.autoattach);
             SetToggle(SplashToggle, ConfigHandler.splashscreen);
             SetToggle(DebugModeToggle, ConfigHandler.debug);
             SetToggle(RPCToggle, RPCManager.isEnabled);
             if (RPCManager.isEnabled)
-            {
                 enablerpc();
-            }
             else
-            {
                 shutdownrpc();
-            }
+
             SetToggle(TopmostToggle, ConfigHandler.topmost);
             SetToggle(SaveTabsToggle, ConfigHandler.save_tabs);
             SetToggle(HideBottomConsole, ConfigHandler.hide_internalconsole);
@@ -693,6 +686,14 @@ namespace LInjector.Pages
                 ScriptListAndSaveCDef.Width = new GridLength(0, GridUnitType.Star);
             }
             SetToggle(ToggleWebSocketMode, ConfigHandler.websocket_mode);
+            WebSocketPortText.Text = ConfigHandler.websocket_port.ToString();
+            if (ConfigHandler.websocket_mode)
+                await Shared.ws.Start();
+            Shared.ws.Port = ConfigHandler.websocket_port;
+            WebSocketStatus.Content = ConfigHandler.websocket_mode == true ? $"WebSocket is listening at {Shared.ws.Address()}" : "";
+            if (ConfigHandler.websocket_mode == false)
+                WebSocketStatus.Visibility = Visibility.Collapsed;
+
             SetToggle(ShowMonacoToggle, ConfigHandler.monaco_minimap_default);
             SetToggle(BlurCodeEditor, ConfigHandler.monaco_blured);
             foreach (string theme in new[] { "li-dark", "vs-dark", "vs-light" })
@@ -797,20 +798,38 @@ namespace LInjector.Pages
         public void RPCToggle_Unchecked(object sender, RoutedEventArgs e) => shutdownrpc();
 
         // WebSocket Mode
-        public void ToggleWebSocketMode_Checked(object sender, RoutedEventArgs e)
+        public async void ToggleWebSocketMode_Checked(object sender, RoutedEventArgs e)
         {
             ExecuteButton.Click -= ExecuteButton_Click;
             ExecuteButton.Click += HookExecute;
             ConfigHandler.websocket_mode = true;
+            WebSocketStatus.Visibility = Visibility.Visible;
+            await Shared.ws.Start();
+            WebSocketStatus.Content = $"WebSocket is listening at {Shared.ws.Address()}";
             ConfigHandler.SetConfigValue("websocket_mode", true);
         }
 
-        public void ToggleWebSocketMode_Unchecked(object sender, RoutedEventArgs e)
+        public async void ToggleWebSocketMode_Unchecked(object sender, RoutedEventArgs e)
         {
             ExecuteButton.Click -= HookExecute;
             ExecuteButton.Click += ExecuteButton_Click;
             ConfigHandler.websocket_mode = false;
+            await Shared.ws.CloseWebSocket();
+            WebSocketStatus.Visibility = Visibility.Collapsed;
             ConfigHandler.SetConfigValue("websocket_mode", false);
+        }
+
+        private async void TextBlock_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(WebSocketPortText.Text))
+                return;
+
+            int newPort = System.Convert.ToInt32(WebSocketPortText.Text);
+            Shared.ws.Port = newPort;
+            ConfigHandler.SetConfigValue("websocket_port", newPort);
+
+            if (Shared.ws.IsRunning)
+                await Shared.ws.RestartWebSocket();
         }
 
         public void HelpWebSocket_Click(object sender, RoutedEventArgs e) =>

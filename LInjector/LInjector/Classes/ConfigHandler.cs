@@ -21,6 +21,7 @@ namespace LInjector.Classes
         public static dynamic monaco_minimap_default { get; set; } = true;
         public static string monaco_theme { get; set; } = "li-dark";
         public static dynamic monaco_blured { get; set; } = false;
+        public static int websocket_port { get; set; } = 5343;
 
         private static readonly Dictionary<string, Action<dynamic>> ConfigActions = new Dictionary<string, Action<dynamic>>()
         {
@@ -50,6 +51,13 @@ namespace LInjector.Classes
             { "monaco_minimap_default", value => monaco_minimap_default = value },
             { "monaco_theme", value => monaco_theme = value },
             { "monaco_blured", value => monaco_blured = value },
+            { "websocket_port", value =>
+                {
+                    websocket_port = (int)value;
+                    Shared.ws.Port = websocket_port;
+                }
+            },
+
         };
 
         public static void DoConfig()
@@ -68,6 +76,7 @@ namespace LInjector.Classes
                 { "monaco_minimap_default", monaco_minimap_default },
                 { "monaco_theme", monaco_theme },
                 { "monaco_blured", monaco_blured },
+                { "websocket_port", websocket_port }
             };
 
             if (!File.Exists(ConfigPath))

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LInjector.Pages.MainView"
+﻿ <UserControl x:Class="LInjector.Pages.MainView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:LInjector.Pages"
@@ -207,10 +207,18 @@
                                                                         <ToggleButton Checked="DebugModeToggle_Checked" Unchecked="DebugModeToggle_Unchecked" Width="30" Height="30" x:Name="DebugModeToggle"/>
                                                                         <Label Content="Debug Console" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
-                                                                    <StackPanel Orientation="Horizontal" ToolTip="Executes scripts through a WebSocket using a Host Executor" Width="Auto">
-                                                                        <ToggleButton Width="30" Height="30" Checked="ToggleWebSocketMode_Checked" Unchecked="ToggleWebSocketMode_Unchecked" x:Name="ToggleWebSocketMode" />
-                                                                        <Label Content="WebSocket Mode" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                                                        <Button Content="&#xE897;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="{DynamicResource Text}" BorderThickness="0" Click="HelpWebSocket_Click"/>
+                                                                    <StackPanel Orientation="Vertical" ToolTip="Executes scripts through a WebSocket using a Host Executor" Width="Auto">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <ToggleButton Width="30" Height="30" Checked="ToggleWebSocketMode_Checked" Unchecked="ToggleWebSocketMode_Unchecked" x:Name="ToggleWebSocketMode" />
+                                                                            <Label Content="WebSocket Mode" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                                                            <Button Content="&#xE897;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="{DynamicResource Text}" BorderThickness="0" Click="HelpWebSocket_Click" HorizontalAlignment="Right"/>
+                                                                        </StackPanel>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <Label Foreground="{DynamicResource Text}" Content="Port: "/>
+                                                                            <TextBox Foreground="{DynamicResource Text}" x:Name="WebSocketPortText" Width="50"/>
+                                                                            <Button Content="&#xEA35;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="{DynamicResource Text}" BorderThickness="0" Click="TextBlock_LostFocus" HorizontalAlignment="Right"/>
+                                                                        </StackPanel>
+                                                                        <Label Content="WebSocket is not running" x:Name="WebSocketStatus" Foreground="{DynamicResource Text}" HorizontalAlignment="Right"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Width="30" Height="30" Checked="RPCToggle_Checked" Unchecked="RPCToggle_Unchecked" x:Name="RPCToggle" />
@@ -453,9 +461,7 @@
                         </Grid.RowDefinitions>
                         <Border CornerRadius="4 4 0 0" Background="{DynamicResource TertiaryColor}" Margin="0,0,0,2">
                             <Grid>
-                                <TextBox ToolTip="Search" Padding="4" TextChanged="SearchScriptsBox_TextChanged" Foreground="{DynamicResource Text}" Style="{DynamicResource MaterialDesignTextBox}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" x:Name="SearchScriptsBox" BorderThickness="0">
-                                    <materialDesign:TextFieldAssist.DecorationVisibility>Hidden</materialDesign:TextFieldAssist.DecorationVisibility>
-                                </TextBox>
+                                <TextBox ToolTip="Search" Padding="4" TextChanged="SearchScriptsBox_TextChanged" Foreground="{DynamicResource Text}" Style="{DynamicResource MaterialDesignTextBox}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" x:Name="SearchScriptsBox" BorderThickness="0"/>
                             </Grid>
                         </Border>
                         <ListBox SelectionChanged="SearchScriptsBox_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Hidden" Background="{DynamicResource TertiaryColor}" BorderThickness="0" Foreground="{DynamicResource Text}" FontFamily="Segoe UI Semilight" x:Name="ScriptListHolder" Padding="5 5 5 5" Height="Auto" Margin="0,1,0,0" Loaded="ScriptListHolder_Loaded" Grid.Row="2" materialDesign:RippleAssist.IsDisabled="True" d:ItemsSource="{d:SampleData ItemCount=3}">

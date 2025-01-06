@@ -15,12 +15,17 @@ namespace LInjector.Classes
     {
         private static readonly object lockObject = new object();
         private static WebComs instance;
+        private static HttpListener listener = new HttpListener();
+        public int Port { get; set; }
+        public string Address() => $"http://localhost:{Port}/";
 
         private static ConcurrentDictionary<string, WebSocket> connectedClients = new ConcurrentDictionary<string, WebSocket>();
 
         private WebSocket webSocket;
 
         public WebComs() { }
+
+        public bool IsRunning => listener.IsListening;
 
         /// <summary>
         /// Retrieves a singleton instance of the WebComs class.
@@ -53,9 +58,23 @@ namespace LInjector.Classes
         /// <returns></returns>
         public async Task Start()
         {
-            var listener = new HttpListener();
-            listener.Prefixes.Add("http://localhost:5343/");
-            listener.Start();
+            listener.Prefixes.Add(Address());
+            try
+            {
+                listener.Start();
+            }
+            catch (HttpListenerException ex)
+            {
+                Shared.mainView.ToggleWebSocketMode.IsChecked = false;
+                await CloseWebSocket();
+                Port = 5343;
+                ConfigHandler.SetConfigValue("websocket_port", 5343);
+                ConfigHandler.websocket_port = 5343;
+                Shared.mainView.WebSocketPortText.Text = "5343";
+                ConsoleControl.Log("Port set to 5343 to avoid critical errors");
+                await Notifications.Fire("Invalid Port, try another one");
+                ConsoleControl.Log($"{ex.ErrorCode} {ex.Message}", ConsoleControl.LogType.Error);
+            }
 
             try
             {
@@ -70,13 +89,55 @@ namespace LInjector.Classes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"WebSocket Error (1): {ex.Message}", "LInjector | Error", MessageBoxButton.OK);
+                ConsoleControl.Log($"WebSocket Error (1): {ex.Message}", ConsoleControl.LogType.Error);
+                return;
             }
             finally
             {
                 listener.Close();
             }
         }
+
+        /// <summary>
+        /// Restarts the WebSocket server.
+        /// </summary>
+        public async Task RestartWebSocket()
+        {
+            await CloseWebSocket();
+            await Start();
+        }
+
+        /// <summary>
+        /// Closes the current WebSocket connection.
+        /// </summary>
+        public async Task CloseWebSocket()
+        {
+            listener.Prefixes.Clear();
+
+            if (webSocket != null && (webSocket.State == WebSocketState.Open || webSocket.State == WebSocketState.CloseReceived))
+            {
+                try
+                {
+                    await webSocket.CloseAsync(WebSocketCloseStatus.InternalServerError, "LINJECTOR_DISCONNECT", CancellationToken.None);
+                }
+                catch (WebSocketException ex)
+                {
+                    ConsoleControl.Log($"Couldn't close the WebSocket! {ex.Message}", ConsoleControl.LogType.Error);
+                }
+                finally
+                {
+                    webSocket.Dispose();
+                    webSocket = null;
+                }
+            }
+            else
+            {
+                webSocket?.Dispose();
+                webSocket = null;
+            }
+
+        }
+
 
         /// <summary>
         /// Processes WebSocket client requests and manages connections.
@@ -118,7 +179,7 @@ namespace LInjector.Classes
                 }
                 catch (WebSocketException ex)
                 {
-                    MessageBox.Show($"WebSocket Error (3): {ex.Message}", "LInjector | Error", MessageBoxButton.OK);
+                    ConsoleControl.Log($"WebSocket Error (3): {ex.Message}", ConsoleControl.LogType.Error);
                 }
                 finally
                 {
@@ -148,7 +209,7 @@ namespace LInjector.Classes
                 }
                 catch (WebSocketException ex)
                 {
-                    MessageBox.Show($"WebSocket Error (2): {ex.Message}", "LInjector | Error", MessageBoxButton.OK);
+                    ConsoleControl.Log($"WebSocket Error (2): {ex.Message}", ConsoleControl.LogType.Error);
                 }
             }
         }
