@@ -4,11 +4,13 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Media;
 using LInjector.Classes;
 using LInjector.Pages.Popups;
 using LInjector.WPF.Classes;
 using Brushes = System.Windows.Media.Brushes;
+using MessageBox = System.Windows.Forms.MessageBox;
 using Point = System.Drawing.Point;
 
 namespace LInjector.Pages
@@ -130,7 +132,39 @@ namespace LInjector.Pages
                 {
                     new LIContextMenuStrip.MenuItemOption("Run", "\uF5B0", async (s, ev) =>
                     {
-                        DLLInterface.RunScript(await (clickedTabItem.Content as monaco_api).GetText());
+                        if (ConfigHandler.websocket_mode && Shared.ws.IsRunning)
+                        {
+                            try
+                            {
+                                var cm = clickedTabItem.Content as monaco_api;
+                                string scriptString = await cm.GetText();
+
+                                try
+                                {
+                                    try
+                                    {
+                                        await Shared.ws.SendMessage(scriptString);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        CustomCw.Cw($"LInjector couldn't run the script.\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("LInjector couldn't run the script.", Files.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    CustomCw.Cw($"(Module) Exception thrown\n{ex.Message}\nStack Trace:\n{ex.StackTrace}", false, "error");
+                                }
+                            }
+                            catch
+                            {
+                                await Notifications.Fire("Unknown error.");
+                            }
+                        } else
+                        {
+                            DLLInterface.RunScript(await (clickedTabItem.Content as monaco_api).GetText());
+                        }
+                        
                     }),
 
                     new LIContextMenuStrip.MenuItemOption("Rename", "\uE8AC", (s, ev) =>
