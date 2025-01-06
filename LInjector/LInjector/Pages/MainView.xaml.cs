@@ -690,9 +690,6 @@ namespace LInjector.Pages
             if (ConfigHandler.websocket_mode)
                 await Shared.ws.Start();
             Shared.ws.Port = ConfigHandler.websocket_port;
-            WebSocketStatus.Content = ConfigHandler.websocket_mode == true ? $"WebSocket is listening at {Shared.ws.Address()}" : "";
-            if (ConfigHandler.websocket_mode == false)
-                WebSocketStatus.Visibility = Visibility.Collapsed;
 
             SetToggle(ShowMonacoToggle, ConfigHandler.monaco_minimap_default);
             SetToggle(BlurCodeEditor, ConfigHandler.monaco_blured);
@@ -803,9 +800,7 @@ namespace LInjector.Pages
             ExecuteButton.Click -= ExecuteButton_Click;
             ExecuteButton.Click += HookExecute;
             ConfigHandler.websocket_mode = true;
-            WebSocketStatus.Visibility = Visibility.Visible;
             await Shared.ws.Start();
-            WebSocketStatus.Content = $"WebSocket is listening at {Shared.ws.Address()}";
             ConfigHandler.SetConfigValue("websocket_mode", true);
         }
 
@@ -815,7 +810,6 @@ namespace LInjector.Pages
             ExecuteButton.Click += ExecuteButton_Click;
             ConfigHandler.websocket_mode = false;
             await Shared.ws.CloseWebSocket();
-            WebSocketStatus.Visibility = Visibility.Collapsed;
             ConfigHandler.SetConfigValue("websocket_mode", false);
         }
 

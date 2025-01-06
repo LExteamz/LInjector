@@ -218,7 +218,6 @@
                                                                             <TextBox Foreground="{DynamicResource Text}" x:Name="WebSocketPortText" Width="105" TextAlignment="Left" VerticalAlignment="Center"/>
                                                                             <Button Content="&#xEA35;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="{DynamicResource Text}" BorderThickness="0" Click="TextBlock_LostFocus" HorizontalAlignment="Right"/>
                                                                         </StackPanel>
-                                                                        <Label Content="WebSocket is not running" x:Name="WebSocketStatus" Foreground="{DynamicResource Text}" HorizontalAlignment="Right"/>
                                                                     </StackPanel>
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <ToggleButton Width="30" Height="30" Checked="RPCToggle_Checked" Unchecked="RPCToggle_Unchecked" x:Name="RPCToggle" />
