@@ -207,15 +207,15 @@
                                                                         <ToggleButton Checked="DebugModeToggle_Checked" Unchecked="DebugModeToggle_Unchecked" Width="30" Height="30" x:Name="DebugModeToggle"/>
                                                                         <Label Content="Debug Console" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center"/>
                                                                     </StackPanel>
-                                                                    <StackPanel Orientation="Vertical" ToolTip="Executes scripts through a WebSocket using a Host Executor" Width="Auto">
+                                                                    <StackPanel Orientation="Vertical" Width="Auto">
                                                                         <StackPanel Orientation="Horizontal">
                                                                             <ToggleButton Width="30" Height="30" Checked="ToggleWebSocketMode_Checked" Unchecked="ToggleWebSocketMode_Unchecked" x:Name="ToggleWebSocketMode" />
                                                                             <Label Content="WebSocket Mode" Foreground="{DynamicResource Text}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                                                            <Button Content="&#xE897;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="{DynamicResource Text}" BorderThickness="0" Click="HelpWebSocket_Click" HorizontalAlignment="Right"/>
+                                                                            <Button Content="&#xE897;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="{DynamicResource Text}" BorderThickness="0" Click="HelpWebSocket_Click" HorizontalAlignment="Right"  ToolTip="Executes scripts through a WebSocket using a Host Executor"/>
                                                                         </StackPanel>
                                                                         <StackPanel Orientation="Horizontal">
-                                                                            <Label Foreground="{DynamicResource Text}" Content="Port: "/>
-                                                                            <TextBox Foreground="{DynamicResource Text}" x:Name="WebSocketPortText" Width="50"/>
+                                                                            <Label Foreground="{DynamicResource Text}" Content="Port: " VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                                                                            <TextBox Foreground="{DynamicResource Text}" x:Name="WebSocketPortText" Width="105" TextAlignment="Left" VerticalAlignment="Center"/>
                                                                             <Button Content="&#xEA35;" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="{DynamicResource Text}" BorderThickness="0" Click="TextBlock_LostFocus" HorizontalAlignment="Right"/>
                                                                         </StackPanel>
                                                                         <Label Content="WebSocket is not running" x:Name="WebSocketStatus" Foreground="{DynamicResource Text}" HorizontalAlignment="Right"/>
