@@ -62,8 +62,8 @@ namespace LInjector.Classes
             try
             {
                 listener.Start();
-                await Notifications.Fire("WebSocket is running!");
                 ConsoleControl.Log($"WebSocket running @ {Address()}");
+                await Notifications.Fire("WebSocket is running!");
             }
             catch (HttpListenerException ex)
             {
