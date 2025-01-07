@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using LInjector.Pages;
 using LInjector.Windows;
@@ -58,17 +59,23 @@ namespace LInjector.Classes
             var localTime = DateTime.Now.ToString("HH:mm");
             var formattedMessage = $"[{localTime}] {message}";
 
-            var toLog = new ListBoxItem
+            // Create a TextBlock for text wrapping
+            var textBlock = new TextBlock
             {
-                Content = formattedMessage,
-                Visibility = System.Windows.Visibility.Visible
+                Text = formattedMessage,
+                TextWrapping = TextWrapping.Wrap, // Enable wrapping
+                Foreground = GetLogColor(type) // Assign the color based on log type
             };
 
-            // Assign the color based on log type
-            toLog.Foreground = GetLogColor(type);
+            var toLog = new ListBoxItem
+            {
+                Content = textBlock,
+                Visibility = System.Windows.Visibility.Visible,
+            };
 
             Shared.mainView.ConsoleLogList.Items.Add(toLog);
         }
+
 
         /// <summary>
         /// Returns the color brush for the given log type.

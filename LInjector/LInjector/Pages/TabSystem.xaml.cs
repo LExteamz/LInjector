@@ -24,7 +24,7 @@ namespace LInjector.Pages
         public TabSystem()
         {
             InitializeComponent();
-            maintabs.Items.Add(CreateTab("", "Script" + " " + (this.maintabs.Items.Count + 1).ToString()));
+            maintabs.Items.Add(CreateTab("", $"Script {(this.maintabs.Items.Count + 1).ToString()}.lua"));
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace LInjector.Pages
         {
             if (title == null)
             {
-                title = "Script " + this.maintabs.Items.Count.ToString();
+                title = $"Script {this.maintabs.Items.Count.ToString()}.lua";
             }
 
             maintabs.Items.Add(CreateTab(text, title));
@@ -80,7 +80,7 @@ namespace LInjector.Pages
             switch (((System.Windows.Controls.Button)sender).Name)
             {
                 case "AddT":
-                    maintabs.Items.Add(CreateTab("", "Script" + " " + (this.maintabs.Items.Count + 1).ToString()));
+                    maintabs.Items.Add(CreateTab("", $"Script {(this.maintabs.Items.Count + 1).ToString()}.lua"));
                     break;
                 case "RemoveT":
                     try

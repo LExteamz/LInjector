@@ -429,8 +429,7 @@
                 <!-- GAME CONSOLE COMMUNICATION BEGANS -->
                 <Border Background="{DynamicResource TertiaryColor}" BorderThickness="1" Margin="45,0,6 ,10" CornerRadius="4" Padding="0" Grid.Row="2" Name="InternalConsole">
                     <StackPanel Orientation="Vertical">
-                        <ListBox Background="Transparent" Padding="5 0 0 5" BorderThickness="0" Foreground="{DynamicResource Text}" FontFamily="Consolas" x:Name="ConsoleLogList" x:FieldModifier="public" Height="75" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"
-        materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True" materialDesign:ScrollViewerAssist.CornerRectangleVisibility="Collapsed" d:ItemsSource="{d:SampleData ItemCount=10}">
+                        <ListBox Background="Transparent" Padding="5 0 0 5" BorderThickness="0" Foreground="{DynamicResource Text}" FontFamily="Consolas" x:Name="ConsoleLogList" x:FieldModifier="public" Height="75" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True" materialDesign:ScrollViewerAssist.CornerRectangleVisibility="Collapsed" d:ItemsSource="{d:SampleData ItemCount=10}">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}">
                                     <Setter Property="Background" Value="{DynamicResource Text}" />

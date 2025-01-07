@@ -36,6 +36,7 @@ namespace LInjector.Pages.Popups
         {
             TitleBarLabel.Content = Caption;
             TuUltimaCancion.Text = Text;
+            ContentReturn.Focus();
         }
 
         public static string ShowInputDialog(string caption, string text)

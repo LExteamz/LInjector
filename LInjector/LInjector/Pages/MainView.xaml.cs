@@ -325,18 +325,16 @@ namespace LInjector.Pages
         /// </summary>
         public async void SaveTabs()
         {
-            if (ConfigHandler.save_tabs == false)
+            if (ConfigHandler.save_tabs || SaveTabsToggle.IsChecked)
             {
-                return;
-            }
-
-            foreach (TabItem item in TabSystem__.maintabs.Items)
-            {
-                var GetTextzzzz = await (item.Content as monaco_api).GetText();
-                if (GetTextzzzz.Length > 1)
+                foreach (TabItem item in TabSystem__.maintabs.Items)
                 {
-                    File.WriteAllText($"{Files.SavedTabsPath}\\{item.Header.ToString()}",
-                        GetTextzzzz.ToString());
+                    var GetTextzzzz = await (item.Content as monaco_api).GetText();
+                    if (GetTextzzzz.Length > 1)
+                    {
+                        File.WriteAllText($"{Files.SavedTabsPath}\\{item.Header.ToString()}",
+                            GetTextzzzz.ToString());
+                    }
                 }
             }
         }

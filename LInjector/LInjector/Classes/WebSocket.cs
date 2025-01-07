@@ -246,9 +246,7 @@ namespace LInjector.Classes
             };
 
             if (commandActions.TryGetValue(argsArray[0], out var action))
-            {
                 action.Invoke();
-            }
         }
     }
 }
