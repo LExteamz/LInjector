@@ -92,19 +92,24 @@ crypt.generatebytes = crypt.generatebytes
 
 setreadonly(crypt, true)
 
+local EXECUTOR_NAME = "Sus Dog Execution"
 local oldRequest
-oldRequest = hookfunction(request, function(Arguments)
-    local Headers = Arguments.Headers or {}
-    Headers['User-Agent'] = EXPLOIT_NAME
-    return oldRequest({
-        Url = Arguments.Url,
-        Method = Arguments.Method or "GET",
-        Headers = Headers,
-        Cookies = Arguments.Cookies or {},
-        Body = Arguments.Body or ""
-    })
-end)
 
+function HookedRequest(data)
+    local Options = data.Headers or {}
+    Options['User-Agent'] = EXECUTOR_NAME
+    return oldRequest({
+        Url = data.Url,
+        Method = data.Method or "GET",
+        Headers = Options,
+        Cookies = data.Cookies or {},
+        Body = data.Body or ""
+    })
+end
+
+oldRequest = hookfunction(request, HookedRequest)
+oldRequest = hookfunction(http.request, HookedRequest)
+oldRequest = hookfunction(http_request, HookedRequest)
 
 Export("identifyexecutor", function()
    return EXPLOIT_NAME, EXPLOIT_VERSION
