@@ -92,12 +92,11 @@ crypt.generatebytes = crypt.generatebytes
 
 setreadonly(crypt, true)
 
-local EXECUTOR_NAME = "Sus Dog Execution"
 local oldRequest
 
 function HookedRequest(data)
     local Options = data.Headers or {}
-    Options['User-Agent'] = EXECUTOR_NAME
+    Options['User-Agent'] = EXPLOIT_NAME
     return oldRequest({
         Url = data.Url,
         Method = data.Method or "GET",
