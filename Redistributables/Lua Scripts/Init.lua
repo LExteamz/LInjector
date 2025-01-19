@@ -20,8 +20,8 @@ genv[EXPLOIT_NAME] = true]]
 
 --- Libraries
 local HashIngLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/zzerexx/scripts/main/HashLib.lua"))()
-local disassemble = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/decompile.lua"))()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/'..GITHUB_NAME..'/LInjector/main/Redistributables/Lua%20Scripts/SaveInstance.lua'))()
+-- local disassemble = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheSeaweedMonster/Luau/main/decompile.lua"))()
+-- loadstring(game:HttpGet('https://raw.githubusercontent.com/'..GITHUB_NAME..'/LInjector/main/Redistributables/Lua%20Scripts/SaveInstance.lua'))()
 
 local MarketplaceService=game.MarketplaceService
 local localplayer=game:GetService'Players'.LocalPlayer
@@ -54,7 +54,7 @@ end
 
 ---------
 
-setreadonly(crypt, false)
+-- setreadonly(crypt, false)
 
 crypt.encrypt = function(cipher, data, key, nonce)
    cipher = cipher:lower()
@@ -90,7 +90,7 @@ end
 crypt.random = crypt.generatebytes 
 crypt.generatebytes = crypt.generatebytes
 
-setreadonly(crypt, true)
+-- setreadonly(crypt, true)
 
 local oldRequest
 
