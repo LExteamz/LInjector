@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -11,7 +11,7 @@ namespace LInjector.Classes
     {
         private static bool IsRunning = false;
         private static FileSystemWatcher watcher = new FileSystemWatcher();
-        private static String WatchFolder = Files.WorkspaceFolder;
+        private static String WatchFolder = Path.Combine(Files.WorkspaceFolder, "LINJECTOR");
 
         public static void runFuncWatch()
         {
