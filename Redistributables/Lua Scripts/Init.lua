@@ -134,14 +134,18 @@ local Functions={
 }
 
 for _, name in next, Functions do
-   Export(name,function(...)
-      local String,Args = "|||", {...}
-      for _, Arg in next, Args do
-         String ..= " "..tostring(Arg)
+   Export(name, function(...)
+      local Args = {...}
+      local String = name
+      
+      for _, Arg in ipairs(Args) do
+         String ..= "|||" .. tostring(Arg)
       end
-      STDExport(('%s%s'):format(name, String))
+      
+      STDExport(String)
    end)
 end
+
 wait()
 
 Export("setclipboard",toclipboard)
