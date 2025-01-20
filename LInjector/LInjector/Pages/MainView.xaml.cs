@@ -483,9 +483,7 @@ namespace LInjector.Pages
                         {
                             TabSystem__.ChangeCurrentTabTitle(selectedItem.ToString());
                             TabSystem__.current_monaco().SetText(
-                                File.ReadAllText(scriptfolder + "\\" +
-                                    (selectedItem != null ? selectedItem.ToString() :
-                                        (string)null)));
+                                File.ReadAllText(scriptfolder + "\\" + (selectedItem != null ? selectedItem.ToString() : (string)null)));
                         }
                     }
                 }

@@ -134,16 +134,13 @@ local Functions={
 }
 
 for _, name in next, Functions do
-	Export(name, function(...)
-		local String, Args = "", { ... }
-		for i, Arg in next, Args do
-			if i > 1 then
-				String ..= " ||| "
-			end
-			String ..= tostring(Arg)
-		end
-		STDExport(("%s%s"):format(name, String))
-	end)
+   Export(name,function(...)
+      local String,Args = "|||", {...}
+      for _, Arg in next, Args do
+         String ..= " "..tostring(Arg)
+      end
+      STDExport(('%s%s'):format(name, String))
+   end)
 end
 wait()
 

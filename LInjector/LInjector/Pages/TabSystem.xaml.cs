@@ -164,7 +164,7 @@ namespace LInjector.Pages
                         {
                             DLLInterface.RunScript(await (clickedTabItem.Content as monaco_api).GetText());
                         }
-                        
+
                     }),
 
                     new LIContextMenuStrip.MenuItemOption("Rename", "\uE8AC", (s, ev) =>
