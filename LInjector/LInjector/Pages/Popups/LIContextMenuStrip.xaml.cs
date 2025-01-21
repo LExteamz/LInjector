@@ -1,37 +1,30 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using LInjector.Classes;
+using Button = System.Windows.Controls.Button;
+using FontFamily = System.Windows.Media.FontFamily;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using Orientation = System.Windows.Controls.Orientation;
+using VerticalAlignment = System.Windows.VerticalAlignment;
 
 namespace LInjector.Pages.Popups
 {
     public partial class LIContextMenuStrip : Window
     {
-        public string _selectedText { get; private set; }
+        public string? SelectedText { get; private set; }
 
-        public LIContextMenuStrip()
+        public LIContextMenuStrip() => InitializeComponent();
+
+        public class MenuItemOption(string text, string icon, RoutedEventHandler clickHandler)
         {
-            InitializeComponent();
-        }
-
-        public class MenuItemOption
-        {
-            public string Text { get; set; }
-            public string Icon { get; set; }
-            public RoutedEventHandler ClickHandler { get; set; }
-
-            public MenuItemOption(string text, string icon, RoutedEventHandler clickHandler)
-            {
-                Text = text;
-                Icon = icon;
-                ClickHandler = clickHandler;
-            }
+            public string Text { get; set; } = text;
+            public string Icon { get; set; } = icon;
+            public RoutedEventHandler ClickHandler { get; set; } = clickHandler;
         }
 
         public void Add(string text, string icon, RoutedEventHandler clickHandler)
         {
-            Button newItem = new Button
+            Button newItem = new()
             {
                 Style = TemplateButton.Style,
                 Background = TemplateButton.Background,
@@ -90,7 +83,7 @@ namespace LInjector.Pages.Popups
                     var textBlock = stackPanel1.Children.OfType<TextBlock>().FirstOrDefault();
                     if (textBlock != null)
                     {
-                        _selectedText = textBlock.Text;
+                        SelectedText = textBlock.Text;
                         this.Close();
                     }
                 }
@@ -119,7 +112,7 @@ namespace LInjector.Pages.Popups
 
             contextMenu.ShowDialog();
 
-            return contextMenu._selectedText;
+            return contextMenu.SelectedText!;
         }
     }
 }

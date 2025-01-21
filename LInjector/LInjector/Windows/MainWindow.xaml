@@ -1,4 +1,4 @@
-﻿<Window
+﻿ <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,27 +7,24 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:local="clr-namespace:LInjector"
     xmlns:controls="clr-namespace:LInjector.Pages"
-    xmlns:custom="clr-namespace:LInjector.Pages"
-    xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+    xmlns:custom="clr-namespace:LInjector.Windows"
     x:Class="LInjector.Windows.MainWindow"
     mc:Ignorable="d"
     MinHeight="450"
     MinWidth="650"
     Height="450" Width="650" ShowInTaskbar="True" WindowStartupLocation="CenterScreen"
-    Icon="\LInjector.ico"
-    d:DesignHeight="450" d:DesignWidth="650"
     ResizeMode="CanResize"
     WindowStyle="None"
     AllowsTransparency="True"
+    Icon="../LInjector.ico"
     Background="Transparent"
-    SourceInitialized="Window_SourceInitialized"
     Loaded="Window_Loaded">
 
     <shell:WindowChrome.WindowChrome>
-        <shell:WindowChrome CaptionHeight="0" UseAeroCaptionButtons="True" NonClientFrameEdges="None" ResizeBorderThickness="30"/>
+        <shell:WindowChrome CaptionHeight="0" UseAeroCaptionButtons="True" NonClientFrameEdges="None" ResizeBorderThickness="25"/>
     </shell:WindowChrome.WindowChrome>
 
     <Grid x:Name="HolderGrid" MinWidth="655" MinHeight="455" Margin="0">
-        
+
     </Grid>
 </Window>
