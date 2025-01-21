@@ -9,7 +9,7 @@ namespace LInjector.Classes
             { "AppName", "LInjector" },
             { "AppVersion", "v3.0 Closed Beta" },
             { "AppRoot", Path.GetDirectoryName(Environment.ProcessPath)! },
-            { "GitHubURL", "https://github.com/LInjector/" }
+            { "GitHubURL", "https://github.com/LExteamz/LInjector" }
         };
 
         public static string Get(string key) => values.TryGetValue(key, out var value) ? value : string.Empty;

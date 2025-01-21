@@ -266,7 +266,9 @@
                                     </Grid>
                                 </Grid>
                                 <Grid Grid.Row="1" VerticalAlignment="Top" Margin="0 -10 0 0" Panel.ZIndex="3">
-                                    <TextBox x:Name="OutputLogs" VerticalAlignment="Top" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto" Margin="3 0 0 0" BorderThickness="0" IsReadOnly="True" Text="Welcome to LInjector!" TextAlignment="Left" Foreground="{DynamicResource SecondaryText}" FontSize="10" FontFamily="Consolas" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" materialDesign:TextFieldAssist.TextBoxIsMultiLine="True" TextWrapping="Wrap" AcceptsReturn="True" />
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                        <TextBox x:Name="OutputLogs" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="3 0 0 0" BorderThickness="0" IsReadOnly="True" Text="Welcome to LInjector!" TextAlignment="Left" Foreground="{DynamicResource SecondaryText}" FontSize="10" FontFamily="Consolas" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" materialDesign:TextFieldAssist.TextBoxIsMultiLine="True" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.CanContentScroll="True" />
+                                    </ScrollViewer>
                                 </Grid>
                             </Grid>
                         </Grid>

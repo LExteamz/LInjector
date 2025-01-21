@@ -10,6 +10,36 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWindowsForms>True</UseWindowsForms>
     <Platforms>x64</Platforms>
+    <BaseOutputPath>$(ProjectDir)</BaseOutputPath>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <SignAssembly>False</SignAssembly>
+    <Title>LInjector</Title>
+    <Version>3.0.0.0</Version>
+    <PackageIcon>LInjectorr.png</PackageIcon>
+    <Copyright>Copyright (c) LEx Softworks 2024</Copyright>
+    <Description>LInjector Development Tool</Description>
+    <Company>LEx Softworks</Company>
+    <PackageProjectUrl>https://lexploits.top</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LExteamz/LInjector</RepositoryUrl>
+    <PackageOutputPath>Release\</PackageOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <DebugType>none</DebugType>
+	  <AllowedReferenceRelatedFileExtensions>
+		  *.pdb;
+		  *.xml
+	  </AllowedReferenceRelatedFileExtensions>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <DebugType>none</DebugType>
+	  <AllowedReferenceRelatedFileExtensions>
+		  *.pdb;
+		  *.xml
+	  </AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +56,6 @@
     <None Remove="Resources\Icons\Settings.png" />
     <None Remove="Resources\Internal\Init.lua" />
     <None Remove="Resources\LInjector.png" />
-    <None Remove="Resources\LInjectorr.png" />
     <None Remove="Resources\linj_shadow.png" />
   </ItemGroup>
 
@@ -62,7 +91,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Internal\Init.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\LInjector.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -76,6 +105,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Costura.Fody" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="DiscordRichPresence" Version="1.2.1.24" />
     <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2957.106" />
@@ -85,6 +118,13 @@
 
   <ItemGroup>
     <Resource Include="LInjector.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\LInjectorr.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -218,14 +218,10 @@ namespace LInjector.Pages
                 var child = VisualTreeHelper.GetChild(parent, i);
 
                 if (child is T descendant)
-                {
                     yield return descendant;
-                }
 
                 foreach (var descendantChild in FindDescendants<T>(child))
-                {
                     yield return descendantChild;
-                }
             }
         }
 
