@@ -1,29 +1,31 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace LInjector.Classes
 {
     public static class DLLInterface
     {
-        public static void Inject()
+        public static async Task Inject()
         {
             try
             {
                 if (Process.GetProcessesByName("RobloxPlayerBeta").Length <= 0)
                 {
-                    Logs.Console("Please, open Roblox");
+                    await Notifications.Fire("Please, open Roblox");
                 }
                 else
                 {
                     // Your Inject Logic
 
-                    Logs.Console("Injected");
-                    // FunctionWatch.runFuncWatch();
+                    await Notifications.Fire("Injected");
+                    FunctionWatch.runFuncWatch();
                 }
             }
             catch (Exception ex)
             {
-                // FunctionWatch.clipboardSetText($"Message: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                Logs.Console($"Exception has occurred:\n{ex.Message}\n{ex.StackTrace}");
+                FunctionWatch.clipboardSetText($"Message: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                await Notifications.Fire("Exception copied to clipboard");
             }
         }
 

@@ -1,17 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using LInjector.Pages;
 using LInjector.Windows;
 
 namespace LInjector.Classes
 {
-    public static class Shared
-    {
-        public static MainWindow? mainWindow = null;
-        public static MainView? mainView = null;
-        public static void DragWnd() { try { mainWindow!.DragMove(); } catch { } }
-    }
-
     public static class ConsoleControl
     {
 
@@ -78,7 +73,7 @@ namespace LInjector.Classes
                 Visibility = System.Windows.Visibility.Visible,
             };
 
-            Logs.Console(message: message);
+            Shared.mainView.ConsoleLogList.Items.Add(toLog);
         }
 
 
@@ -100,6 +95,40 @@ namespace LInjector.Classes
                 case LogType.Normal:
                 default:
                     return ParseColor("#FFFAFAFA");
+            }
+        }
+    }
+
+    public static class Shared
+    {
+        public static MainWindow mainWindow = null;
+        public static MainView mainView = null;
+        public static WebComs ws = new WebComs();
+    }
+
+    public static class Base
+    {
+        public static async Task<object> TryCatch(Delegate func, params object[] parameters)
+        {
+            try
+            {
+
+                var result = func.DynamicInvoke(parameters);
+
+                if (result is Task task)
+                {
+                    await task;
+                    var taskResultProperty = task.GetType().GetProperty("Result");
+                    return taskResultProperty?.GetValue(task);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                FunctionWatch.clipboardSetText($"Message: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                await Notifications.Fire("Exception copied to clipboard");
+                return null;
             }
         }
     }
