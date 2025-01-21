@@ -184,7 +184,10 @@ namespace LInjector.Pages
                         (clickedTabItem.Content as MonacoApi)?.ToggleLocalBlur();
                     }),
 
-
+                    new LIContextMenuStrip.MenuItemOption("Clear", "\uE75C", (s, ev) =>
+                    {
+                        (clickedTabItem.Content as MonacoApi)?.SetText("");
+                    }),
 
                     new LIContextMenuStrip.MenuItemOption("Close", "\uE8BB", (s, ev) => {
                         if (clickedTabItem is TabItem tabitem && tabitem.Content is MonacoApi webView)
