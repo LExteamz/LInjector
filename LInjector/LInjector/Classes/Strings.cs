@@ -1,4 +1,6 @@
-﻿namespace LInjector.Classes
+﻿using System.IO;
+
+namespace LInjector.Classes
 {
     internal static class Strings
     {
@@ -6,7 +8,7 @@
         {
             { "AppName", "LInjector" },
             { "AppVersion", "v5.0 Closed Beta" },
-            { "AppRoot", Environment.ProcessPath! },
+            { "AppRoot", Path.GetDirectoryName(Environment.ProcessPath)! },
             { "GitHubURL", "https://github.com/LInjector/" }
         };
 

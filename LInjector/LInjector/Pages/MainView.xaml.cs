@@ -261,7 +261,7 @@ namespace LInjector.Pages
         // Script List
 
         private static string regScriptValue = RegistryHandler.GetValue("ScriptListPath", "0");
-        private static string ScriptListPath = string.IsNullOrEmpty(regScriptValue) ? ".\\scripts\\" : regScriptValue;
+        private static string ScriptListPath = string.IsNullOrEmpty(regScriptValue) ? Path.Combine(Strings.Get("AppRoot"), "scripts") : regScriptValue;
 
         private void ScriptSearch_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => RefreshScriptList();
 
@@ -297,6 +297,17 @@ namespace LInjector.Pages
                 }
 
                 ScriptDirLabel.Content = new DirectoryInfo(ScriptListPath).Name;
+            } else
+            {
+                ScriptListPath = Path.Combine(Strings.Get("AppRoot"), "scripts");
+
+                if (!Directory.Exists(ScriptListPath))
+                {
+                    Directory.CreateDirectory(ScriptListPath);
+                    File.WriteAllText(Path.Combine(ScriptListPath, "example.lua"), "print(\"LInjector v3, yay!\")");
+
+                    RefreshScriptList();
+                }
             }
         }
 

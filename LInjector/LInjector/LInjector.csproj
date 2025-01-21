@@ -28,7 +28,6 @@
     <None Remove="Resources\LInjector.png" />
     <None Remove="Resources\LInjectorr.png" />
     <None Remove="Resources\linj_shadow.png" />
-    <None Remove="scripts\example.lua" />
   </ItemGroup>
 
   <ItemGroup>
@@ -86,10 +85,6 @@
 
   <ItemGroup>
     <Resource Include="LInjector.ico" />
-    <Content Include="scripts\example.lua">
-      <Generator></Generator>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>
