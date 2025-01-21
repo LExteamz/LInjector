@@ -7,7 +7,7 @@ namespace LInjector.Classes
         private static readonly Dictionary<string, string> values = new()
         {
             { "AppName", "LInjector" },
-            { "AppVersion", "v5.0 Closed Beta" },
+            { "AppVersion", "v3.0 Closed Beta" },
             { "AppRoot", Path.GetDirectoryName(Environment.ProcessPath)! },
             { "GitHubURL", "https://github.com/LInjector/" }
         };
