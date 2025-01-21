@@ -1,10 +1,10 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
 using LInjector.Classes;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace LInjector.Pages.Popups
 {
@@ -21,15 +21,15 @@ namespace LInjector.Pages.Popups
         private const int GWL_STYLE = -16;
         private const int WS_MAXIMIZEBOX = 0x10000;
 
-        public string Caption { get; set; }
-        public string Text { get; set; }
+        public required string Caption { get; set; }
+        public required string Text { get; set; }
 
-        public string Result { get; private set; }
+        public string? Result { get; private set; }
 
         public InputText()
         {
             InitializeComponent();
-            this.Loaded += OnLoaded;
+            Loaded += OnLoaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -39,16 +39,15 @@ namespace LInjector.Pages.Popups
             ContentReturn.Focus();
         }
 
-        public static string ShowInputDialog(string caption, string text)
+        public static string? ShowInputDialog(string caption, string text)
         {
-            var inputTextWindow = new InputText
+            InputText inputTextWindow = new()
             {
                 Caption = caption,
                 Text = text,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = Shared.mainWindow
             };
-
-            inputTextWindow.Owner = Shared.mainWindow;
 
             bool? dialogResult = inputTextWindow.ShowDialog();
             return dialogResult == true ? inputTextWindow.ContentReturn.Text : null;
@@ -64,12 +63,12 @@ namespace LInjector.Pages.Popups
             this.Close();
         }
 
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object? sender, RoutedEventArgs? e)
         {
             // Fade-out animation, pretty cool.
-            Storyboard fadeOutStoryboard = new Storyboard();
+            Storyboard fadeOutStoryboard = new();
             DoubleAnimation fadeOutAnimation =
-                new DoubleAnimation
+                new()
                 {
                     From = this.Opacity,
                     To = 0,
@@ -78,7 +77,7 @@ namespace LInjector.Pages.Popups
             fadeOutStoryboard.Children.Add(fadeOutAnimation);
             Storyboard.SetTarget(fadeOutAnimation, this);
             Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath(Window.OpacityProperty));
-            fadeOutStoryboard.Completed += OnCloseFadeoutCompleted;
+            fadeOutStoryboard.Completed += OnCloseFadeoutCompleted!;
             fadeOutStoryboard.Begin();
         }
         private void MaximizeButton_Click(object sender, RoutedEventArgs e) => this.WindowState = WindowState.Maximized;
@@ -89,10 +88,10 @@ namespace LInjector.Pages.Popups
         {
             var hwnd = new WindowInteropHelper((Window)sender).Handle;
             var value = GetWindowLong(hwnd, GWL_STYLE);
-            SetWindowLong(hwnd, GWL_STYLE, (int)(value & ~WS_MAXIMIZEBOX));
+            _ = SetWindowLong(hwnd, GWL_STYLE, value & ~WS_MAXIMIZEBOX);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object? sender, RoutedEventArgs? e)
         {
             if (string.IsNullOrEmpty(ContentReturn.Text)) return;
 

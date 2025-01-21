@@ -1,24 +1,22 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 
 namespace LInjector.Classes
 {
-
-    internal static class Themes
+    public static class RegistryHandler
     {
+
         /// <summary>
-        /// Reads a color from the Registry Keys
+        /// Get the value of a Registry Key located in Local User\Software\LInjector
         /// </summary>
-        /// <param name="what"></param>
+        /// <param name="name"></param>
         /// <param name="fallback"></param>
-        /// <returns>String in aRGB Format</returns>
-        internal static string GetColor(string what, string fallback = "0")
+        /// <returns>Registry Key value</returns>
+        public static string GetValue(string name, string fallback)
         {
             try
             {
-                var registryAddress = "SOFTWARE\\LInjector\\Theme";
-                using (RegistryKey reg = Registry.CurrentUser.OpenSubKey(registryAddress))
+                var registryAddress = "SOFTWARE\\LInjector";
+                using (RegistryKey reg = Registry.CurrentUser.OpenSubKey(registryAddress)!)
                 {
                     string returnValue = fallback;
                     if (reg == null)
@@ -37,12 +35,12 @@ namespace LInjector.Classes
                         }
                     }
 
-                    var value = reg.GetValue(what);
+                    var value = reg!.GetValue(name);
                     if (value != null)
                     {
-                        returnValue = value.ToString();
+                        returnValue = value.ToString()!;
                     }
-                    return returnValue;
+                    return returnValue!;
                 }
             }
             catch (Exception ex)
@@ -53,40 +51,34 @@ namespace LInjector.Classes
         }
 
         /// <summary>
-        /// Writes to Registry Key
+        /// Writes to a Registry Key in Local User\Software\LInjector
         /// </summary>
-        /// <param name="what"></param>
-        /// <param name="ColorValue"></param>
-        internal static void SetColor(string what, string ColorValue)
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void SetValue(string name, string value)
         {
             try
             {
-                var registryAddress = "SOFTWARE\\LInjector\\Theme";
-                RegistryKey reg = null;
-
-                try
+                var registryAddress = "SOFTWARE\\LInjector";
+                using (RegistryKey reg = Registry.CurrentUser.OpenSubKey(registryAddress, true)!)
                 {
-                    reg = Registry.CurrentUser.OpenSubKey(registryAddress, true);
-
                     if (reg == null)
                     {
                         using (var newKey = Registry.CurrentUser.CreateSubKey(registryAddress))
                         {
-                            if (newKey == null)
+                            if (newKey != null)
+                            {
+                                newKey.Close();
+                            }
+                            else
                             {
                                 Console.WriteLine("Could not create the SubKey");
                                 return;
                             }
                         }
-
-                        reg = Registry.CurrentUser.OpenSubKey(registryAddress, true);
                     }
 
-                    reg.SetValue(what, ColorValue);
-                }
-                finally
-                {
-                    reg?.Close();
+                    reg!.SetValue(name, value);
                 }
             }
             catch (Exception ex)
@@ -96,34 +88,30 @@ namespace LInjector.Classes
         }
 
         /// <summary>
-        /// Checks if a color exists on the Registry
+        /// Check if a value exists
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
-        internal static bool LookColor(string name)
+        /// <returns>boolean</returns>
+        public static bool LookValue(string name)
         {
             try
             {
-                var registryAddress = "SOFTWARE\\LInjector\\Theme";
-                using (RegistryKey reg = Registry.CurrentUser.OpenSubKey(registryAddress))
+                var registryAddress = "SOFTWARE\\LInjector";
+                using (RegistryKey reg = Registry.CurrentUser.OpenSubKey(registryAddress)!)
                 {
-                    if (reg != null)
-                    {
-                        string[] valueNames = reg.GetValueNames();
-                        return valueNames.Contains(name);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Registry key not found.");
-                        return false;
-                    }
+                    if (reg == null) { }
+
+                    string[] valueNames = reg!.GetValueNames();
+
+                    return valueNames.Contains(name);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in LookColor: " + ex.Message);
+                Console.WriteLine("Error in LookValue: " + ex.Message);
                 return false;
             }
         }
+
     }
 }
