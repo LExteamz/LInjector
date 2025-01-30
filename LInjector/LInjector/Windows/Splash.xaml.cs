@@ -44,7 +44,30 @@ namespace LInjector.Windows
             StoryBoard.Children.Remove(Animation);
         }
 
-        public Splash() => InitializeComponent();
+        public Splash()
+        {
+            if (!(Themes.LookColor("_SplashColor1") && Themes.LookColor("_SplashColor2") && Themes.LookColor("PrimaryColor") && Themes.LookColor("SecondaryColor") && Themes.LookColor("TertiaryColor") && Themes.LookColor("Text")))
+            {
+                Themes.SetColor("_SplashColor1", "#FF460B80");
+                Themes.SetColor("_SplashColor2", "#FF570057");
+
+                Themes.SetColor("PrimaryColor", "#FF0F0F0F");
+                Themes.SetColor("SecondaryColor", "#FF111111");
+                Themes.SetColor("TertiaryColor", "#FF141414");
+
+                Themes.SetColor("Text", "#FFFFFFFF");
+            }
+
+            InitializeComponent();
+
+            if (SettingsWrapper.Read("splash_screen") == false)
+            {
+                this.Hide();
+                ShowWindow();
+            }
+
+            RPCManager.InitRPC();
+        }
 
         private void DoubleAnimation_Completed(object sender, EventArgs e)
         {
@@ -76,10 +99,34 @@ namespace LInjector.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            GradientStop1.Color = ParseColor(Themes.GetColor("_SplashColor1"));
+            GradientStop2.Color = ParseColor(Themes.GetColor("_SplashColor2"));
+
+            BSG1.Color = ParseColor(Themes.GetColor("_SplashColor1"));
+            BSG2.Color = ParseColor(Themes.GetColor("_SplashColor2"));
+
             RGBTime = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, delegate { rgbRotation.Angle += RGBSpinSpeed; }, dispatcher: Application.Current.Dispatcher);
             RGBTime!.Start();
 
             ObjectShift(TimeSpan.FromSeconds(1), LInjectorIcon, LInjectorIcon.Margin, new Thickness(0, 0, 0, 0));
+        }
+
+        public System.Windows.Media.Color ParseColor(string srgb)
+        {
+            if (srgb.Contains("#"))
+                srgb = srgb.TrimStart('#');
+
+            if (srgb.Length != 8)
+            {
+                throw new ArgumentException($"sRGB must be 8 characters, got {srgb} : {srgb.Length}", nameof(srgb));
+            }
+
+            byte a = byte.Parse(srgb.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+            byte r = byte.Parse(srgb.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+            byte g = byte.Parse(srgb.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+            byte b = byte.Parse(srgb.Substring(6, 2), System.Globalization.NumberStyles.HexNumber);
+
+            return System.Windows.Media.Color.FromArgb(a, r, g, b);
         }
     }
 }

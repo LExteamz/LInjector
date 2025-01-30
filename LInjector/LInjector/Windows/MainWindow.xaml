@@ -16,7 +16,7 @@
     ResizeMode="CanResize"
     WindowStyle="None"
     AllowsTransparency="True"
-    Icon="../LInjector.ico"
+    Icon="pack://application:,,,/LInjector;component/LInjector.ico"
     Background="Transparent"
     Loaded="Window_Loaded">
 

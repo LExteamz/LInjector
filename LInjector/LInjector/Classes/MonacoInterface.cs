@@ -26,12 +26,15 @@ namespace LInjector.Classes
 
             CoreWebView2InitializationCompleted += MonacoApiCoreWebView2InitializationCompleted!;
             ToSetText = Text;
+            DefaultBackgroundColor = Color.Transparent;
         }
-
 
         protected virtual void OnEditorReady()
         {
             EditorReady?.Invoke(this, new EventArgs());
+            SetText(ToSetText);
+            SetTheme($"\"{(SettingsWrapper.Read("monaco_theme")!.ToObject<string[]>())[0]}\"");
+            if (SettingsWrapper.Read("editor_blurred") == true) EnableBlur(); else DisableBlur();
         }
 
         public void MonacoApiCoreWebView2InitializationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs e)
@@ -51,7 +54,6 @@ namespace LInjector.Classes
         {
             await Task.Delay(1000);
             IsDOMLoaded = true;
-            // SetText(ToSetText);
             OnEditorReady();
         }
         public async Task<string> GetText()

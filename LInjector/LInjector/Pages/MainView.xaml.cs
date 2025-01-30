@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -7,8 +9,12 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
+using Dsafa.WpfColorPicker;
 using LInjector.Classes;
+using LInjector.Pages.Elements;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
@@ -32,16 +38,156 @@ namespace LInjector.Pages
             TabSystem_.IsEnabled = true;
 
             NavigationGridClick(Editor, e);
+
+            ParseConfig();
+            ParseMyTheme();
+            ParseMyThemeSelectors();
+        }
+
+        public void ApplyConfig(object sender, RoutedEventArgs e)
+        {
+            // Top Most
+            Shared.mainWindow!.Topmost = (bool)(SettingsWrapper.Read("top_most"));
+
+            // Show Script List
+            Shared.mainView!.ScriptListDimensions.Width = ((bool)SettingsWrapper.Read("show_scriptlist")) ? new GridLength(140) : new GridLength(0, GridUnitType.Star);
+            
+            // Show Logs
+            Shared.mainView.LInjectorConsoleDimensions.Height = ((bool)SettingsWrapper.Read("show_internalconsole")) ? new GridLength(100, GridUnitType.Star) : new GridLength(0);
+
+            // Auto Attach
+            RunAutoAttachTimer();
+
+            // Discord RPC
+            BeginDiscordRPC();
+
+            // Editor
+            bool isBlurred = SettingsWrapper.Read("editor_blurred") == true;
+            bool showMinimap = SettingsWrapper.Read("show_minimap") == true;
+            foreach (TabItem item in TabSystem_.maintabs.Items)
+            {
+                MonacoApi TabInstance = (item.Content as MonacoApi)!;
+
+                // Theme
+                TabInstance.SetTheme($"\"{(SettingsWrapper.Read("monaco_theme")!.ToObject<string[]>())[0]}\"");
+
+                if (isBlurred)
+                    TabInstance.EnableBlur();
+                else
+                    TabInstance.DisableBlur();
+
+                if (showMinimap)
+                    TabInstance.EnableMinimap();
+                else
+                    TabInstance.DisableMinimap();
+            }
+        }
+
+        private void ParseConfig()
+        {
+            var configInitElement = SettingsWrapper.Read("app_init");
+
+            if (configInitElement == false)
+            {
+                SettingsWrapper.SetDefaultConfig();
+                SettingsWrapper.Write("app_init", true);
+            }
+
+            Factory factory = new Factory(SettingsItemsHolder);
+            var config = JsonConvert.DeserializeObject<Dictionary<string, JToken>>(File.ReadAllText(SettingsWrapper._configFilePath));
+
+            foreach (var x in config!)
+            {
+                switch (SettingsWrapper.Read(x.Key))
+                {
+                    case JValue boolValue when boolValue.Type == JTokenType.Boolean:
+                        factory.CreateCheckboxOption((Action<bool>)((x) => { }), boolValue.ToObject<bool>(), x.Key);
+                        break;
+
+                    case JValue stringValue when stringValue.Type == JTokenType.String:
+                        factory.CreateTextFieldOption((Action<string>)((x) => { }), stringValue.ToString(), false, x.Key);
+                        break;
+
+                    case JArray stringArray:
+                        var array = (stringArray.ToObject<string[]>())!.ToArray();
+                        factory.CreateDropdownOption((Action<string[]>)((x) => { }), array, new[] { "", "", "" }, x.Key);
+                        break;
+
+                    case JValue numericValue when numericValue.Type == JTokenType.Integer || numericValue.Type == JTokenType.Float:
+                        factory.CreateTextFieldOption((Action<string>)((x) => { }), numericValue.ToString(), true, x.Key);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            ApplyConfig(null!, null!);
         }
 
         DispatcherTimer TitleTimer = new DispatcherTimer();
         DispatcherTimer bozoTimer = new DispatcherTimer();
+        DispatcherTimer Discordtimer = new DispatcherTimer(DispatcherPriority.Background);
+
+        public void BeginDiscordRPC()
+        {
+            Discordtimer.Interval = TimeSpan.FromSeconds(5);
+            Discordtimer.Tick += DiscordRPCTick!;
+            Discordtimer.Start();
+
+        }
+        internal void DiscordRPCTick(object sender, EventArgs e)
+        {
+            if (SettingsWrapper.Read("discord_rpc") == true)
+            {
+                RPCManager.isEnabled = true;
+                if (!RPCManager.client.IsInitialized)
+                    RPCManager.InitRPC();
+            } else
+            {
+                RPCManager.isEnabled = false;
+                if (RPCManager.client.IsInitialized)
+                    RPCManager.TerminateConnection();
+            }
+        }
 
         public void BeginAttachDetection()
         {
             bozoTimer.Interval = TimeSpan.FromSeconds(1);
             bozoTimer.Tick += bozoTick!;
             bozoTimer.Start();
+        }
+
+        public void RunAutoAttachTimer()
+        {
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += AttachedDetectorTick!;
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Start();
+        }
+
+        internal void AttachedDetectorTick(object sender, EventArgs e)
+        {
+            if (SettingsWrapper.Read("auto_attach") == false) return;
+
+            var processesByName = Process.GetProcessesByName("RobloxPlayerBeta");
+            foreach (var process in processesByName)
+            {
+                try
+                {
+                    var filePath = process.MainModule!.FileName;
+
+                    if (DLLInterface.IsAttached())
+                    {
+                        return;
+                    }
+                    DLLInterface.Inject();
+                }
+                catch (Exception ex)
+                {
+                    ConsoleControl.Log(ex.Message);
+                }
+            }
         }
 
         public void AnimateColor(DropShadowEffect element, Color final, double duration = 1)
@@ -59,9 +205,7 @@ namespace LInjector.Pages
             };
 
             element.BeginAnimation(DropShadowEffect.ColorProperty, colorAnim);
-
         }
-
 
         public void AnimateBlur(DropShadowEffect element, double target, double duration = 1)
         {
@@ -132,13 +276,51 @@ namespace LInjector.Pages
 
         private void DragWnd(object sender, MouseButtonEventArgs e) => Shared.DragWnd();
 
+        private void TabSystem__Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadSavedTabs();
+        }
+
+        private async Task SaveTabs()
+        {
+            if (SettingsWrapper.Read("save_tabs") == true)
+            {
+                foreach (TabItem item in TabSystem_.maintabs.Items)
+                {
+                    var Text = await (item.Content as MonacoApi)!.GetText();
+                    if (!string.IsNullOrEmpty(Text))
+                        if (!Directory.Exists(Strings.Get("Saved")))
+                            Directory.CreateDirectory(Strings.Get("Saved"));
+
+                    File.WriteAllText($"{Strings.Get("Saved")}\\{item.Header.ToString()}", Text);
+                }
+            }
+        }
+
+        public void LoadSavedTabs()
+        {
+            if (SettingsWrapper.Read("save_tabs") == false)
+                return;
+
+            foreach (string file in Directory.EnumerateFiles(Strings.Get("Saved")))
+                TabSystem_.Add_tab_with_text(File.ReadAllText(file), Path.GetFileName(file));
+
+            DeleteSavedTabs();
+        }
+
+        public void DeleteSavedTabs()
+        {
+            foreach (var item in Directory.EnumerateFiles(Strings.Get("Saved")))
+                File.Delete(item);
+        }
+
         public void OnCloseFadeoutCompleted(object sender, EventArgs e)
         {
             Shared.mainWindow!.Close();
             Application.Current.Shutdown();
         }
 
-        private void ContextMenuClick(object sender, RoutedEventArgs e)
+        private async void ContextMenuClick(object sender, RoutedEventArgs e)
         {
             string action = (sender as FrameworkElement)!.Name;
             switch (action)
@@ -155,6 +337,7 @@ namespace LInjector.Pages
                     break;
 
                 case "Close":
+                    await SaveTabs();
                     TabSystem_.Visibility = Visibility.Collapsed;
 
                     var fadeOutAnimation = new DoubleAnimation { From = 1, To = 0, Duration = TimeSpan.FromSeconds(0.1) };
@@ -293,7 +476,8 @@ namespace LInjector.Pages
                 }
 
                 ScriptDirLabel.Content = new DirectoryInfo(ScriptListPath).Name;
-            } else
+            }
+            else
             {
                 ScriptListPath = Path.Combine(Strings.Get("AppRoot"), "scripts");
 
@@ -441,24 +625,19 @@ namespace LInjector.Pages
                 case "ExecuteButtonMain":
                     try
                     {
-                        // Get the current Monaco Editor instance
                         var cm = TabSystem_.CurrentMonaco();
 
-                        // Get the script text from the Monaco Editor instance
                         string scriptString = await cm!.GetText();
 
                         try
                         {
-                            // Check if Fluxus is not injected
                             var flag = !DLLInterface.IsAttached();
                             if (!flag)
                             {
-                                // Run the script if Injected
                                 DLLInterface.RunScript(scriptString);
                             }
                             else
                             {
-                                // Inject the process and then run the script
                                 DLLInterface.Inject();
                                 await Task.Delay(500);
                                 DLLInterface.RunScript(scriptString);
@@ -482,6 +661,108 @@ namespace LInjector.Pages
                     break;
                 default: break;
             }
+        }
+
+        public void ColorChanged(object sender,
+            RoutedEventArgs e) => HandleColorChange((Button)sender);
+
+        /// <summary>
+        /// Handles the color change operation for the specified button.
+        /// Opens a color picker dialog to select a new color.
+        /// Updates the button's background color and saves the color information to the
+        /// application's theme.
+        /// </summary>
+        /// <param name="button">The button for which the color change is being handled.</param>
+        public void HandleColorChange(Button button)
+        {
+            var dialog = new ColorPickerDialog();
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            var result = dialog.ShowDialog();
+            dialog.Topmost = true;
+            dialog.Owner = Shared.mainWindow;
+
+            if (result.HasValue && result.Value)
+            {
+                var color = dialog.Color;
+                var solidColorBrush = new SolidColorBrush(color);
+
+                if (Application.Current.Resources.Contains(button.Tag.ToString()))
+                    Application.Current.Resources[button.Tag.ToString()] = solidColorBrush;
+
+                button.Background = solidColorBrush;
+                string colorHexString = color.ToString();
+
+                Themes.SetColor(button.Tag.ToString()!, colorHexString);
+            }
+        }
+
+        /// <summary>
+        /// Reads Registry Keys of Colors selected by the user, and then, puts it into a class to be
+        /// applied and parsed.
+        /// </summary>
+        public void ParseMyTheme()
+        {
+            Application.Current.Resources[PrimaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("PrimaryColor"));
+            Application.Current.Resources[SecondaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryColor"));
+            Application.Current.Resources[TertiaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("TertiaryColor"));
+            Application.Current.Resources[Text.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("Text"));
+        }
+
+        /// <summary>
+        /// Set the background of the Interactuable Buttons that the user uses to match the color in
+        /// Registry Had to do it since WPF is not an Immediate Mode GUI
+        /// </summary>
+        public void ParseMyThemeSelectors()
+        {
+            SetControlBackground(SSC1, "_SplashColor1");
+            SetControlBackground(SSC2, "_SplashColor2");
+            SetControlBackground(PrimaryColor, "PrimaryColor");
+            SetControlBackground(SecondaryColor, "SecondaryColor");
+            SetControlBackground(TertiaryColor, "TertiaryColor");
+            SetControlBackground(Text, "Text");
+        }
+
+        /// <summary>
+        /// Used in <see cref="ParseMyThemeSelectors"/>
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="colorKey"></param>
+        public void SetControlBackground(FrameworkElement control, string colorKey)
+        {
+            PropertyInfo backgroundProperty = control.GetType().GetProperty("Background")!;
+            if (backgroundProperty != null)
+            {
+                SolidColorBrush brush = (SolidColorBrush)new BrushConverter().ConvertFromString(Themes.GetColor(colorKey))!;
+                backgroundProperty.SetValue(control, brush);
+            }
+        }
+
+        /// <summary>
+        /// Resets the Theme Values to the Default ones made by me (Excel).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ResetTheme_Click(object sender, RoutedEventArgs e)
+        {
+            ResetTheme();
+            ParseMyThemeSelectors();
+
+            Application.Current.Resources[PrimaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("PrimaryColor"));
+            Application.Current.Resources[SecondaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryColor"));
+            Application.Current.Resources[TertiaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("TertiaryColor"));
+            Application.Current.Resources[Text.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("Text"));
+        }
+
+        private void ResetTheme()
+        {
+            Themes.SetColor("_SplashColor1", "#FF460B80");
+            Themes.SetColor("_SplashColor2", "#FF570057");
+
+            Themes.SetColor("PrimaryColor", "#FF0F0F0F");
+            Themes.SetColor("SecondaryColor", "#FF111111");
+            Themes.SetColor("TertiaryColor", "#FF141414");
+
+            Themes.SetColor("Text", "#FFFFFFFF");
         }
     }
 }

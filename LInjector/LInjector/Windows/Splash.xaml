@@ -59,6 +59,6 @@
                 </EventTrigger>
             </Rectangle.Triggers>
         </Rectangle>
-        <Image x:Name="LInjectorIcon" HorizontalAlignment="Center" Height="300" Source="\Resources\linj_shadow.png" VerticalAlignment="Center" Width="300" Stretch="Fill" Margin="800 0 0 0"/>
+        <Image x:Name="LInjectorIcon" HorizontalAlignment="Center" Height="300" Source="pack://application:,,,/LInjector;component/Resources/linj_shadow.png" VerticalAlignment="Center" Width="300" Stretch="Fill" Margin="800 0 0 0"/>
     </Grid>
 </Window>

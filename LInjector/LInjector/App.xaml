@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:LInjector"
              StartupUri="Windows/Splash.xaml">
     <Application.Resources>
+        
         <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
