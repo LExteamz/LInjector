@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using DiscordRPC;
 using Button = DiscordRPC.Button;
 
@@ -7,7 +6,7 @@ namespace LInjector.Classes
 {
     public static class RPCManager
     {
-        public static DiscordRpcClient client;
+        public static DiscordRpcClient? client;
         public static bool isEnabled;
 
         /// <summary>
@@ -15,7 +14,7 @@ namespace LInjector.Classes
         /// </summary>
         public static void TerminateConnection()
         {
-            client.Dispose();
+            client!.Dispose();
         }
 
         /// <summary>
@@ -40,7 +39,7 @@ namespace LInjector.Classes
                         new Button { Label = "GitHub", Url = $"https://github.com/{Strings.Get("GitHubUsername")}/{Strings.Get("GitHubRepoName")}" }
                 }
             };
-            if (client.IsInitialized)
+            if (client!.IsInitialized)
             {
                 try
                 {
@@ -85,7 +84,7 @@ namespace LInjector.Classes
         /// <param name="currentFile"></param>
         public static void SetRpcFile(string currentFile)
         {
-            if (client.IsInitialized)
+            if (client!.IsInitialized)
             {
                 try
                 {
@@ -105,7 +104,7 @@ namespace LInjector.Classes
         /// </summary>
         public static void SetBaseRichPresence()
         {
-            if (client.IsInitialized)
+            if (client!.IsInitialized)
             {
                 try
                 {

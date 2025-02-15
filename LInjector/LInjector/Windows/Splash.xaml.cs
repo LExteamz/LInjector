@@ -46,7 +46,7 @@ namespace LInjector.Windows
 
         public Splash()
         {
-            if (!(Themes.LookColor("_SplashColor1") && Themes.LookColor("_SplashColor2") && Themes.LookColor("PrimaryColor") && Themes.LookColor("SecondaryColor") && Themes.LookColor("TertiaryColor") && Themes.LookColor("Text")))
+            if (!(Themes.LookColor("_SplashColor1") && Themes.LookColor("_SplashColor2") && Themes.LookColor("PrimaryColor") && Themes.LookColor("SecondaryColor") && Themes.LookColor("TertiaryColor") && Themes.LookColor("Text") && Themes.LookColor("SecondaryText")))
             {
                 Themes.SetColor("_SplashColor1", "#FF460B80");
                 Themes.SetColor("_SplashColor2", "#FF570057");
@@ -56,6 +56,7 @@ namespace LInjector.Windows
                 Themes.SetColor("TertiaryColor", "#FF141414");
 
                 Themes.SetColor("Text", "#FFFFFFFF");
+                Themes.SetColor("SecondaryText", "#FFD3D3D3");
             }
 
             InitializeComponent();

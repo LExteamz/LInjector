@@ -14,7 +14,7 @@ namespace LInjector.Classes
                 "app_init", new
                 {
                     value = false,
-                    description = "First time using LInjector"
+                    description = "Settings are initialised"
                 }
             },
             {

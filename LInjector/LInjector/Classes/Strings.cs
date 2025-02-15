@@ -14,7 +14,7 @@ namespace LInjector.Classes
             { "AppRoot", appRoot },
             { "GitHubURL", "https://github.com/LExteamz/LInjector" },
             { "GitHubUsername", "LExteamz" },
-            { "GitHubRepoName", "LInjector" }
+            { "GitHubRepoName", "LInjector" },
         };
 
         public static string Get(string key) => values.TryGetValue(key, out var value) ? value : string.Empty;

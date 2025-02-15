@@ -21,11 +21,13 @@ namespace LInjector.Pages.Elements
             _container = container;
         }
 
-        public void CreateToggleOption(Delegate callback, object defaultValue, string key)
+        public void CreateToggleOption(Delegate callback, object defaultValue, string key, string toolTipContent = "")
         {
             var grid = CreateGrid();
             var label = CreateLabel(SettingsWrapper.ReadDescription(key)!);
             var toggle = new ToggleButton { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 10, 0) };
+            if (!string.IsNullOrEmpty(toolTipContent))
+                grid.ToolTip = toolTipContent;
 
             if (defaultValue is bool)
                 toggle.IsChecked = (bool)defaultValue;
@@ -49,11 +51,13 @@ namespace LInjector.Pages.Elements
             _container.Children.Add(grid);
         }
 
-        public void CreateCheckboxOption(Delegate callback, object defaultValue, string key)
+        public void CreateCheckboxOption(Delegate callback, object defaultValue, string key, string toolTipContent = "")
         {
             var grid = CreateGrid();
             var label = CreateLabel(SettingsWrapper.ReadDescription(key)!);
             var checkbox = new CheckBox { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 15, 0) };
+            if (!string.IsNullOrEmpty(toolTipContent))
+                grid.ToolTip = toolTipContent;
 
             if (defaultValue is bool)
                 checkbox.IsChecked = (bool)defaultValue;
@@ -78,7 +82,7 @@ namespace LInjector.Pages.Elements
             _container.Children.Add(grid);
         }
 
-        public void CreateDropdownOption(Delegate callback, object options, object defaultValue, string key)
+        public void CreateDropdownOption(Delegate callback, object options, object defaultValue, string key, string toolTipContent = "")
         {
             var grid = CreateGrid();
             var label = CreateLabel(SettingsWrapper.ReadDescription(key)!);
@@ -105,6 +109,9 @@ namespace LInjector.Pages.Elements
             {
                 comboBox.SelectedIndex = Array.IndexOf((Array)options, defaultValue);
             }
+
+            if (!string.IsNullOrEmpty(toolTipContent))
+                grid.ToolTip = toolTipContent;
 
             comboBox.DropDownClosed += (s, e) =>
             {
@@ -134,7 +141,7 @@ namespace LInjector.Pages.Elements
             _container.Children.Add(grid);
         }
 
-        public void CreateTextFieldOption(Delegate callback, object defaultValue, bool isNumericOnly = false, string key = "")
+        public void CreateTextFieldOption(Delegate callback, object defaultValue, bool isNumericOnly = false, string key = "", string toolTipContent = "")
         {
             var grid = CreateGrid();
             var label = CreateLabel(SettingsWrapper.ReadDescription(key)!);

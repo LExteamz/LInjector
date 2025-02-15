@@ -4,20 +4,19 @@
              xmlns:local="clr-namespace:LInjector"
              StartupUri="Windows/Splash.xaml">
     <Application.Resources>
-        
+
         <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Grey.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        
+            
             <SolidColorBrush Color="#FF0F0F0F" x:Key="PrimaryColor"/>
             <SolidColorBrush Color="#FF111111" x:Key="SecondaryColor"/>
             <SolidColorBrush Color="#FF141414" x:Key="TertiaryColor"/>
         
             <SolidColorBrush Color="#FFFFFFFF" x:Key="Text"/>
-            <SolidColorBrush Color="LightGray" x:Key="SecondaryText"/>
+            <SolidColorBrush Color="#FFD3D3D3" x:Key="SecondaryText"/>
 
             <SolidColorBrush Color="#FF460B80" x:Key="SplashColor1"/>
             <SolidColorBrush Color="#FF570057" x:Key="SplashColor2"/>
@@ -27,7 +26,7 @@
 
             
             <!-- Scrollbar Styles -->
-            <SolidColorBrush x:Key="EslScrollbarThumb" Color="#8b8b8b" />
+            <SolidColorBrush x:Key="EslScrollbarThumb" Color="#FFD3D3D3" />
 
             <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
                 <Setter Property="Visibility" Value="Visible" />

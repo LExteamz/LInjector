@@ -23,7 +23,7 @@
                 <Border Padding="10 0 0 0" MouseDown="DragWnd" Background="{DynamicResource PrimaryColor}">
                     <Grid Margin="0" MouseDown="DragWnd">
                         <Grid HorizontalAlignment="Left" MouseDown="DragWnd">
-                            <Image Source="pack://application:,,,/LInjector;component/Resources/LInjector.png" MaxHeight="25" VerticalAlignment="Center" HorizontalAlignment="Left" MouseDown="DragWnd"/>
+                            <Image Source="pack://application:,,,/LInjector;component/Resources/LInjectorr.png" MaxHeight="25" VerticalAlignment="Center" HorizontalAlignment="Left" MouseDown="DragWnd"/>
                         </Grid>
                         <Grid>
                             <StackPanel Orientation="Horizontal" Margin="30,0,0,0" MouseDown="DragWnd" x:Name="ContextMenuHolder">
@@ -39,7 +39,7 @@
                                         <Setter Property="BorderThickness" Value="0"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <Label Content="LInjector" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontSize="14" Loaded="TitleBarLabel_Loaded" x:Name="TitleBarLabel"/>
+                                <Label Content="LInjector" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontSize="14" Loaded="TitleBarLabel_Loaded" x:Name="TitleBarLabel" Foreground="{DynamicResource Text}"/>
                             </StackPanel>
                         </Grid>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -98,14 +98,14 @@
                                     <Grid VerticalAlignment="Top">
                                         <Button x:Name="Editor" BorderBrush="{DynamicResource SecondaryText}">
                                             <Button.Content>
-                                                <Image Source="pack://application:,,,/LInjector;component/Resources/Icons/Script.png" Height="25" Width="25" HorizontalAlignment="Center"/>
+                                                <Label Content="&#xE7C3;" FontFamily="Segoe Fluent Icons" FontSize="20" Padding="0" Foreground="{DynamicResource Text}"/>
                                             </Button.Content>
                                         </Button>
                                     </Grid>
                                     <Grid VerticalAlignment="Bottom">
                                         <Button x:Name="Settings" VerticalAlignment="Bottom" BorderBrush="{DynamicResource SecondaryText}">
                                             <Button.Content>
-                                                <Image Source="pack://application:,,,/LInjector;component/Resources/Icons/Settings.png" Height="25" Width="25" HorizontalAlignment="Center"/>
+                                                <Label Content="&#xE713;" FontFamily="Segoe Fluent Icons" FontSize="20" Padding="0" Foreground="{DynamicResource Text}"/>
                                             </Button.Content>
                                         </Button>
                                     </Grid>
@@ -161,7 +161,7 @@
                                             <Button Width="20" Height="20" Background="#460b80" Click="ColorChanged" Tag="_SplashColor1" x:Name="SSC1">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0.75" CornerRadius="5">
                                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </Border>
                                                     </ControlTemplate>
@@ -173,7 +173,7 @@
                                             <Button Width="20" Height="20" Background="#570057" Click="ColorChanged" Tag="SplashColor2" x:Name="SSC2">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0.75" CornerRadius="5">
                                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </Border>
                                                     </ControlTemplate>
@@ -188,7 +188,7 @@
                                             <Button Width="20" Height="20" Background="{DynamicResource PrimaryColor}" Click="ColorChanged" Tag="PrimaryColor" x:Name="PrimaryColor">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0.75" CornerRadius="5">
                                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </Border>
                                                     </ControlTemplate>
@@ -200,7 +200,7 @@
                                             <Button Width="20" Height="20" Background="{DynamicResource SecondaryColor}" Click="ColorChanged" Tag="SecondaryColor" x:Name="SecondaryColor">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0.75" CornerRadius="5">
                                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </Border>
                                                     </ControlTemplate>
@@ -212,7 +212,7 @@
                                             <Button Width="20" Height="20" Background="{DynamicResource TertiaryColor}" Click="ColorChanged" Tag="TertiaryColor" x:Name="TertiaryColor">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0.75" CornerRadius="5">
                                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </Border>
                                                     </ControlTemplate>
@@ -227,13 +227,26 @@
                                             <Button Width="20" Height="20" Background="#FFFFFFFF" Click="ColorChanged" Tag="Text" x:Name="Text">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0.75" CornerRadius="5">
                                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </Border>
                                                     </ControlTemplate>
                                                 </Button.Template>
                                             </Button>
                                             <Label Content="Text (Normal)" Foreground="{DynamicResource Text}"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                            <Button Width="20" Height="20" Background="#FFFFFFFF" Click="ColorChanged" Tag="SecondaryText" x:Name="SecondaryText">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0.75" CornerRadius="5">
+                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Label Content="Text (Secondary)" Foreground="{DynamicResource Text}"/>
+
                                         </StackPanel>
                                         <StackPanel>
                                             <Button Foreground="{DynamicResource Text}" Content="Reset to Default Scheme" ToolTip="Reset Theme" Margin="0,6,0,0" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#FF141414" Padding="5" BorderBrush="#00744CE0" Click="ResetTheme_Click" Height="32" materialDesign:RippleAssist.IsDisabled="False"/>
@@ -264,7 +277,7 @@
                                         <Border BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0 0 0 0.1">
                                             <Grid>
                                                 <Grid>
-                                                    <Label Content="root/scripts" VerticalAlignment="Center" FontWeight="Bold" x:Name="ScriptDirLabel"/>
+                                                    <Label Content="root/scripts" VerticalAlignment="Center" FontWeight="Bold" x:Name="ScriptDirLabel" Foreground="{DynamicResource Text}"/>
                                                     <Button HorizontalAlignment="Right" Background="Transparent" Foreground="{DynamicResource Text}" Content=". . ." BorderThickness="0" VerticalAlignment="Stretch" Click="ChangeScriptListFolder" VerticalContentAlignment="Center" materialDesign:ButtonAssist.CornerRadius="0" Height="40"/>
                                                 </Grid>
                                             </Grid>
@@ -277,6 +290,7 @@
                                                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                                                     <Setter Property="TextBlock.TextTrimming" Value="WordEllipsis"/>
                                                     <Setter Property="TextBlock.Height" Value="32"/>
+                                                    <Setter Property="Foreground" Value="{DynamicResource Text}"/>
                                                 </Style>
                                             </ListBox.ItemContainerStyle>
                                         </ListBox>
@@ -350,7 +364,7 @@
                                                             <Button Foreground="{DynamicResource Text}" HorizontalAlignment="Right" x:Name="ExecuteButtonMain" Click="EditorButtonClick">
                                                                 <Button.Content>
                                                                     <StackPanel Orientation="Horizontal">
-                                                                        <Label FontFamily="Segoe Fluent Icons" Content="&#xF5B0;" FontSize="12"/>
+                                                                        <Label FontFamily="Segoe Fluent Icons" Content="&#xF5B0;" FontSize="12" Foreground="{DynamicResource Text}"/>
                                                                     </StackPanel>
                                                                 </Button.Content>
                                                             </Button>
@@ -376,7 +390,7 @@
                                     </Grid>
                                 </Grid>
                                 <Grid Grid.Row="1" VerticalAlignment="Top" Margin="0 -10 0 0" Panel.ZIndex="3">
-                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" x:Name="OutputHolder">
                                         <TextBox x:Name="OutputLogs" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="3 0 0 0" BorderThickness="0" IsReadOnly="True" Text="Welcome to LInjector!" TextAlignment="Left" Foreground="{DynamicResource SecondaryText}" FontSize="10" FontFamily="Consolas" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" materialDesign:TextFieldAssist.TextBoxIsMultiLine="True" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.CanContentScroll="True" />
                                     </ScrollViewer>
                                 </Grid>

@@ -4,7 +4,12 @@ namespace LInjector.Classes
 {
     public class Logs
     {
-        public static void Console(string message) => Shared.mainView!.OutputLogs.Text += $"\n{message}";
+        public static void Console(string message)
+        {
+            Shared.mainView!.OutputLogs.Text += $"\n{message}";
+            Shared.mainView!.OutputHolder.ScrollToEnd();
+        }
+
         public static async Task AnimateObjectContentAsync(Label Instance, string Message)
         {
             for (int i = Instance.Content.ToString()!.Length; i > 0; i--)
@@ -20,6 +25,8 @@ namespace LInjector.Classes
                 Instance.Content += character.ToString();
                 await Task.Delay(30);
             }
+
+            
         }
     }
 

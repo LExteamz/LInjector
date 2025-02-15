@@ -104,7 +104,7 @@
                                         <TabPanel Grid.Column="0" IsItemsHost="True" Margin="0,1" d:IsItemsHost="False"/>
                                         <Button Grid.Column="1" Name="AddT" Style="{DynamicResource ButtonG}" Click="ButtonTabs" HorizontalAlignment="Left" Background="Transparent" Foreground="White" FontFamily="Arial">
                                             <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <Label Content="&#xE710;" FontSize="10" FontFamily="Segoe Fluent Icons" Foreground="White" Margin="0" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                                <Label Content="&#xE710;" FontSize="10" FontFamily="Segoe Fluent Icons" Foreground="{DynamicResource Text}" Margin="0" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" />
                                             </Grid>
                                         </Button>
                                     </Grid>
@@ -193,6 +193,13 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Style TargetType="TabItem" x:Key="EETABSSSSSS">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Foreground="{DynamicResource Text}" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
@@ -206,7 +213,7 @@
                             <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="Left" Margin="5,6,40,0" RecognizesAccessKey="True"/>
                             <Button Name="RemoveT" Width="20.5" Height="20.5" Style="{DynamicResource ButtonA}" Click="ButtonTabs" HorizontalAlignment="Right" Background="Transparent" Margin="0,2.855,5,0" Foreground="White" FontSize="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                 <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Label Content="&#xE711;" FontSize="10" FontFamily="Segoe Fluent Icons" Foreground="White" Margin="0" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                    <Label Content="&#xE711;" FontSize="10" FontFamily="Segoe Fluent Icons" Foreground="{DynamicResource Text}" Margin="0" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" />
                                 </Grid>         
                             </Button>
                         </Grid>

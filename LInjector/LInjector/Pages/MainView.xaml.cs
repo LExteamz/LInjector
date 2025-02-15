@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -39,8 +40,8 @@ namespace LInjector.Pages
 
             NavigationGridClick(Editor, e);
 
-            ParseConfig();
             ParseMyTheme();
+            ParseConfig();
             ParseMyThemeSelectors();
         }
 
@@ -460,7 +461,13 @@ namespace LInjector.Pages
                 }
             }
 
-            ScriptDirLabel.Content = new DirectoryInfo(ScriptListPath).Name;
+            var dir = new DirectoryInfo(ScriptListPath);
+            if (dir.FullName.Contains(Strings.Get("AppRoot")))
+                ScriptDirLabel.Content = $"root/{dir.Name}";
+            else 
+                ScriptDirLabel.Content = dir.Name;
+
+
         }
 
         private void NormalStandaloneScriptsHolder_Loaded(object sender, RoutedEventArgs e)
@@ -706,6 +713,9 @@ namespace LInjector.Pages
             Application.Current.Resources[SecondaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryColor"));
             Application.Current.Resources[TertiaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("TertiaryColor"));
             Application.Current.Resources[Text.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("Text"));
+            Application.Current.Resources[SecondaryText.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryText"));
+
+            Application.Current.Resources["EslScrollbarThumb"] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryText"));
         }
 
         /// <summary>
@@ -720,6 +730,7 @@ namespace LInjector.Pages
             SetControlBackground(SecondaryColor, "SecondaryColor");
             SetControlBackground(TertiaryColor, "TertiaryColor");
             SetControlBackground(Text, "Text");
+            SetControlBackground(SecondaryText, "SecondaryText");
         }
 
         /// <summary>
@@ -751,6 +762,7 @@ namespace LInjector.Pages
             Application.Current.Resources[SecondaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryColor"));
             Application.Current.Resources[TertiaryColor.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("TertiaryColor"));
             Application.Current.Resources[Text.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("Text"));
+            Application.Current.Resources[SecondaryText.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryText"));
         }
 
         private void ResetTheme()
@@ -763,6 +775,7 @@ namespace LInjector.Pages
             Themes.SetColor("TertiaryColor", "#FF141414");
 
             Themes.SetColor("Text", "#FFFFFFFF");
+            Themes.SetColor("SecondaryText", "#FFD3D3D3");
         }
     }
 }
