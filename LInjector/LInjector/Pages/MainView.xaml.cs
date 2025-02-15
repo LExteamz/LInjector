@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -52,7 +51,7 @@ namespace LInjector.Pages
 
             // Show Script List
             Shared.mainView!.ScriptListDimensions.Width = ((bool)SettingsWrapper.Read("show_scriptlist")) ? new GridLength(140) : new GridLength(0, GridUnitType.Star);
-            
+
             // Show Logs
             Shared.mainView.LInjectorConsoleDimensions.Height = ((bool)SettingsWrapper.Read("show_internalconsole")) ? new GridLength(100, GridUnitType.Star) : new GridLength(0);
 
@@ -144,7 +143,8 @@ namespace LInjector.Pages
                 RPCManager.isEnabled = true;
                 if (!RPCManager.client.IsInitialized)
                     RPCManager.InitRPC();
-            } else
+            }
+            else
             {
                 RPCManager.isEnabled = false;
                 if (RPCManager.client.IsInitialized)
@@ -464,7 +464,7 @@ namespace LInjector.Pages
             var dir = new DirectoryInfo(ScriptListPath);
             if (dir.FullName.Contains(Strings.Get("AppRoot")))
                 ScriptDirLabel.Content = $"root/{dir.Name}";
-            else 
+            else
                 ScriptDirLabel.Content = dir.Name;
 
 

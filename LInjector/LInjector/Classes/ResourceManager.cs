@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Diagnostics;
 using System.Drawing.Text;
-using System.Linq;
+using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LInjector.Classes
 {
@@ -32,6 +30,32 @@ namespace LInjector.Classes
             IntPtr hWndBroadcast = new IntPtr(0xFFFF); // HWND_BROADCAST
             IntPtr lpdwResult;
             SendMessageTimeout(hWndBroadcast, WM_FONTCHANGE, IntPtr.Zero, IntPtr.Zero, SMTO_ABORTIFHUNG, 1000, out lpdwResult);
+        }
+
+        public static async Task<string> DownloadFileToTempAsync(string url, string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                Debug.WriteLine("File name cannot be null or empty.", nameof(fileName));
+
+            string tempFilePath = Path.Combine(Path.GetTempPath(), fileName);
+
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    byte[] fileData = await httpClient.GetByteArrayAsync(url);
+
+                    await File.WriteAllBytesAsync(tempFilePath, fileData);
+
+                    return tempFilePath;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            return string.Empty;
         }
     }
 }

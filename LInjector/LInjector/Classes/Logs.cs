@@ -26,7 +26,7 @@ namespace LInjector.Classes
                 await Task.Delay(30);
             }
 
-            
+
         }
     }
 

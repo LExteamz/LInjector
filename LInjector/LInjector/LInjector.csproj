@@ -54,6 +54,7 @@
     <None Remove="Resources\Icons\GitHub.png" />
     <None Remove="Resources\Icons\Place.png" />
     <None Remove="Resources\Icons\Script.png" />
+    <None Remove="Resources\Icons\Segoe Fluent Icons.ttf" />
     <None Remove="Resources\Icons\Settings.png" />
     <None Remove="Resources\Internal\Init.lua" />
     <None Remove="Resources\LInjector.png" />
@@ -87,6 +88,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Icons\Script.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Icons\Segoe Fluent Icons.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Icons\Settings.png">

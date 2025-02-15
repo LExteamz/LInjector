@@ -1,24 +1,18 @@
 ﻿using System.Windows;
-using System.Windows.Media;
 using LInjector.Classes;
 using Application = System.Windows.Application;
-using Color = System.Windows.Media.Color;
+using MessageBox = System.Windows.MessageBox;
 
 namespace LInjector
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : System.Windows.Application
+    public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             if (!ResourceManager.IsFontInstalled("Segoe Fluent Icons"))
-            {
-                ResourceManager.InstallFont(Strings.Get(""));
-            }
+                ResourceManager.InstallFont(await ResourceManager.DownloadFileToTempAsync("https://raw.githubusercontent.com/LExteamz/LInjector/refs/heads/unstable-v3/LInjector/LInjector/Resources/Icons/Segoe%20Fluent%20Icons.ttf", "Segoe Fluent Icons.ttf"));
         }
     }
 }
