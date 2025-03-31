@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using Dsafa.WpfColorPicker;
 using LInjector.Classes;
 using LInjector.Pages.Elements;
+using LInjector.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -32,6 +33,35 @@ namespace LInjector.Pages
             InitializeComponent();
         }
 
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child!))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+
+        private void PlayRandomSound(object sender, RoutedEventArgs e)
+        {
+            int rand = new Random().Next(1, Splash.soundEvents.Length);
+            string RandomEvent = Splash.soundEvents[rand];
+
+            StartupHandler.PlayStartupSound(RandomEvent);
+        }
+
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             TabSystem_.Visibility = Visibility.Visible;
@@ -42,6 +72,14 @@ namespace LInjector.Pages
             ParseMyTheme();
             ParseConfig();
             ParseMyThemeSelectors();
+
+            if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) // April 1st
+            {
+                foreach (var button in FindVisualChildren<Button>(this))
+                {
+                    button.Click += PlayRandomSound;
+                }
+            }
         }
 
         public void ApplyConfig(object sender, RoutedEventArgs e)
@@ -141,13 +179,13 @@ namespace LInjector.Pages
             if (SettingsWrapper.Read("discord_rpc") == true)
             {
                 RPCManager.isEnabled = true;
-                if (!RPCManager.client.IsInitialized)
+                if (!RPCManager.client!.IsInitialized)
                     RPCManager.InitRPC();
             }
             else
             {
                 RPCManager.isEnabled = false;
-                if (RPCManager.client.IsInitialized)
+                if (RPCManager.client!.IsInitialized)
                     RPCManager.TerminateConnection();
             }
         }
