@@ -16,6 +16,8 @@ namespace LInjector.Windows
         DispatcherTimer RGBTime = new();
         readonly Storyboard StoryBoard = new();
 
+        public static string[] soundEvents = { "windows", "metal", "bamboo" };
+
         private IEasingFunction Smooth { get; set; } = new QuarticEase
         {
             EasingMode = EasingMode.EaseInOut
@@ -46,6 +48,31 @@ namespace LInjector.Windows
 
         public Splash()
         {
+            string[] arguments = Environment.GetCommandLineArgs();
+            foreach (string arg in arguments)
+            {
+                if (arg == "--metalpipe" || arg == "-mp")
+                {
+                    StartupHandler.PlayStartupSound(soundEvents[0]);
+                }
+                else if (arg == "--bamboo" || arg == "-bp")
+                {
+                    StartupHandler.PlayStartupSound(soundEvents[1]);
+                }
+                else if (arg == "--windows" || arg == "-win")
+                {
+                    StartupHandler.PlayStartupSound(soundEvents[2]);
+                }
+            }
+
+            if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) // April 1st
+            {
+                int rand = new Random().Next(0, soundEvents.Length);
+                string RandomEvent = soundEvents[rand];
+
+                StartupHandler.PlayStartupSound(RandomEvent);
+            }
+
             if (!(Themes.LookColor("_SplashColor1") && Themes.LookColor("_SplashColor2") && Themes.LookColor("PrimaryColor") && Themes.LookColor("SecondaryColor") && Themes.LookColor("TertiaryColor") && Themes.LookColor("Text") && Themes.LookColor("SecondaryText")))
             {
                 Themes.SetColor("_SplashColor1", "#FF460B80");

@@ -1,4 +1,4 @@
 ﻿[*.cs]
 
-# Default severity for all analyzer diagnostics
-dotnet_analyzer_diagnostic.severity = none
+# SYSLIB0014: Type or member is obsolete
+dotnet_diagnostic.SYSLIB0014.severity = none
