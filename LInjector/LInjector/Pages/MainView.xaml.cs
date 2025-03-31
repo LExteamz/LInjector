@@ -108,7 +108,6 @@ namespace LInjector.Pages
             {
                 foreach (var button in FindVisualChildren<Button>(this))
                 {
-                    button.Background = new SolidColorBrush(Colors.Red);
                     button.Click += PlayRandomSound;
                 }
             }
