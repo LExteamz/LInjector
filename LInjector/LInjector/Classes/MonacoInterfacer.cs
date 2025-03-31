@@ -60,6 +60,7 @@ namespace LInjector.WPF.Classes
             this.CoreWebView2.Settings.AreDevToolsEnabled = false;
             this.CoreWebView2.Settings.IsZoomControlEnabled = false;
             this.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
+            this.DefaultBackgroundColor = System.Drawing.Color.Transparent;
         }
 
         private void CoreWebView2_WebMessageReceived(object sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e) => LatestRecievedText = e.TryGetWebMessageAsString();

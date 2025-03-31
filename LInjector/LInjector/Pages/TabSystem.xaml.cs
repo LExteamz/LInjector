@@ -103,6 +103,7 @@ namespace LInjector.Pages
                 FontSize = 12,
                 Content = CreateEditor(content),
                 IsSelected = true,
+                Background = Brushes.Transparent
             };
 
 

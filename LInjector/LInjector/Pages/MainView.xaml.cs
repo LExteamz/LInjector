@@ -16,10 +16,13 @@ using Dsafa.WpfColorPicker;
 using LInjector.Classes;
 using LInjector.WPF.Classes;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Collections.Generic;
 using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.Forms.MessageBox;
 using Path = System.IO.Path;
 using UserControl = System.Windows.Controls.UserControl;
+using LInjector.Windows;
+using SplashScreen = LInjector.Windows.SplashScreen;
 
 namespace LInjector.Pages
 {
@@ -69,9 +72,46 @@ namespace LInjector.Pages
             RunAutoAttachTimer();
         }
 
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+
+        private void PlayRandomSound(object sender, RoutedEventArgs e)
+        {
+            int rand = new Random().Next(1, SplashScreen.soundEvents.Length);
+            string RandomEvent = SplashScreen.soundEvents[rand];
+
+            StartupHandler.PlayStartupSound(RandomEvent);
+        }
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             BeginAttachDetection();
+
+            if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) // April 1st
+            {
+                foreach (var button in FindVisualChildren<Button>(this))
+                {
+                    button.Background = new SolidColorBrush(Colors.Red);
+                    button.Click += PlayRandomSound;
+                }
+            }
         }
 
         // Very useless function but it's interesting

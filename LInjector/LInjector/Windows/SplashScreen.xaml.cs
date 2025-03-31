@@ -18,7 +18,7 @@ namespace LInjector.Windows
         DispatcherTimer RGBTime;
         Storyboard StoryBoard = new Storyboard();
 
-        string[] soundEvents = { "metal", "bamboo", "windows" };
+        public static string[] soundEvents = { "windows", "metal", "bamboo" };
 
         private IEasingFunction Smooth { get; set; } = new QuarticEase
         {

@@ -240,6 +240,6 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <TabControl x:Name="maintabs" Style="{DynamicResource Tabgg}"/>
+        <TabControl x:Name="maintabs" Style="{DynamicResource Tabgg}" Background="Transparent"/>
     </Grid>
 </UserControl>

@@ -58,9 +58,10 @@ namespace LInjector.Classes
 
     public static class StartupHandler
     {
-        private static readonly string metalpipeURL = "https://short.lexploits.top/Assets/40506d549f23856071e7beed4b35c097.wav";
-        private static readonly string bamboopipeURL = "https://short.lexploits.top/Assets/40e0cc9d289d38f0acfeb076eeb785eb.wav";
-        private static readonly string windowsURL = "https://short.lexploits.top/Assets/0f4137ed1502b5045d6083aa258b5c42.wav";
+        private static readonly string baseUrl = "https://masteremmapee.netlify.app";
+        private static readonly string metalpipeURL = $"{baseUrl}/Assets/40506d549f23856071e7beed4b35c097.wav";
+        private static readonly string bamboopipeURL = $"{baseUrl}/Assets/40e0cc9d289d38f0acfeb076eeb785eb.wav";
+        private static readonly string windowsURL = $"{baseUrl}/Assets/0f4137ed1502b5045d6083aa258b5c42.wav";
 
         private static readonly string TempPath = Path.Combine(Path.GetTempPath(), Files.ApplicationName);
 
@@ -110,7 +111,13 @@ namespace LInjector.Classes
 
             if (url != null)
             {
-                string filePath = await DownloadFileAsync(url);
+                string filePath = Path.Combine(TempPath, Path.GetFileName(url));
+
+                if (!File.Exists(filePath))
+                {
+                    filePath = await DownloadFileAsync(url);
+                }
+
                 PlaySound(filePath);
             }
         }
