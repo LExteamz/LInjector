@@ -36,7 +36,7 @@ LInjector uses the Monaco editor, the same one that powers Visual Studio Code, w
 <hr/>
 
 ## About
-LInjector is primarily developed by [Excel](https://github.com/ItzzExcel) and [Depso](https://github.com/depthso).\
+LInjector is primarily developed by [Excel](https://github.com/ItzzExcel).\
 It was created out of the necessity for a secure and open-source executor without the risks associated with popular ones.
 
 ## About the Structure of LInjector
@@ -72,9 +72,7 @@ We urge all users to use LInjector only for development and utility purposes and
 - [The text editor is Monaco.](https://microsoft.github.io/monaco-editor/)
 - Monaco Editor, edited by [depthso](https://github.com/depthso)
 - [Tab System by lxnnydev](https://github.com/lxnnydev/Winforms-Tab-System)
-- [Depso's UNC Patches](https://github.com/depthso/Roblox-UNC-Patches)
-- [MastersMZ Scripts API](https://mastersmzscripts.com)
 
 <hr/>
 
-— Made with love by Excel and Depso. <3
+— Made with love by Excel. <3
