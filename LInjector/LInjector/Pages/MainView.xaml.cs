@@ -20,6 +20,7 @@ using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
 using File = System.IO.File;
+using MessageBox = System.Windows.MessageBox;
 
 namespace LInjector.Pages
 {
@@ -351,6 +352,15 @@ namespace LInjector.Pages
         {
             foreach (var item in Directory.EnumerateFiles(Strings.Get("Saved")))
                 File.Delete(item);
+        }
+
+        private void GitHub_onClick(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = Strings.Get("GitHubURL"),
+                UseShellExecute = true
+            });
         }
 
         public void OnCloseFadeoutCompleted(object sender, EventArgs e)

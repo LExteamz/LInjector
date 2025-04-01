@@ -50,7 +50,8 @@
         <Style x:Key="ButtonA" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -76,7 +77,7 @@
             </Setter>
         </Style>
         <Style TargetType="TabControl" x:Key="Tabgg">
-            <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabControl">
@@ -95,19 +96,22 @@
                                 <materialDesign:ScrollViewerAssist.SupportHorizontalScroll>true</materialDesign:ScrollViewerAssist.SupportHorizontalScroll>
                                 <materialDesign:ScrollViewerAssist.IsAutoHideEnabled>true</materialDesign:ScrollViewerAssist.IsAutoHideEnabled>
                                 <materialDesign:ScrollViewerAssist.ShowSeparators>false</materialDesign:ScrollViewerAssist.ShowSeparators>
-                                <DockPanel Margin="1, 1" Height="30">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="15"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TabPanel Grid.Column="0" IsItemsHost="True" Margin="0,1" d:IsItemsHost="False"/>
-                                        <Button Grid.Column="1" Name="AddT" Style="{DynamicResource ButtonG}" Click="ButtonTabs" HorizontalAlignment="Left" Background="Transparent" Foreground="White" FontFamily="Arial">
-                                            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <Label Content="&#xE710;" FontSize="10" FontFamily="Segoe Fluent Icons" Foreground="{DynamicResource Text}" Margin="0" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" />
-                                            </Grid>
-                                        </Button>
-                                    </Grid>
+
+                                <DockPanel Height="40" MaxHeight="40">
+                                    <Border BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0 0 0 0.1">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="25"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TabPanel Grid.Column="0" IsItemsHost="True" Margin="0,1" d:IsItemsHost="False"/>
+                                            <Button Grid.Column="1" Name="AddT" Style="{DynamicResource ButtonG}" Click="ButtonTabs" HorizontalAlignment="Left" Background="Transparent" Foreground="White" FontFamily="Arial" VerticalAlignment="Center">
+                                                <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <Label Content="&#xE710;" FontSize="10" FontFamily="Segoe Fluent Icons" Foreground="{DynamicResource Text}" Margin="0" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                                </Grid>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
                                 </DockPanel>
                             </ScrollViewer>
                             <Border Background="Transparent" KeyboardNavigation.TabIndex="2" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1">
@@ -196,27 +200,31 @@
             <Setter Property="HeaderTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" Foreground="{DynamicResource Text}" />
+                        <StackPanel VerticalAlignment="Stretch" Margin="0,0,0,5">
+                            <Label Content="{Binding}" Foreground="{DynamicResource Text}" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
-                        <Grid x:Name="maingrid" Margin="0,0,5,0" PreviewMouseRightButtonUp="Maingrid_PreviewMouseRightButtonUp">
-                            <Border CornerRadius="3 3 3 3" Name="Mainn" Width="Auto" Height="26" BorderThickness="0" Background="{TemplateBinding Background}" Margin="0,0,0,0">
-                                <Grid>
-                                    <Border x:Name="Blueee" CornerRadius="5" Height="1" VerticalAlignment="Bottom" BorderThickness="0" Background="Transparent"/>
-                                    <Border x:Name="Hoverborder" CornerRadius="5" Height="2" VerticalAlignment="Bottom" BorderThickness="0" Background="Transparent"/>
-                                </Grid>
-                            </Border>
-                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="Left" Margin="5,6,40,0" RecognizesAccessKey="True"/>
-                            <Button Name="RemoveT" Width="20.5" Height="20.5" Style="{DynamicResource ButtonA}" Click="ButtonTabs" HorizontalAlignment="Right" Background="Transparent" Margin="0,2.855,5,0" Foreground="White" FontSize="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Label Content="&#xE711;" FontSize="10" FontFamily="Segoe Fluent Icons" Foreground="{DynamicResource Text}" Margin="0" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" />
-                                </Grid>         
-                            </Button>
-                        </Grid>
+                        <Border BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0 0 0.1 0" VerticalAlignment="Center">
+                            <Grid x:Name="maingrid" Margin="0,0,5,0" PreviewMouseRightButtonUp="Maingrid_PreviewMouseRightButtonUp" VerticalAlignment="Center">
+                                <Border CornerRadius="3 3 3 3" Name="Mainn" Width="Auto" Height="40" BorderThickness="0" Background="{TemplateBinding Background}" Margin="0,0,0,0" VerticalAlignment="Center">
+                                    <Grid>
+                                        <Border x:Name="Blueee" CornerRadius="5" Height="1" VerticalAlignment="Bottom" BorderThickness="0" Background="Transparent"/>
+                                        <Border x:Name="Hoverborder" CornerRadius="5" Height="2" VerticalAlignment="Bottom" BorderThickness="0" Background="Transparent"/>
+                                    </Grid>
+                                </Border>
+                                <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="Left" Margin="5,6,40,0" RecognizesAccessKey="True" VerticalAlignment="Center"/>
+                                <Button Name="RemoveT" Width="20.5" Height="20.5" Style="{DynamicResource ButtonA}" Click="ButtonTabs" HorizontalAlignment="Right" Background="Transparent" Margin="0" Foreground="White" FontSize="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center">
+                                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Label Content="&#xE711;" FontSize="10" FontFamily="Segoe Fluent Icons" Foreground="{DynamicResource Text}" Margin="0" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                    </Grid>
+                                </Button>
+                            </Grid>
+                        </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="False">
                                 <Setter TargetName="RemoveT" Property="Visibility" Value="Collapsed"/>

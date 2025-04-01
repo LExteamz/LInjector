@@ -128,8 +128,8 @@
                                     </Setter>
 
                                     <Setter Property="materialDesign:ColorZoneAssist.Background" Value="Transparent"/>
-                                    <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="Custom"/>
-                                    <Setter Property="Margin" Value="5"/>
+                                    <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="Inverted"/>
+                                    <Setter Property="Margin" Value="5 0"/>
                                     <Setter Property="materialDesign:RippleAssist.IsDisabled" Value="True"/>
 
                                 </Style>
@@ -254,7 +254,47 @@
                                     </StackPanel>
                                 </ListBox>
                             </TabItem>
-                            <TabItem Header="Credits"></TabItem>
+                            <TabItem Header="Credits">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <!--<ColumnDefinition Width="*"/>-->
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0" Margin="5 0">
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                            <Label Content="Developers" FontWeight="Bold" Foreground="{DynamicResource Text}" FontSize="18"/>
+
+                                            <ListBox materialDesign:RippleAssist.IsDisabled="True" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch" Focusable="False" materialDesign:ListBoxItemAssist.ShowSelection="False">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="https://excel.lexploits.top/extra/excel_monitoring.png" Width="100px" Height="100px" VerticalAlignment="Center"/>
+                                                    <StackPanel>
+                                                        <Label Content="Excel ⭑.ᐟ" Foreground="{DynamicResource Text}" FontWeight="Bold" FontSize="16"/>
+                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                            <materialDesign:PackIcon Padding="0" Margin="5 0 0 0" Kind="Code" Foreground="{DynamicResource Text}" VerticalAlignment="Center"/>
+                                                            <Label Content="Programming"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                                                            <materialDesign:PackIcon Padding="0" Margin="5 0 0 0" Kind="Drawing" Foreground="{DynamicResource Text}" VerticalAlignment="Center"/>
+                                                            <Label Content="UI/UX Development"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </StackPanel>
+
+
+                                            </ListBox>
+                                        </StackPanel>
+
+
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0 0 0 5">
+                                            <Label Content="This project is free, nonprofit and open-source under the MIT License on GitHub."  Foreground="{DynamicResource Text}"/>
+                                            <TextBlock TextDecorations="Underline" Text="GitHub Repository" Margin="5 0 0 0" MouseDown="GitHub_onClick" Foreground="{DynamicResource Text}"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!--<Grid Grid.Column="1"></Grid>-->
+                                </Grid>
+                            </TabItem>
                         </TabControl>
                     </Grid>
 
@@ -309,10 +349,10 @@
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
-                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="35"/>
                                         </Grid.RowDefinitions>
                                         <controls:TabSystem Grid.Row="0" x:Name="TabSystem_" IsEnabled="False" Background="Transparent" Visibility="Collapsed" Loaded="TabSystem__Loaded"/>
-                                        <Grid Grid.Row="1" Background="Transparent" VerticalAlignment="Bottom">
+                                        <Grid Grid.Row="1" Background="Transparent" VerticalAlignment="Center">
                                             <Grid VerticalAlignment="Stretch">
                                                 <Grid.Resources>
                                                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
@@ -328,6 +368,7 @@
                                                         <Setter Property="Opacity" Value="1"/>
                                                         <Setter Property="BorderThickness" Value="0"/>
                                                         <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="0"/>
+                                                        <Setter Property="materialDesign:RippleAssist.IsDisabled" Value="True"/>
                                                         <EventSetter Event="Click" Handler="NavigationGridClick"/>
                                                     </Style>
                                                 </Grid.Resources>
