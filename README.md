@@ -42,7 +42,7 @@ It was created out of the necessity for a secure and open-source executor withou
 ## About the Structure of LInjector
 A legitimate development tool.\
 Designed using Windows Presentation Foundation (WPF) by [Excel](https://github.com/ItzzExcel).\
-Written in C#, with .NET Framework 4.8, you can use any build architecture.\
+Written in C#, with .NET Framework 4.8, you can use any build architecture.
 
 ## How to Build?
 To edit the Interface, first compile. For any reason, forms can't load if not compiled. If you opened the UI Editor before compiling, restart Visual Studio, and your problem should be fixed.
