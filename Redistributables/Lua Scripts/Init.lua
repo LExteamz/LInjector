@@ -119,9 +119,9 @@ function HookedRequest(data)
 	})
 end
 
-oldRequest = hookfunction(request, HookedRequest)
-oldRequest = hookfunction(http.request, HookedRequest)
-oldRequest = hookfunction(http_request, HookedRequest)
+-- oldRequest = hookfunction(request, HookedRequest)
+-- oldRequest = hookfunction(http.request, HookedRequest)
+-- oldRequest = hookfunction(http_request, HookedRequest)
 
 Export("identifyexecutor", function()
 	return EXPLOIT_NAME, EXPLOIT_VERSION
