@@ -34,10 +34,16 @@ namespace LInjector.Classes
 
         public static async Task<string> DownloadFileToTempAsync(string url, string fileName)
         {
+            if (string.IsNullOrEmpty(url))
+                Debug.WriteLine("URL cannot be null or empty.", nameof(url));
+
+            if (!Directory.Exists(Path.Combine(Path.GetTempPath(), "LInjector")))
+                Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "LInjector"));
+
             if (string.IsNullOrEmpty(fileName))
                 Debug.WriteLine("File name cannot be null or empty.", nameof(fileName));
 
-            string tempFilePath = Path.Combine(Path.GetTempPath(), fileName);
+            string tempFilePath = Path.Combine(Path.GetTempPath(), "LInjector", fileName);
 
             try
             {

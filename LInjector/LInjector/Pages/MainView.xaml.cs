@@ -74,6 +74,10 @@ namespace LInjector.Pages
             ParseConfig();
             ParseMyThemeSelectors();
 
+            ScriptContext.EnsureFunctionsFile();
+            ScriptContext.BeginFunctionTick();
+            BeginAttachDetection();
+
             if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) // April 1st
             {
                 foreach (var button in FindVisualChildren<Button>(this))
