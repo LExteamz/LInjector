@@ -9,7 +9,6 @@ namespace LInjector.Classes
     {
         public static MainWindow? mainWindow = null;
         public static MainView? mainView = null;
-        public static WebComs ws = new WebComs();
 
         public static void DragWnd() { try { mainWindow!.DragMove(); } catch { } }
 

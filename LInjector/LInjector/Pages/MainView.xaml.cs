@@ -62,7 +62,7 @@ namespace LInjector.Pages
         }
 
 
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             TabSystem_.Visibility = Visibility.Visible;
             TabSystem_.IsEnabled = true;
@@ -76,8 +76,6 @@ namespace LInjector.Pages
             ScriptContext.EnsureFunctionsFile();
             ScriptContext.BeginFunctionTick();
             BeginAttachDetection();
-            await Shared.ws.Start();
-
 
             if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) // April 1st
             {
@@ -271,7 +269,7 @@ namespace LInjector.Pages
         {
             if (DesignerProperties.GetIsInDesignMode(this)) return;
 
-            bool isAttached = DLLInterface.IsAttached() || Shared.ws.GetDevicesConnected() > 0;
+            bool isAttached = DLLInterface.IsAttached() /* || Shared.ws.GetDevicesConnected() > 0 */;
 
             AnimateColor(HarderBetterFasterStronger, ConsoleControl.ParseColor(isAttached ? "#FF7B68EE" : "#FF000000").Color);
             AnimateBlur(HarderBetterFasterStronger, isAttached ? 30 : 15);
@@ -361,9 +359,9 @@ namespace LInjector.Pages
 
         private void Discord_MouseDown(object sender, MouseButtonEventArgs e) => Shared.OpenURL(Strings.Get("DiscordServerURL"));
 
-        public async void OnCloseFadeoutCompleted(object sender, EventArgs e)
+        public void OnCloseFadeoutCompleted(object sender, EventArgs e)
         {
-            await Shared.ws.CloseWebSocket();
+            // await Shared.ws.CloseWebSocket();
             Shared.mainWindow!.Close();
             Application.Current.Shutdown();
         }

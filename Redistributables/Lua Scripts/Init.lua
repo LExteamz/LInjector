@@ -27,7 +27,6 @@ local MarketplaceService = game.MarketplaceService
 local localplayer = game:GetService("Players").LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 
-local webSocket = WebSocket.connect("ws://localhost:5343")
 -------------
 
 local hashlibalgs = {
@@ -62,16 +61,11 @@ local ciphers = {
 Export = function(name, value)
 	getgenv()[name] = value
 end
-STDExport = function(text)
-	webSocket.Send(text)
-	wait()
-end
 
-webSocket.OnMessage = function(msg)
-	if msg == "LINJECTOR_DISCONNECT" then
-		webSocket:Close()
-	end
-end
+STDExport=function(text)
+   writefile("LINJECTOR/LINJECTOR.li", text)
+   wait()
+end 
 
 ---------
 
