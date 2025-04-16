@@ -431,12 +431,6 @@ namespace LInjector.Pages
             }
         }
 
-        private void ResetAllBordersAndOpacity()
-        {
-            foreach (var button in FindDescendants<Button>(NavigationIndexers))
-            {
-                ResetBorderAndOpacity(button);
-            }
         }
         private IEnumerable<T> FindDescendants<T>(DependencyObject parent) where T : DependencyObject
         {

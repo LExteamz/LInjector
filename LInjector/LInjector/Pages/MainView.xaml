@@ -372,7 +372,6 @@
                                                         <Setter Property="BorderThickness" Value="0"/>
                                                         <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="0"/>
                                                         <Setter Property="materialDesign:RippleAssist.IsDisabled" Value="True"/>
-                                                        <EventSetter Event="Click" Handler="NavigationGridClick"/>
                                                     </Style>
                                                 </Grid.Resources>
 
