@@ -26,6 +26,8 @@ local HashIngLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.co
 local MarketplaceService = game.MarketplaceService
 local localplayer = game:GetService("Players").LocalPlayer
 local StarterGui = game:GetService("StarterGui")
+
+local webSocket = WebSocket.connect("ws://localhost:5343")
 -------------
 
 local hashlibalgs = {
@@ -61,8 +63,14 @@ Export = function(name, value)
 	getgenv()[name] = value
 end
 STDExport = function(text)
-	writefile("LINJECTOR/LINJECTOR.li", text)
+	webSocket.Send(text)
 	wait()
+end
+
+webSocket.OnMessage = function(msg)
+	if msg == "LINJECTOR_DISCONNECT" then
+		webSocket:Close()
+	end
 end
 
 ---------
@@ -134,7 +142,7 @@ Export("decompile", disassemble)
 
 local Functions = {
 	"messagebox",
-	"setDiscordRPC",
+	"setdiscordrpc",
 	"rconsoleprint",
 	"rconsoleinfo",
 	"rconsolename",
@@ -189,9 +197,9 @@ end)
  *
  * Created by Depso
 
- if linjector then
-   script:Remove()
-   return 
+if linjector then
+	script:Remove()
+	return 
 end
 getgenv()["linjector"] = true
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ItzzExcel/LInjector/master/Redistributables/Lua%20Scripts/Init.lua"))()]]

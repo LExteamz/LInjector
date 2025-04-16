@@ -9,14 +9,16 @@ namespace LInjector.Classes
         private static readonly Dictionary<string, string> values = new()
         {
             { "AppName", "LInjector" },
-            { "AppVersion", "v3.0 Closed Beta" },
+            { "AppVersion", "v3.1 Beta" },
             { "Saved", Path.Combine(appRoot, "Saved Content") },
             { "AppRoot", appRoot },
             { "GitHubURL", "https://github.com/LExteamz/LInjector" },
             { "GitHubUsername", "LExteamz" },
             { "GitHubRepoName", "LInjector" },
+            { "DiscordServerURL", "https://discord.com/invite/NQY28YSVAb" },
 
-            { "EmbeddedResource", "pack://application:,,,/LInjector;component/" }
+            { "EmbeddedResource", "pack://application:,,,/LInjector;component/" },
+            { "SegoeIconsFontURL", "https://raw.githubusercontent.com/LExteamz/LInjector/refs/heads/main/LInjector/LInjector/Resources/Icons/Segoe%20Fluent%20Icons.ttf" }
         };
 
         public static string Get(string key) => values.TryGetValue(key, out var value) ? value : string.Empty;

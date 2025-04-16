@@ -20,7 +20,6 @@ using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
 using File = System.IO.File;
-using MessageBox = System.Windows.MessageBox;
 
 namespace LInjector.Pages
 {
@@ -63,20 +62,22 @@ namespace LInjector.Pages
         }
 
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             TabSystem_.Visibility = Visibility.Visible;
             TabSystem_.IsEnabled = true;
-
-            NavigationGridClick(Editor, e);
 
             ParseMyTheme();
             ParseConfig();
             ParseMyThemeSelectors();
 
+            NavigationGridClick(Editor, e);
+
             ScriptContext.EnsureFunctionsFile();
             ScriptContext.BeginFunctionTick();
             BeginAttachDetection();
+            await Shared.ws.Start();
+
 
             if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) // April 1st
             {
@@ -165,6 +166,8 @@ namespace LInjector.Pages
                 }
             }
 
+            VersionPlaceHolderCredits.Text = $"LInjector {Strings.Get("AppVersion")}";
+
             ApplyConfig(null!, null!);
         }
 
@@ -222,9 +225,8 @@ namespace LInjector.Pages
                     var filePath = process.MainModule!.FileName;
 
                     if (DLLInterface.IsAttached())
-                    {
                         return;
-                    }
+
                     DLLInterface.Inject();
                 }
                 catch (Exception ex)
@@ -269,7 +271,7 @@ namespace LInjector.Pages
         {
             if (DesignerProperties.GetIsInDesignMode(this)) return;
 
-            bool isAttached = DLLInterface.IsAttached() /* || Shared.ws.GetDevicesConnected() > 0 */;
+            bool isAttached = DLLInterface.IsAttached() || Shared.ws.GetDevicesConnected() > 0;
 
             AnimateColor(HarderBetterFasterStronger, ConsoleControl.ParseColor(isAttached ? "#FF7B68EE" : "#FF000000").Color);
             AnimateBlur(HarderBetterFasterStronger, isAttached ? 30 : 15);
@@ -320,10 +322,7 @@ namespace LInjector.Pages
 
         private void DragWnd(object sender, MouseButtonEventArgs e) => Shared.DragWnd();
 
-        private void TabSystem__Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadSavedTabs();
-        }
+        private void TabSystem__Loaded(object sender, RoutedEventArgs e) => LoadSavedTabs();
 
         private async Task SaveTabs()
         {
@@ -358,17 +357,13 @@ namespace LInjector.Pages
                 File.Delete(item);
         }
 
-        private void GitHub_onClick(object sender, RoutedEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = Strings.Get("GitHubURL"),
-                UseShellExecute = true
-            });
-        }
+        private void GitHub_onClick(object sender, RoutedEventArgs e) => Shared.OpenURL(Strings.Get("GitHubURL"));
 
-        public void OnCloseFadeoutCompleted(object sender, EventArgs e)
+        private void Discord_MouseDown(object sender, MouseButtonEventArgs e) => Shared.OpenURL(Strings.Get("DiscordServerURL"));
+
+        public async void OnCloseFadeoutCompleted(object sender, EventArgs e)
         {
+            await Shared.ws.CloseWebSocket();
             Shared.mainWindow!.Close();
             Application.Current.Shutdown();
         }

@@ -26,7 +26,7 @@ namespace LInjector.Windows
         /// <summary>
         /// Moves an object to a desired position
         /// </summary>
-        /// <param name="speed">Speec in Miliseconds</param>
+        /// <param name="speed">Speed in Miliseconds</param>
         /// <param name="Object">WPF Object</param>
         /// <param name="Get">Initial Position</param>
         /// <param name="Set">Final Position</param>
@@ -51,17 +51,26 @@ namespace LInjector.Windows
             string[] arguments = Environment.GetCommandLineArgs();
             foreach (string arg in arguments)
             {
-                if (arg == "--metalpipe" || arg == "-mp")
+                switch (arg)
                 {
-                    StartupHandler.PlayStartupSound(soundEvents[0]);
-                }
-                else if (arg == "--bamboo" || arg == "-bp")
-                {
-                    StartupHandler.PlayStartupSound(soundEvents[1]);
-                }
-                else if (arg == "--windows" || arg == "-win")
-                {
-                    StartupHandler.PlayStartupSound(soundEvents[2]);
+                    case "--metalpipe":
+                    case "-mp":
+                        StartupHandler.PlayStartupSound(soundEvents[1]);
+                        break;
+
+                    case "--bamboo":
+                    case "-bp":
+                        StartupHandler.PlayStartupSound(soundEvents[2]);
+                        break;
+
+                    case "--windows":
+                    case "-win":
+                        StartupHandler.PlayStartupSound(soundEvents[0]);
+                        break;
+                    case "--debug":
+                    case "-dbg":
+                        ConsoleManager.Show();
+                        break;
                 }
             }
 

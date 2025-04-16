@@ -45,13 +45,6 @@ namespace LInjector.Classes
                     description = "Top Most"
                 }
             },
-            //{
-            //    "window_uses_mica", new
-            //    {
-            //        value = false,
-            //        description = "Use Fluent Mica Background"
-            //    }
-            //},
             {
                 "discord_rpc", new
                 {
@@ -66,13 +59,6 @@ namespace LInjector.Classes
                     description = "Save Tabs"
                 }
             },
-            //{
-            //    "websocket_mode", new
-            //    {
-            //        value = false,
-            //        description = "WebSocket Mode"
-            //    }
-            //},
             {
                 "show_scriptlist", new
                 {
@@ -108,13 +94,6 @@ namespace LInjector.Classes
                     description = "Blur Monaco Editor"
                 }
             },
-            //{
-            //    "websocket_default_port", new
-            //    {
-            //        value = 5343,
-            //        description = "WebSocket Mode Port"
-            //    }
-            //}
         };
 
         public static void Write(string key, dynamic value)

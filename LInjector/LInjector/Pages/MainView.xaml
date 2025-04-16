@@ -96,14 +96,14 @@
                             <Border BorderBrush="{DynamicResource SecondaryText}" BorderThickness="0 0 0.1 0" x:Name="NavigationIndexers">
                                 <Grid>
                                     <Grid VerticalAlignment="Top">
-                                        <Button x:Name="Editor" BorderBrush="{DynamicResource SecondaryText}">
+                                        <Button x:Name="Editor" BorderBrush="{DynamicResource Text}">
                                             <Button.Content>
                                                 <Label Content="&#xE7C3;" FontFamily="Segoe Fluent Icons" FontSize="20" Padding="0" Foreground="{DynamicResource Text}"/>
                                             </Button.Content>
                                         </Button>
                                     </Grid>
                                     <Grid VerticalAlignment="Bottom">
-                                        <Button x:Name="Settings" VerticalAlignment="Bottom" BorderBrush="{DynamicResource SecondaryText}">
+                                        <Button x:Name="Settings" VerticalAlignment="Bottom" BorderBrush="{DynamicResource Text}">
                                             <Button.Content>
                                                 <Label Content="&#xE713;" FontFamily="Segoe Fluent Icons" FontSize="20" Padding="0" Foreground="{DynamicResource Text}"/>
                                             </Button.Content>
@@ -287,9 +287,12 @@
 
 
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0 0 0 5">
-                                            <Label Content="This project is free, nonprofit and open-source under the MIT License on GitHub."  Foreground="{DynamicResource Text}"/>
-                                            <TextBlock TextDecorations="Underline" Text="GitHub Repository" Margin="5 0 0 0" MouseDown="GitHub_onClick" Foreground="{DynamicResource Text}"/>
+                                            <Label Content="This project is free, nonprofit and open-source under the MIT License on GitHub." HorizontalAlignment="Left" Foreground="{DynamicResource Text}"/>
+                                            <TextBlock TextDecorations="Underline" Text="GitHub Repository" Margin="5 0 0 0" MouseDown="GitHub_onClick" HorizontalAlignment="Left" Foreground="{DynamicResource Text}"/>
+                                            <TextBlock TextDecorations="Underline" Text="Discord Server" Margin="5 0 0 0" MouseDown="Discord_MouseDown" HorizontalAlignment="Left" Foreground="{DynamicResource Text}"/>
                                         </StackPanel>
+
+                                        <TextBlock TextDecorations="None" x:Name="VersionPlaceHolderCredits" Text="Version" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="{DynamicResource SecondaryText}"/>
                                     </Grid>
 
                                     <!--<Grid Grid.Column="1"></Grid>-->
@@ -299,7 +302,7 @@
                     </Grid>
 
                     <!-- // MAIN CONTENT GRID // -->
-                    <Grid Grid.Column="1" x:Name="Section_Editor" Visibility="Visible">
+                    <Grid Grid.Column="1" x:Name="Section_Editor" Visibility="Collapsed">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="140" x:Name="ScriptListDimensions"/>
                             <ColumnDefinition Width="*"/>

@@ -25,8 +25,6 @@ namespace LInjector.Classes
                 Instance.Content += character.ToString();
                 await Task.Delay(30);
             }
-
-
         }
     }
 

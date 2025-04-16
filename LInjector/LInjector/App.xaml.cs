@@ -11,7 +11,7 @@ namespace LInjector
             base.OnStartup(e);
 
             if (!ResourceManager.IsFontInstalled("Segoe Fluent Icons"))
-                ResourceManager.InstallFont(await ResourceManager.DownloadFileToTempAsync("https://raw.githubusercontent.com/LExteamz/LInjector/refs/heads/unstable-v3/LInjector/LInjector/Resources/Icons/Segoe%20Fluent%20Icons.ttf", "Segoe Fluent Icons.ttf"));
+                ResourceManager.InstallFont(await ResourceManager.DownloadFileToTempAsync(Strings.Get("SegoeIconsFontURL"), "Segoe Fluent Icons.ttf"));
         }
     }
 }
