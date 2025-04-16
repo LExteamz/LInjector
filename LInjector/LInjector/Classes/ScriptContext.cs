@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Windows.Threading;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace LInjector.Classes
 {
