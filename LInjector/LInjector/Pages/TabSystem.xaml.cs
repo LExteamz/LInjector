@@ -189,7 +189,7 @@ namespace LInjector.Pages
                         (clickedTabItem.Content as MonacoApi)?.SetText("");
                     }),
 
-                    new LIContextMenuStrip.MenuItemOption("Close", "\uE8BB", (s, ev) => {
+                    new LIContextMenuStrip.MenuItemOption("Close Tab", "\uE8BB", (s, ev) => {
                         if (clickedTabItem is TabItem tabitem && tabitem.Content is MonacoApi webView)
                         {
                             webView.Dispose();

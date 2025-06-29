@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using LInjector.Classes;
 using Newtonsoft.Json.Linq;
-using Application = System.Windows.Application;
 using CheckBox = System.Windows.Controls.CheckBox;
 using ComboBox = System.Windows.Controls.ComboBox;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
@@ -88,14 +87,15 @@ namespace LInjector.Pages.Elements
             var label = CreateLabel(SettingsWrapper.ReadDescription(key)!);
             var comboBox = new ComboBox
             {
-                Foreground = (System.Windows.Media.Brush)System.Windows.Application.Current.Resources["Text"],
                 Background = System.Windows.Media.Brushes.Transparent,
                 Margin = new Thickness(0, 0, 20, 0),
                 Width = 150,
                 HorizontalAlignment = HorizontalAlignment.Right,
                 BorderThickness = new Thickness(0),
-                Text = (options as string[])![0]
+                SelectedItem = (options as string[])![0]
             };
+
+            comboBox.SetResourceReference(ComboBox.ForegroundProperty, "Text");
 
             if (options is Array optionArray)
             {
@@ -135,7 +135,6 @@ namespace LInjector.Pages.Elements
                 InvokeCallback(callback, options);
             };
 
-
             grid.Children.Add(label);
             grid.Children.Add(comboBox);
             _container.Children.Add(grid);
@@ -150,7 +149,6 @@ namespace LInjector.Pages.Elements
                 Width = 150,
                 HorizontalAlignment = HorizontalAlignment.Right,
                 Margin = new Thickness(0, 0, 20, 0),
-                Foreground = (System.Windows.Media.Brush)Application.Current.Resources["Text"]
             };
 
             if (defaultValue != null)
@@ -208,7 +206,13 @@ namespace LInjector.Pages.Elements
 
         private Label CreateLabel(string text)
         {
-            return new Label { Content = text, Foreground = (System.Windows.Media.Brush)Application.Current.Resources["Text"], HorizontalAlignment = HorizontalAlignment.Left };
+            var label = new Label
+            {
+                Content = text,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            label.SetResourceReference(Label.ForegroundProperty, "Text");
+            return label;
         }
     }
 }

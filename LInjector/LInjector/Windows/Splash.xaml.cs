@@ -148,7 +148,7 @@ namespace LInjector.Windows
             ObjectShift(TimeSpan.FromSeconds(1), LInjectorIcon, LInjectorIcon.Margin, new Thickness(0, 0, 0, 0));
         }
 
-        public System.Windows.Media.Color ParseColor(string srgb)
+        public static System.Windows.Media.Color ParseColor(string srgb)
         {
             if (srgb.Contains("#"))
                 srgb = srgb.TrimStart('#');

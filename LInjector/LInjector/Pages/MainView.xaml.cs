@@ -64,6 +64,11 @@ namespace LInjector.Pages
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            Section_Settings.Visibility = Visibility.Hidden;
+            Section_Editor.Visibility = Visibility.Hidden;
+
+            TitleBarLabel.Content = $"{Strings.Get("AppName")}";
+
             TabSystem_.Visibility = Visibility.Visible;
             TabSystem_.IsEnabled = true;
 
@@ -95,7 +100,7 @@ namespace LInjector.Pages
             Shared.mainView!.ScriptListDimensions.Width = ((bool)SettingsWrapper.Read("show_scriptlist")) ? new GridLength(140) : new GridLength(0, GridUnitType.Star);
 
             // Show Logs
-            Shared.mainView.LInjectorConsoleDimensions.Height = ((bool)SettingsWrapper.Read("show_internalconsole")) ? new GridLength(100, GridUnitType.Star) : new GridLength(0);
+            Shared.mainView.LInjectorConsoleDimensions.Height = ((bool)SettingsWrapper.Read("show_internalconsole")) ? new GridLength(100, GridUnitType.Star) : new GridLength(0.001);
 
             // Auto Attach
             RunAutoAttachTimer();
@@ -164,7 +169,7 @@ namespace LInjector.Pages
                 }
             }
 
-            VersionPlaceHolderCredits.Text = $"LInjector {Strings.Get("AppVersion")}";
+            VersionPlaceHolderCredits.Text = $"{Strings.Get("AppName")} {Strings.Get("AppVersion")}";
 
             ApplyConfig(null!, null!);
         }
@@ -198,6 +203,8 @@ namespace LInjector.Pages
 
         public void BeginAttachDetection()
         {
+            DLLInterface.vApi.StartCommunication();
+
             bozoTimer.Interval = TimeSpan.FromSeconds(1);
             bozoTimer.Tick += bozoTick!;
             bozoTimer.Start();
@@ -630,7 +637,7 @@ namespace LInjector.Pages
             {
                 var openFileDialog = new System.Windows.Forms.OpenFileDialog
                 {
-                    Title = "Open Script Files | LInjector",
+                    Title = $"Open Script Files | {Strings.Get("AppVersion")}",
                     Filter = "Script Files (*.txt;*.lua;*.luau)|*.txt;*.lua;*.luau|All files (*.*)|*.*",
                     Multiselect = false
                 };
@@ -643,7 +650,7 @@ namespace LInjector.Pages
                     string fileContent = File.ReadAllText(openFileDialog.FileName);
 
                     var dialogResult = System.Windows.Forms.MessageBox.Show(
-                        "Open file in new tab?", "LInjector", MessageBoxButtons.YesNo,
+                        "Open file in new tab?", $"{Strings.Get("AppName")}", MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
                     if (dialogResult == System.Windows.Forms.DialogResult.Yes)
                     {
@@ -721,7 +728,18 @@ namespace LInjector.Pages
         /// <param name="button">The button for which the color change is being handled.</param>
         public void HandleColorChange(Button button)
         {
-            var dialog = new ColorPickerDialog();
+
+            Color sigmaColor = Colors.Transparent;
+            if (button.Tag.ToString()!.StartsWith("_"))
+            {
+                sigmaColor = Splash.ParseColor(Themes.GetColor(button.Tag.ToString()!));
+            }
+            else
+            {
+                sigmaColor = ConsoleControl.ParseColor(Themes.GetColor(button.Tag.ToString()!)).Color;
+            }
+
+            var dialog = new ColorPickerDialog(sigmaColor);
             dialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             var result = dialog.ShowDialog();
             dialog.Topmost = true;
@@ -740,6 +758,8 @@ namespace LInjector.Pages
 
                 Themes.SetColor(button.Tag.ToString()!, colorHexString);
             }
+
+            ParseMyTheme();
         }
 
         /// <summary>
@@ -755,6 +775,8 @@ namespace LInjector.Pages
             Application.Current.Resources[SecondaryText.Tag.ToString()] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryText"));
 
             Application.Current.Resources["EslScrollbarThumb"] = ConsoleControl.ParseColor(Themes.GetColor("SecondaryText"));
+
+            ThomasShelbyRadialGradient.Color = Splash.ParseColor(Themes.GetColor("_SplashColor1"));
         }
 
         /// <summary>
@@ -770,6 +792,7 @@ namespace LInjector.Pages
             SetControlBackground(TertiaryColor, "TertiaryColor");
             SetControlBackground(Text, "Text");
             SetControlBackground(SecondaryText, "SecondaryText");
+            SetControlBackground(null!, "_SplashColor1", ThomasShelbyRadialGradient);
         }
 
         /// <summary>
@@ -777,13 +800,28 @@ namespace LInjector.Pages
         /// </summary>
         /// <param name="control"></param>
         /// <param name="colorKey"></param>
-        public void SetControlBackground(FrameworkElement control, string colorKey)
+        public void SetControlBackground(FrameworkElement control, string colorKey, GradientStop gStop = null!)
         {
+            if (gStop != null)
+            {
+                gStop.Color = Splash.ParseColor(Themes.GetColor(colorKey));
+                return;
+            }
+
             PropertyInfo backgroundProperty = control.GetType().GetProperty("Background")!;
             if (backgroundProperty != null)
             {
                 SolidColorBrush brush = (SolidColorBrush)new BrushConverter().ConvertFromString(Themes.GetColor(colorKey))!;
                 backgroundProperty.SetValue(control, brush);
+                return;
+            }
+
+            PropertyInfo colorProperty = control.GetType().GetProperty("Color")!;
+            if (colorProperty != null)
+            {
+                Color color = Splash.ParseColor(Themes.GetColor(colorKey));
+                colorProperty.SetValue(control, color);
+                return;
             }
         }
 
