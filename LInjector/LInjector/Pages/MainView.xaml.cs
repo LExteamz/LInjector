@@ -203,8 +203,6 @@ namespace LInjector.Pages
 
         public void BeginAttachDetection()
         {
-            DLLInterface.vApi.StartCommunication();
-
             bozoTimer.Interval = TimeSpan.FromSeconds(1);
             bozoTimer.Tick += bozoTick!;
             bozoTimer.Start();
@@ -438,7 +436,6 @@ namespace LInjector.Pages
             }
         }
 
-        }
         private IEnumerable<T> FindDescendants<T>(DependencyObject parent) where T : DependencyObject
         {
             if (parent == null) yield break;
