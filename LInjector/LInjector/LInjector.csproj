@@ -14,7 +14,7 @@
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <SignAssembly>False</SignAssembly>
     <Title>LInjector</Title>
-    <Version>3.1.0.0</Version>
+    <Version>3.2.0.0</Version>
     <PackageIcon>LInjectorr.png</PackageIcon>
     <Copyright>Copyright (c) LEx Softworks 2024</Copyright>
     <Description>LInjector Development Tool</Description>
@@ -141,10 +141,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
