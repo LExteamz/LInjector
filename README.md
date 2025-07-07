@@ -3,7 +3,7 @@
 </p>
 <p align="center">
 	<a href="https://discord.gg/NQY28YSVAb">
-		<img src="https://dcbadge.vercel.app/api/server/NQY28YSVAb">
+		<img src="https://dcbadge.limes.pink/api/server/NQY28YSVAb">
 	</a>
 </p>
 <h3 align="center">LInjector | Open-source Lua Script Executor.</h3>
