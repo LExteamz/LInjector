@@ -9,7 +9,15 @@
 <h3 align="center">LInjector | Open-source Lua Script Executor.</h3>
 <hr/>
 
-[![Star History Chart](https://api.star-history.com/svg?repos=lexteamz/linjector&type=Date)](https://www.star-history.com/#lexteamz/linjector&Date)
+<p align="center">
+  <a href="https://www.star-history.com/#lexteamz/LInjector&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=lexteamz/LInjector&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=lexteamz/LInjector&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=lexteamz/LInjector&type=Date" />
+ </picture>
+</a>
+</p>
 
 <h5 align="center">Yes, the name includes the word "Injector", it is not, LInjector is an executor and Lua<i>u</i> editor.</h3>
 
@@ -20,16 +28,18 @@ If you have a working Dynamic-Link Library (DLL), you can edit the source code o
 LInjector uses the Monaco editor, the same one that powers Visual Studio Code, with syntax highlighting, developed by Krnl [and edited by Depso](https://github.com/depthso).
 
 ## Screenshots
-<table>
-	<tr>
-		<td width="600">
-			<img src="https://github.com/user-attachments/assets/2ae957ed-ed0c-4e2b-8cc4-c6113c9e2cc3" height="100%">
-		</td>
-		<td width="600">
-   			<img src="https://github.com/user-attachments/assets/a25545fa-eb56-46b4-9d7f-4637f00d3657" height="100%">
-		</td>
-	</tr>
+<table style="table-layout:fixed; width:100%;">
+  <tr>
+    <td align="center" width="50%">
+      <img src="https://github.com/user-attachments/assets/2ae957ed-ed0c-4e2b-8cc4-c6113c9e2cc3" style="max-height:500px; height:auto;">
+    </td>
+    <td align="center" width="50%">
+      <img src="https://github.com/user-attachments/assets/a25545fa-eb56-46b4-9d7f-4637f00d3657" style="max-height:500px; height:auto;">
+    </td>
+  </tr>
 </table>
+
+
 
 <hr/>
 
