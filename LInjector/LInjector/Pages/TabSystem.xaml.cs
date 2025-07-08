@@ -128,7 +128,7 @@ namespace LInjector.Pages
             {
                 var options = new[]
                 {
-                    new LIContextMenuStrip.MenuItemOption("Run", "\uF5B0", (s, ev) =>
+                    new LIContextMenuStrip.MenuItemOption("Run", "\uF5B0", async (s, ev) =>
                     {
                         //if (ConfigHandler.websocket_mode && Shared.ws.IsRunning)
                         //{
@@ -162,7 +162,7 @@ namespace LInjector.Pages
                         //{
                         //    DLLInterface.RunScript(await (clickedTabItem.Content as monaco_api).GetText());
                         //}
-
+                        DLLInterface.RunScript(await (clickedTabItem.Content as MonacoApi)!.GetText());
                     }),
 
                     new LIContextMenuStrip.MenuItemOption("Rename", "\uE8AC", (s, ev) =>

@@ -2,6 +2,7 @@
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using LInjector.Classes;
+using LInjector.Pages.Elements;
 using Application = System.Windows.Application;
 
 namespace LInjector.Windows
@@ -146,6 +147,8 @@ namespace LInjector.Windows
             RGBTime!.Start();
 
             ObjectShift(TimeSpan.FromSeconds(1), LInjectorIcon, LInjectorIcon.Margin, new Thickness(0, 0, 0, 0));
+            //spritePlayer.LoadSpriteSheet("C:\\Users\\excel\\Desktop\\aa\\animated_spritesheet.png", 256, 256, 600, 30, 20, 3);
+            //ObjectShift(TimeSpan.FromSeconds(1), spritePlayer, spritePlayer.Margin, new Thickness(0, 0, 0, 0));
         }
 
         public static System.Windows.Media.Color ParseColor(string srgb)

@@ -90,7 +90,7 @@
                                 <RowDefinition x:Name="RDefinition0" Height="Auto"/>
                                 <RowDefinition x:Name="RDefinition1" Height="*"/>
                             </Grid.RowDefinitions>
-                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" ForceCursor="True" Style="{DynamicResource MaterialDesignScrollViewer}" Foreground="#00000000">
+                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" ForceCursor="True" Style="{DynamicResource MaterialDesignScrollViewer}" Foreground="#00000000" x:Name="sigmaTabScroll">
                                 <materialDesign:ScrollViewerAssist.BubbleVerticalScroll>true</materialDesign:ScrollViewerAssist.BubbleVerticalScroll>
                                 <materialDesign:ScrollViewerAssist.CornerRectangleVisibility>Hidden</materialDesign:ScrollViewerAssist.CornerRectangleVisibility>
                                 <materialDesign:ScrollViewerAssist.SupportHorizontalScroll>true</materialDesign:ScrollViewerAssist.SupportHorizontalScroll>

@@ -4,9 +4,10 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:local="clr-namespace:LInjector.Windows"
+    xmlns:elem="clr-namespace:LInjector.Pages.Elements"
     xmlns:locale="clr-namespace:LInjector"
         mc:Ignorable="d"
-        ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False" Topmost="False" WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         Loaded="Window_Loaded"
         ClipToBounds="False"
@@ -60,5 +61,6 @@
             </Rectangle.Triggers>
         </Rectangle>
         <Image x:Name="LInjectorIcon" HorizontalAlignment="Center" Height="300" Source="pack://application:,,,/LInjector;component/Resources/linj_shadow.png" VerticalAlignment="Center" Width="300" Stretch="Fill" Margin="800 0 0 0"/>
+        <!--<elem:WebPplayer x:Name="spritePlayer" HorizontalAlignment="Center" Height="350" VerticalAlignment="Center" Width="350" Margin="800 0 0 0"/>-->
     </Grid>
 </Window>
