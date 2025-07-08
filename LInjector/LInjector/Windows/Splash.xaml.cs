@@ -147,7 +147,7 @@ namespace LInjector.Windows
             RGBTime!.Start();
 
             ObjectShift(TimeSpan.FromSeconds(1), LInjectorIcon, LInjectorIcon.Margin, new Thickness(0, 0, 0, 0));
-            //spritePlayer.LoadSpriteSheet("C:\\Users\\excel\\Desktop\\aa\\animated_spritesheet.png", 256, 256, 600, 30, 20, 3);
+            ////spritePlayer.LoadSpriteSheet("pack://application:,,,/LInjector;component/Resources/animated_spritesheet.png", 256, 256, 600, 30, 20, 3); /*set the 'animated_spritesheet.png file as Resource */
             //ObjectShift(TimeSpan.FromSeconds(1), spritePlayer, spritePlayer.Margin, new Thickness(0, 0, 0, 0));
         }
 
