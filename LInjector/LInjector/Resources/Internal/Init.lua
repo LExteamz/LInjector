@@ -9,7 +9,7 @@
 ]]
 
 if linjector then
-	script:Remove()
+	-- script:Remove()
 	return 
 end
 getgenv()["linjector"] = true
