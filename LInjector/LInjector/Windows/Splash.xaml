@@ -7,7 +7,7 @@
     xmlns:elem="clr-namespace:LInjector.Pages.Elements"
     xmlns:locale="clr-namespace:LInjector"
         mc:Ignorable="d"
-        ShowInTaskbar="False" Topmost="False" WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         Loaded="Window_Loaded"
         ClipToBounds="False"
