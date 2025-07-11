@@ -128,7 +128,7 @@
                         </Grid>
 
                         <!-- //   SETTINGS GRID   // -->
-                        <Grid Grid.Column="1" x:Name="Section_Settings" Visibility="Collapsed">
+                        <Grid Grid.Column="1" x:Name="Section_Settings" Visibility="Visible">
                             <TabControl>
                                 <TabControl.ItemContainerStyle>
                                     <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
@@ -236,6 +236,23 @@
                                                     </Button>
                                                     <Label Content="Tertiary Color (Background)" Foreground="{DynamicResource Text}"/>
                                                 </StackPanel>
+                                                <!--<StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                                    <Button Width="20" Height="20" Background="{DynamicResource TertiaryColor}" Click="ChangeMonacoBackground" Tag="BackgroundMonacoImg">
+                                                        <Button.Template>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                        <Button.Content>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Label Content="&#xE898;" Foreground="{DynamicResource Text}" FontFamily="Segoe Fluent Icons" FontSize="12"/>
+                                                            </StackPanel>
+                                                        </Button.Content>
+                                                    </Button>
+                                                    <Label Content="Editor Background Image" Foreground="{DynamicResource Text}"/>
+                                                </StackPanel>-->
                                             </StackPanel>
                                             <StackPanel>
                                                 <Label Content="Text" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource Text}"/>

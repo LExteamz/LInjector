@@ -157,7 +157,7 @@ namespace LInjector.Pages
 
                     case JArray stringArray:
                         var array = (stringArray.ToObject<string[]>())!.ToArray();
-                        factory.CreateDropdownOption((Action<string[]>)((x) => { }), array, new[] { "", "", "" }, x.Key);
+                        factory.CreateDropdownOption((Action<string[]>)((x) => { }), array, new[] { "", "", "" }, x.Key, x.Key);
                         break;
 
                     case JValue numericValue when numericValue.Type == JTokenType.Integer || numericValue.Type == JTokenType.Float:

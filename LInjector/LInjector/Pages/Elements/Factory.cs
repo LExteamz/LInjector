@@ -81,7 +81,7 @@ namespace LInjector.Pages.Elements
             _container.Children.Add(grid);
         }
 
-        public void CreateDropdownOption(Delegate callback, object options, object defaultValue, string key, string toolTipContent = "")
+        public void CreateDropdownOption(Delegate callback, object options, object defaultValue, string key, string optionToWrite, string toolTipContent = "")
         {
             var grid = CreateGrid();
             var label = CreateLabel(SettingsWrapper.ReadDescription(key)!);
@@ -128,7 +128,8 @@ namespace LInjector.Pages.Elements
 
                         options = _array.ToArray();
 
-                        SettingsWrapper.Write("monaco_theme", new JArray(_array.ToArray()));
+                        JArray jerarquy = new JArray(_array.ToArray());
+                        SettingsWrapper.Write(optionToWrite, jerarquy);
                     }
                 }
 
